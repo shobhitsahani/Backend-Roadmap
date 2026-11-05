@@ -1,0 +1,12 @@
+node_modules
+.next
+drizzle
+package-lock.json
+screenshots
+tmp-app
+
+.agents
+opencode.json
+GOAL.md
+
+.husky
