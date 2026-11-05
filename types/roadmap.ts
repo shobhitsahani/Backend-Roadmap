@@ -51,14 +51,16 @@ export const settingsSchema = z.object({
   updatedAt: z.string(),
 });
 
+export const activityKindSchema = z.enum([
+  "subtopic_checked",
+  "subtopic_unchecked",
+  "topic_completed",
+  "topic_reopened",
+]);
+
 export const activitySchema = z.object({
   id: z.number(),
-  kind: z.enum([
-    "subtopic_checked",
-    "subtopic_unchecked",
-    "topic_completed",
-    "topic_reopened",
-  ]),
+  kind: activityKindSchema,
   topicId: z.string().nullable(),
   subtopicId: z.string().nullable(),
   createdAt: z.string(),
@@ -77,6 +79,7 @@ export type Topic = z.infer<typeof topicSchema>;
 export type PhaseWithTopics = z.infer<typeof phaseWithTopicsSchema>;
 export type Settings = z.infer<typeof settingsSchema>;
 export type Activity = z.infer<typeof activitySchema>;
+export type ActivityKind = z.infer<typeof activityKindSchema>;
 export type RoadmapSnapshot = z.infer<typeof roadmapSnapshotSchema>;
 
 export type AppView = "roadmap" | "dashboard" | "timeline";
@@ -97,3 +100,58 @@ export type ProgressPayload = {
     createdAt: string;
   }>;
 };
+
+export const isoDateSchema = z.iso.date();
+
+export const updateSubtopicSchema = z.object({
+  done: z.boolean(),
+});
+
+export const updateTopicSchema = z.object({
+  notes: z.string().max(20_000),
+});
+
+export const updateSettingsSchema = z.object({
+  startDate: isoDateSchema.nullable(),
+});
+
+export const progressFileSchema = z.object({
+  format: z.literal("backend-roadmap-progress"),
+  version: z.literal(1),
+  exportedAt: z.iso.datetime(),
+  data: z.object({
+    startDate: isoDateSchema.nullable(),
+    topics: z
+      .array(
+        z.object({
+          id: z.string(),
+          status: topicStatusSchema,
+          notes: z.string().max(20_000),
+        }),
+      )
+      .max(500),
+    subtopics: z
+      .array(
+        z.object({
+          id: z.string(),
+          done: z.boolean(),
+        }),
+      )
+      .max(5_000),
+    activity: z
+      .array(
+        z.object({
+          kind: activityKindSchema,
+          topicId: z.string().nullable(),
+          subtopicId: z.string().nullable(),
+          createdAt: z.iso.datetime(),
+        }),
+      )
+      .max(5_000),
+  }),
+});
+
+export type ProgressFile = z.infer<typeof progressFileSchema>;
+export type UpdateSubtopicInput = z.infer<typeof updateSubtopicSchema>;
+export type UpdateTopicInput = z.infer<typeof updateTopicSchema>;
+export type UpdateSettingsInput = z.infer<typeof updateSettingsSchema>;
