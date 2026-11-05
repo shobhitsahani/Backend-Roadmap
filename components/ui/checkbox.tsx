@@ -2,23 +2,47 @@
 
 import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox";
 import { cn } from "cn";
-import { CheckIcon } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
+
+function DrawCheck() {
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 16 16"
+      fill="none"
+      className="size-3.5 overflow-visible"
+    >
+      <motion.path
+        d="M3 8.5 6.4 11.8 13 4.6"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="square"
+        strokeLinejoin="miter"
+        initial={reduceMotion ? false : { pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+      />
+    </svg>
+  );
+}
 
 function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
   return (
     <CheckboxPrimitive.Root
       data-slot="checkbox"
       className={cn(
-        "peer relative flex size-4 shrink-0 items-center justify-center rounded-[4px] border border-input transition-colors outline-none group-has-disabled/field:opacity-50 group-has-[:focus-visible]/field-label:ring-0 group-has-[:focus-visible]/field-label:not-data-checked:border-input after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground group-has-[:focus-visible]/field-label:data-checked:border-primary dark:data-checked:bg-primary",
+        "peer relative flex size-5 shrink-0 items-center justify-center rounded-xs border border-hairline-strong bg-transparent text-transparent transition-[border-color,background-color,color,box-shadow] duration-150 outline-none before:absolute before:-inset-3 before:content-[''] hover:border-ink/45 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas disabled:cursor-not-allowed disabled:opacity-45 aria-invalid:border-destructive data-checked:border-[var(--topic-accent,var(--phase-1))] data-checked:bg-[var(--topic-accent,var(--phase-1))] data-checked:text-[var(--topic-accent-contrast,var(--phase-contrast))] data-checked:hover:border-[var(--topic-accent,var(--phase-1))]",
         className,
       )}
       {...props}
     >
       <CheckboxPrimitive.Indicator
         data-slot="checkbox-indicator"
-        className="grid place-content-center text-current transition-none [&>svg]:size-3.5"
+        className="grid place-content-center"
       >
-        <CheckIcon />
+        <DrawCheck />
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   );
