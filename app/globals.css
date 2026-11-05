@@ -175,6 +175,77 @@
   }
 }
 
+@keyframes sheet-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes sheet-out-right {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+
+@keyframes sheet-in-bottom {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sheet-out-bottom {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+}
+
+.sheet-popup[data-open] {
+  animation: sheet-in-right 220ms var(--ease-out-expo);
+}
+
+.sheet-popup[data-closed] {
+  animation: sheet-out-right 150ms var(--ease-in-out-expo);
+}
+
+@media (max-width: 639px) {
+  .sheet-popup {
+    inset: auto 0 0;
+    height: 92dvh;
+    max-width: none;
+    border-top: 1px solid var(--hairline);
+    border-left: 0;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+  }
+
+  .sheet-popup[data-open] {
+    animation-name: sheet-in-bottom;
+  }
+
+  .sheet-popup[data-closed] {
+    animation-name: sheet-out-bottom;
+  }
+}
+
 @keyframes sel-draw {
   from {
     stroke-dashoffset: var(--check-length, 24);
@@ -197,6 +268,31 @@
 @utility tnum {
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum" 1;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.55;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+@utility phase-wash {
+  background-color: color-mix(
+    in oklch,
+    var(--topic-accent, var(--phase-1)) 7%,
+    transparent
+  );
+}
+
+@utility pulse-dot {
+  animation: current-pulse 2.4s ease-in-out infinite;
 }
 
 @utility hairline-b {
