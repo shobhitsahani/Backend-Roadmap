@@ -1,7 +1,7 @@
 "use client";
 
 import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox";
-import { cn } from "cn";
+import { cn } from "@/lib/utils";
 import { motion, useReducedMotion } from "motion/react";
 
 function DrawCheck() {
