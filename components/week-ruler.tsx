@@ -44,6 +44,8 @@ export function WeekRuler({
   );
   const total = weeks.length;
   const completed = Math.max(0, Math.min(total, completedWeeks));
+  const whole = Math.floor(completed);
+  const fraction = completed - whole;
   const expectedPercent =
     expectedWeek === null ? 0 : Math.max(0, Math.min(100, (expectedWeek / total) * 100));
 
@@ -51,8 +53,8 @@ export function WeekRuler({
     <div
       className={cn("relative select-none", className)}
       role="img"
-      aria-label={`${completed} of ${total} weeks complete${
-        expectedWeek !== null ? `, expected week ${expectedWeek}` : ""
+      aria-label={`${completed.toFixed(1)} of ${total} weeks complete${
+        expectedWeek !== null ? `, expected week ${Math.ceil(expectedWeek)}` : ""
       }`}
     >
       <div
@@ -60,18 +62,31 @@ export function WeekRuler({
         style={{ gridTemplateColumns: `repeat(${total}, minmax(0, 1fr))` }}
       >
         {weeks.map((week, index) => {
-          const done = index < completed;
+          const done = index < whole;
+          const partial = index === whole ? fraction : 0;
           return (
             <span
               key={`${week.phase}-${week.ordinal}`}
               title={`Week ${index + 1} · Phase ${week.phase}${
-                done ? " · complete" : ""
+                done
+                  ? " · complete"
+                  : partial > 0
+                    ? ` · ${Math.round(partial * 100)}% complete`
+                    : ""
               }`}
               className={cn(
-                "min-w-0 transition-colors duration-200",
+                "relative min-w-0 overflow-hidden transition-colors duration-200",
                 done ? phaseTick[week.phase] : phaseTickMuted[week.phase],
               )}
-            />
+            >
+              {partial > 0 ? (
+                <span
+                  aria-hidden="true"
+                  className={cn("absolute inset-y-0 left-0", phaseTick[week.phase])}
+                  style={{ width: `${partial * 100}%` }}
+                />
+              ) : null}
+            </span>
           );
         })}
       </div>
