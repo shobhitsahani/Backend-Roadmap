@@ -29,9 +29,9 @@ In scope: the entire repository at `C:/projects/Backend-Roadmap` (Next app, comp
 Out of scope: hosting/deployment credentials, multi-user auth implementation, external production database provisioning, network-dependent third-party services beyond npm/fonts/CDN.
 
 ## Checkpoints
-- [ ] 01 Goal structured and scaffold inspected
-- [ ] 02 Scaffold: Next/Tailwind v4/shadcn Base UI, tooling, CI, Drizzle schema/migration/seed
-- [ ] 03 Design system: DESIGN.md, tokens, fonts, re-themed primitives, themes, motion tokens
+- [x] 01 Goal structured and scaffold inspected
+- [x] 02 Scaffold: Next/Tailwind v4/shadcn Base UI, tooling, CI, Drizzle schema/migration/seed
+- [x] 03 Design system: DESIGN.md, tokens, fonts, re-themed primitives, themes, motion tokens
 - [ ] 04 Typed API routes and data layer
 - [ ] 05 List view, detail drawer, progress engine, optimistic updates
 - [ ] 06 Graph view with custom nodes/edges
