@@ -3,6 +3,7 @@
 import React from "react";
 import { Bar, BarChart, Cell, XAxis, YAxis } from "recharts";
 
+import { DataSection } from "@/components/data/data-section";
 import { TickingNumber } from "@/components/ticking-number";
 import {
   ChartContainer,
@@ -341,6 +342,8 @@ export function DashboardScreen() {
           </ul>
         </div>
       </section>
+
+      <DataSection />
     </div>
   );
 }

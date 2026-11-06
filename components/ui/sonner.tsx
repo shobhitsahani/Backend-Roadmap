@@ -35,6 +35,9 @@ const Toaster = ({ ...props }: ToasterProps) => {
       toastOptions={{
         classNames: {
           toast: "font-sans",
+          actionButton:
+            "bg-ink! text-canvas! font-mono text-micro font-medium not-italic tracking-[0.08em] uppercase rounded-xs px-2.5 py-1.5",
+          closeButton: "bg-panel! text-ink! border-hairline-strong! text-micro",
         },
       }}
       {...props}
