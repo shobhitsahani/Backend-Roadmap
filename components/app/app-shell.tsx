@@ -1,10 +1,11 @@
 "use client";
 
+import { DashboardScreen } from "@/components/dashboard/dashboard-screen";
 import { Masthead } from "@/components/app/masthead";
 import { MobileNav } from "@/components/app/mobile-nav";
-import { PendingScreen } from "@/components/app/pending-screen";
 import { StartDateDialog } from "@/components/app/start-date-dialog";
 import { RoadmapScreen } from "@/components/roadmap/roadmap-screen";
+import { TimelineScreen } from "@/components/timeline/timeline-screen";
 import { TopicPanel } from "@/components/roadmap/topic-panel";
 import { useUiStore } from "@/store/ui-store";
 
@@ -22,12 +23,8 @@ export function AppShell() {
       <Masthead />
       <main id="main" className="mx-auto max-w-[1440px] px-4 pb-28 md:px-10 md:pb-16">
         {view === "roadmap" ? <RoadmapScreen /> : null}
-        {view === "dashboard" ? (
-          <PendingScreen eyebrow="Field log / checkpoint 07" title="Field log" />
-        ) : null}
-        {view === "timeline" ? (
-          <PendingScreen eyebrow="Field log / checkpoint 07" title="Timeline" />
-        ) : null}
+        {view === "dashboard" ? <DashboardScreen /> : null}
+        {view === "timeline" ? <TimelineScreen /> : null}
       </main>
       <MobileNav />
       <TopicPanel />
