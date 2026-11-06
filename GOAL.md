@@ -34,7 +34,7 @@ Out of scope: hosting/deployment credentials, multi-user auth implementation, ex
 - [x] 03 Design system: DESIGN.md, tokens, fonts, re-themed primitives, themes, motion tokens
 - [x] 04 Typed API routes and data layer
 - [x] 05 List view, detail drawer, progress engine, optimistic updates
-- [ ] 06 Graph view with custom nodes/edges
+- [x] 06 Graph view with custom nodes/edges
 - [ ] 07 Timeline, start date, dashboard, heatmap
 - [ ] 08 Export/import/reset with undo
 - [ ] 09 Command palette and keyboard shortcuts
