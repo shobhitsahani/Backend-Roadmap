@@ -35,7 +35,7 @@ Out of scope: hosting/deployment credentials, multi-user auth implementation, ex
 - [x] 04 Typed API routes and data layer
 - [x] 05 List view, detail drawer, progress engine, optimistic updates
 - [x] 06 Graph view with custom nodes/edges
-- [ ] 07 Timeline, start date, dashboard, heatmap
+- [x] 07 Timeline, start date, dashboard, heatmap
 - [ ] 08 Export/import/reset with undo
 - [ ] 09 Command palette and keyboard shortcuts
 - [ ] 10 Motion, empty states, skeletons, mobile, accessibility polish
