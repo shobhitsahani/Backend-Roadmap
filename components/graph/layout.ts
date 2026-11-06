@@ -4,7 +4,7 @@ export type GraphNode = {
   id: string;
   type: "topic";
   position: { x: number; y: number };
-  data: { topic: Topic; phase: PhaseWithTopics };
+  data: { topic: Topic; phaseOrder: number };
 };
 
 export type GraphEdge = {
@@ -39,7 +39,7 @@ export function buildGraph(phases: PhaseWithTopics[]): GraphLayout {
         id: topic.id,
         type: "topic",
         position: { x, y },
-        data: { topic, phase },
+        data: { topic, phaseOrder: phase.order },
       });
 
       if (previousTopicId !== null) {
