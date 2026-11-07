@@ -38,7 +38,7 @@ Out of scope: hosting/deployment credentials, multi-user auth implementation, ex
 - [x] 07 Timeline, start date, dashboard, heatmap
 - [x] 08 Export/import/reset with undo
 - [x] 09 Command palette and keyboard shortcuts
-- [ ] 10 Motion, empty states, skeletons, mobile, accessibility polish
+- [x] 10 Motion, empty states, skeletons, mobile, accessibility polish
 - [ ] 11 README, CHANGELOG, release tag
 - [ ] 12 Final screenshots, Lighthouse, verification and merge audit
 
