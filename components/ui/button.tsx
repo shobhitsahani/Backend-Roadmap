@@ -22,11 +22,11 @@ const buttonVariants = cva(
         default:
           "h-11 px-4 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3 md:h-10",
         xs: "h-8 gap-1.5 rounded-xs px-2.5 text-micro has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 [&_svg:not([class*='size-'])]:size-3",
-        sm: "h-9 gap-1.5 px-3 text-micro has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5 [&_svg:not([class*='size-'])]:size-3.5",
+        sm: "h-11 gap-1.5 px-3 text-micro has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5 md:h-9 [&_svg:not([class*='size-'])]:size-3.5",
         lg: "h-12 gap-2 px-5 text-label has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4",
         icon: "size-11 md:size-10",
         "icon-xs": "size-8 rounded-xs [&_svg:not([class*='size-'])]:size-3.5",
-        "icon-sm": "size-9 [&_svg:not([class*='size-'])]:size-4",
+        "icon-sm": "size-11 md:size-9 [&_svg:not([class*='size-'])]:size-4",
         "icon-lg": "size-12 [&_svg:not([class*='size-'])]:size-5",
       },
     },

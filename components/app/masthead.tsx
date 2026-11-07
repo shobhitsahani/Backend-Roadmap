@@ -23,9 +23,9 @@ export function Masthead() {
         <button
           type="button"
           onClick={() => setView("roadmap")}
-          className="flex items-center gap-3 rounded-xs text-left outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
-          aria-label="Backend Roadmap — go to roadmap"
+          className="flex items-center gap-3 self-stretch rounded-xs text-left outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
         >
+          <span className="sr-only">Go to roadmap — </span>
           <BrandMark />
           <Wordmark />
         </button>
@@ -59,7 +59,7 @@ export function Masthead() {
             type="button"
             variant="outline"
             size="sm"
-            aria-label="Open command palette"
+            aria-label="⌘K — open the command palette"
             title="Command palette (Ctrl+K)"
             className="px-2.5"
             onClick={() => setCommandOpen(true)}

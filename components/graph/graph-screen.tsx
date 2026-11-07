@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ReactFlow, Background, Controls, MiniMap, useReactFlow } from "@xyflow/react";
+import { ReactFlow, Background, MiniMap, useReactFlow } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { Maximize2Icon, Minimize2Icon, ZoomInIcon, ZoomOutIcon } from "lucide-react";
 
@@ -88,7 +88,7 @@ export function GraphScreen() {
           maxZoom={2}
         >
           <Background gap={16} offset={[0, 0]} />
-          <Controls position="top-right" showInteractive={false} />
+          {/* zoom targets are the custom GraphControls battery (44px, mobile); reactflow's 26px Controls duplicate them */}
           <MiniMap position="bottom-right" nodeBorderRadius={2} nodeStrokeWidth={1} />
           <GraphControls />
         </ReactFlow>

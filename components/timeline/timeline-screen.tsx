@@ -1,10 +1,20 @@
 "use client";
 
 import { CalendarIcon } from "lucide-react";
+import { motion } from "motion/react";
 
+import { CrosshairMark } from "@/components/empty-states/line-art";
+import { revealContainer, revealItem } from "@/lib/motion";
 import { TimelineMeasure } from "@/components/timeline/measure";
 import { TickingNumber } from "@/components/ticking-number";
 import { Button } from "@/components/ui/button";
+import {
+  Empty,
+  EmptyContent,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
 import { formatDate } from "@/lib/format";
 import {
   buildTimeline,
@@ -141,15 +151,20 @@ export function TimelineScreen() {
           </div>
         </div>
 
-        <div className="mt-8 grid grid-cols-2 gap-4 border-t border-hairline pt-5 font-mono text-micro tracking-[0.1em] uppercase md:grid-cols-4">
-          <div>
+        <motion.div
+          variants={revealContainer}
+          initial="hidden"
+          animate="visible"
+          className="mt-8 grid grid-cols-2 gap-4 border-t border-hairline pt-5 font-mono text-micro tracking-[0.1em] uppercase md:grid-cols-4"
+        >
+          <motion.div variants={revealItem}>
             <p className="text-ink-subtle">Weeks logged</p>
             <p className="mt-1 flex items-baseline gap-1 text-[1.4rem] leading-none font-medium text-ink">
               <TickingNumber value={timeline.overall.completedWeeks} decimals={1} />
               <span className="text-caption text-ink-subtle">/ 36</span>
             </p>
-          </div>
-          <div>
+          </motion.div>
+          <motion.div variants={revealItem}>
             <p className="text-ink-subtle">Expected week</p>
             <p className="mt-1 text-[1.4rem] leading-none font-medium text-ink">
               {timeline.expectedWeek === null ? (
@@ -161,8 +176,8 @@ export function TimelineScreen() {
                 />
               )}
             </p>
-          </div>
-          <div>
+          </motion.div>
+          <motion.div variants={revealItem}>
             <p className="text-ink-subtle">Calendar week</p>
             <p className="mt-1 text-[1.4rem] leading-none font-medium text-ink">
               {timeline.currentWeek === null ? (
@@ -171,8 +186,8 @@ export function TimelineScreen() {
                 <TickingNumber value={timeline.currentWeek} />
               )}
             </p>
-          </div>
-          <div>
+          </motion.div>
+          <motion.div variants={revealItem}>
             <p className="text-ink-subtle">Start date</p>
             <p className="mt-1 text-[1.4rem] leading-none font-medium text-ink">
               {startDate ? (
@@ -191,8 +206,8 @@ export function TimelineScreen() {
                 </Button>
               )}
             </p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       <section className="border-b border-hairline py-8">
@@ -216,10 +231,10 @@ export function TimelineScreen() {
                 <button
                   type="button"
                   onClick={() => openTopic(entry.topic.id)}
-                  className="min-w-0 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
-                  aria-label={`Open topic ${entry.topic.title}`}
+                  className="flex min-h-11 min-w-0 flex-col justify-center self-stretch text-left outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
                 >
                   <span className="flex items-center gap-2">
+                    <span className="sr-only">Open topic · </span>
                     {entry.status === "active" ? (
                       <span
                         className="size-2 shrink-0 pulse-dot rounded-full bg-phase-1"
@@ -322,6 +337,29 @@ export function TimelineScreen() {
               </div>
             ))}
           </div>
+        ) : startDate === null ? (
+          <Empty className="mt-8 rounded-sm border border-hairline bg-panel">
+            <EmptyMedia>
+              <CrosshairMark />
+            </EmptyMedia>
+            <EmptyHeader>
+              <EmptyTitle className="font-display text-title-sm font-semibold tracking-[-0.02em] text-ink">
+                No projection without a start date.
+              </EmptyTitle>
+              <EmptyContent className="font-sans text-body text-ink-muted">
+                Set the date you began (or begin) the plan to project the crosshair and
+                milestone targets.
+              </EmptyContent>
+            </EmptyHeader>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setStartDateOpen(true)}
+            >
+              Set start date
+            </Button>
+          </Empty>
         ) : null}
       </section>
     </div>
