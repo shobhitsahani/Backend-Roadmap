@@ -149,7 +149,9 @@ function TopicRow({
             {topic.summary}
           </span>
           <span className="mt-2 flex items-center gap-4 font-mono text-micro tracking-[0.08em] text-ink-subtle uppercase sm:hidden">
-            <span>{topic.durationWeeks} weeks</span>
+            <span>
+              {topic.durationWeeks} {topic.durationWeeks === 1 ? "week" : "weeks"}
+            </span>
             <span className={statusTone}>{topicStatusLabel(topic.status)}</span>
           </span>
         </span>
@@ -157,7 +159,7 @@ function TopicRow({
         <span className="flex items-center gap-3 md:gap-5">
           <span className="hidden min-w-24 text-right sm:block">
             <span className="block font-mono text-caption text-ink tabular-nums">
-              {topic.durationWeeks} weeks
+              {topic.durationWeeks} {topic.durationWeeks === 1 ? "week" : "weeks"}
             </span>
             <span
               className={`mt-1 block font-mono text-micro tracking-[0.08em] uppercase ${statusTone}`}
