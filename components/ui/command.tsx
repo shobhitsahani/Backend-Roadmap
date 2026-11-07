@@ -87,8 +87,12 @@ function CommandList({
   className,
   ...props
 }: React.ComponentProps<typeof CommandPrimitive.List>) {
+  // cmdk nests options inside an internal wrapper, so a literal `listbox`
+  // role fails axe (listbox requires option/group direct children). The
+  // combobox/focus behaviour is unaffected; announce items as options.
   return (
     <CommandPrimitive.List
+      role="presentation"
       data-slot="command-list"
       className={cn(
         "max-h-[min(420px,60dvh)] scroll-py-1 overflow-x-hidden overflow-y-auto p-2 outline-none",
@@ -150,7 +154,7 @@ function CommandItem({
     <CommandPrimitive.Item
       data-slot="command-item"
       className={cn(
-        "group/command-item relative flex min-h-10 cursor-default items-center gap-3 rounded-xs px-2.5 py-2 font-sans text-body outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-selected:bg-raised data-selected:text-ink [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-selected:*:[svg]:text-ink",
+        "group/command-item relative flex min-h-11 cursor-default items-center gap-3 rounded-xs px-2.5 py-2 font-sans text-body outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 md:min-h-10 data-selected:bg-raised data-selected:text-ink [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-selected:*:[svg]:text-ink",
         className,
       )}
       {...props}

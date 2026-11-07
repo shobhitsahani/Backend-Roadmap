@@ -110,13 +110,11 @@ function TopicRow({
         data-topic-row
         onClick={onOpen}
         onKeyDown={moveTopicFocus}
-        aria-label={`Open topic ${phase.order}.${topic.order}: ${topic.title}. ${Math.round(
-          progress.percent,
-        )}% complete.`}
         className={`group grid min-h-20 w-full grid-cols-[42px_minmax(0,1fr)_auto] items-center gap-3 border-l-2 border-l-transparent py-4 pr-1 text-left transition-colors duration-150 outline-none hover:bg-raised focus-visible:bg-raised focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-inset ${
           isCurrent ? "border-l-[var(--topic-accent)] phase-wash" : ""
         }`}
       >
+        <span className="sr-only">Open topic · </span>
         <span className="self-start pt-1 font-mono text-caption text-ink-subtle tabular-nums">
           {phase.order}.{topic.order}
         </span>

@@ -39,7 +39,6 @@ export function TopicNode({ data }: TopicNodeProps) {
       variant="ghost"
       size="sm"
       onClick={handleClick}
-      aria-label={`Open topic ${topic.title}`}
       className={cn(
         "h-full min-h-[130px] w-full min-w-[220px] rounded-sm border border-transparent bg-panel p-4 text-left shadow-sm transition-colors duration-150",
         done
@@ -48,6 +47,7 @@ export function TopicNode({ data }: TopicNodeProps) {
         reduceMotion ? "duration-0" : "",
       )}
     >
+      <span className="sr-only">Open topic · </span>
       <div className="mb-1 flex items-start justify-between gap-2">
         <span className="font-mono text-caption text-ink-subtle tabular-nums">
           {String(phaseOrder).padStart(2, "0")}.{String(topic.order).padStart(2, "0")}

@@ -2,15 +2,27 @@
 
 import React from "react";
 import { Bar, BarChart, Cell, XAxis, YAxis } from "recharts";
+import { motion } from "motion/react";
+
+import { revealContainer, revealItem } from "@/lib/motion";
 
 import { DataSection } from "@/components/data/data-section";
+import { RulerMark } from "@/components/empty-states/line-art";
 import { TickingNumber } from "@/components/ticking-number";
+import { Button } from "@/components/ui/button";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
+import {
+  Empty,
+  EmptyContent,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
 import {
   buildHeatmap,
   calculateStreak,
@@ -20,6 +32,7 @@ import {
 } from "@/lib/progress";
 import { cn } from "@/lib/utils";
 import { useRoadmapStore } from "@/store/roadmap-store";
+import { useUiStore } from "@/store/ui-store";
 import type { ActivityKind, PhaseWithTopics, Topic } from "@/types/roadmap";
 
 const phaseChartConfig = {
@@ -59,6 +72,7 @@ function dayLabel(value: string, today: Date) {
 
 export function DashboardScreen() {
   const snapshot = useRoadmapStore((state) => state.snapshot);
+  const setView = useUiStore((state) => state.setView);
 
   const phases = snapshot.phases;
   const activity = snapshot.activity;
@@ -145,8 +159,16 @@ export function DashboardScreen() {
           What the log says: streak, recent entries, and how each phase is moving.
         </p>
 
-        <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
-          <div className="rounded-sm border border-hairline bg-panel p-4">
+        <motion.div
+          variants={revealContainer}
+          initial="hidden"
+          animate="visible"
+          className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4"
+        >
+          <motion.div
+            variants={revealItem}
+            className="rounded-sm border border-hairline bg-panel p-4"
+          >
             <p className="font-mono text-micro tracking-[0.14em] text-ink-subtle uppercase">
               Streak
             </p>
@@ -154,8 +176,11 @@ export function DashboardScreen() {
               <TickingNumber value={streak} aria-label={`Streak of ${streak} days`} />
               <span className="text-label text-ink-subtle">DAYS</span>
             </p>
-          </div>
-          <div className="rounded-sm border border-hairline bg-panel p-4">
+          </motion.div>
+          <motion.div
+            variants={revealItem}
+            className="rounded-sm border border-hairline bg-panel p-4"
+          >
             <p className="font-mono text-micro tracking-[0.14em] text-ink-subtle uppercase">
               Weeks logged
             </p>
@@ -167,8 +192,11 @@ export function DashboardScreen() {
               />
               <span className="text-label text-ink-subtle">/ 36</span>
             </p>
-          </div>
-          <div className="rounded-sm border border-hairline bg-panel p-4">
+          </motion.div>
+          <motion.div
+            variants={revealItem}
+            className="rounded-sm border border-hairline bg-panel p-4"
+          >
             <p className="font-mono text-micro tracking-[0.14em] text-ink-subtle uppercase">
               Topics complete
             </p>
@@ -176,16 +204,19 @@ export function DashboardScreen() {
               <TickingNumber value={progress.completedTopics} />
               <span className="text-label text-ink-subtle">/ {progress.totalTopics}</span>
             </p>
-          </div>
-          <div className="rounded-sm border border-hairline bg-panel p-4">
+          </motion.div>
+          <motion.div
+            variants={revealItem}
+            className="rounded-sm border border-hairline bg-panel p-4"
+          >
             <p className="font-mono text-micro tracking-[0.14em] text-ink-subtle uppercase">
               Log entries
             </p>
             <p className="mt-3 font-mono text-title font-medium tracking-[-0.025em] text-ink">
               <TickingNumber value={activity.length} />
             </p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       <section className="border-b border-hairline py-8">
@@ -307,14 +338,38 @@ export function DashboardScreen() {
           <h2 className="font-mono text-caption tracking-[0.14em] text-ink uppercase">
             Recent activity
           </h2>
-          <ul className="mt-3 flex flex-col">
-            {feed.length === 0 ? (
-              <li className="border-b border-hairline py-4 font-mono text-label text-ink-subtle">
-                No entries yet. Check a subtopic to start the log.
-              </li>
-            ) : (
-              feed.map((entry) => (
-                <li
+          {feed.length === 0 ? (
+            <Empty className="mt-3 rounded-sm border border-hairline bg-panel">
+              <EmptyMedia>
+                <RulerMark />
+              </EmptyMedia>
+              <EmptyHeader>
+                <EmptyTitle className="font-display text-title-sm font-semibold tracking-[-0.02em] text-ink">
+                  No entries in the log.
+                </EmptyTitle>
+                <EmptyContent className="font-sans text-body text-ink-muted">
+                  Check a subtopic in the roadmap to start the field log.
+                </EmptyContent>
+              </EmptyHeader>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setView("roadmap")}
+              >
+                Go to Roadmap
+              </Button>
+            </Empty>
+          ) : (
+            <motion.ul
+              variants={revealContainer}
+              initial="hidden"
+              animate="visible"
+              className="mt-3 flex flex-col"
+            >
+              {feed.map((entry) => (
+                <motion.li
+                  variants={revealItem}
                   key={entry.id}
                   className="flex min-h-10 min-w-0 items-center justify-between gap-4 border-b border-hairline py-2"
                 >
@@ -336,10 +391,10 @@ export function DashboardScreen() {
                   <span className="shrink-0 font-mono text-micro tracking-[0.1em] text-ink-subtle uppercase tabular-nums">
                     {entry.day}
                   </span>
-                </li>
-              ))
-            )}
-          </ul>
+                </motion.li>
+              ))}
+            </motion.ul>
+          )}
         </div>
       </section>
 
