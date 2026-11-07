@@ -9,11 +9,13 @@ type UiState = {
   roadmapView: RoadmapView;
   selectedTopicId: string | null;
   startDateOpen: boolean;
+  commandOpen: boolean;
   setView: (view: AppView) => void;
   setRoadmapView: (view: RoadmapView) => void;
   openTopic: (topicId: string) => void;
   closeTopic: () => void;
   setStartDateOpen: (open: boolean) => void;
+  setCommandOpen: (open: boolean) => void;
 };
 
 export const useUiStore = create<UiState>()((set) => ({
@@ -21,6 +23,7 @@ export const useUiStore = create<UiState>()((set) => ({
   roadmapView: "list",
   selectedTopicId: null,
   startDateOpen: false,
+  commandOpen: false,
   setView: (view) => set({ view }),
   setRoadmapView: (roadmapView) => {
     if (typeof window !== "undefined") {
@@ -31,4 +34,5 @@ export const useUiStore = create<UiState>()((set) => ({
   openTopic: (selectedTopicId) => set({ selectedTopicId }),
   closeTopic: () => set({ selectedTopicId: null }),
   setStartDateOpen: (startDateOpen) => set({ startDateOpen }),
+  setCommandOpen: (commandOpen) => set({ commandOpen }),
 }));

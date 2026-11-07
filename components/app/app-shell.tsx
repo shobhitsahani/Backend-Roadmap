@@ -3,6 +3,7 @@
 import { DashboardScreen } from "@/components/dashboard/dashboard-screen";
 import { Masthead } from "@/components/app/masthead";
 import { MobileNav } from "@/components/app/mobile-nav";
+import { CommandPalette } from "@/components/command/command-palette";
 import { StartDateDialog } from "@/components/app/start-date-dialog";
 import { RoadmapScreen } from "@/components/roadmap/roadmap-screen";
 import { TimelineScreen } from "@/components/timeline/timeline-screen";
@@ -27,6 +28,7 @@ export function AppShell() {
         {view === "timeline" ? <TimelineScreen /> : null}
       </main>
       <MobileNav />
+      <CommandPalette />
       <TopicPanel />
       <StartDateDialog />
     </div>
