@@ -40,7 +40,7 @@ Out of scope: hosting/deployment credentials, multi-user auth implementation, ex
 - [x] 09 Command palette and keyboard shortcuts
 - [x] 10 Motion, empty states, skeletons, mobile, accessibility polish
 - [x] 11 README, CHANGELOG, release tag
-- [ ] 12 Final screenshots, Lighthouse, verification and merge audit
+- [x] 12 Final screenshots, Lighthouse, verification and merge audit
 
 ## Status
 pursuing
