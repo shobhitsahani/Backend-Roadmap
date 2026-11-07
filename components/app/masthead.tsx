@@ -2,6 +2,7 @@
 
 import { BrandMark, Wordmark } from "@/components/brand";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { Button } from "@/components/ui/button";
 import { useUiStore } from "@/store/ui-store";
 import type { AppView } from "@/types/roadmap";
 
@@ -14,6 +15,7 @@ const navItems: Array<{ view: AppView; label: string }> = [
 export function Masthead() {
   const view = useUiStore((state) => state.view);
   const setView = useUiStore((state) => state.setView);
+  const setCommandOpen = useUiStore((state) => state.setCommandOpen);
 
   return (
     <header className="sticky top-0 z-30 border-b border-hairline bg-canvas">
@@ -53,6 +55,22 @@ export function Masthead() {
           <span className="hidden font-mono text-micro tracking-[0.12em] text-ink-subtle uppercase lg:inline">
             36 weeks / 4 phases
           </span>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            aria-label="Open command palette"
+            title="Command palette (Ctrl+K)"
+            className="px-2.5"
+            onClick={() => setCommandOpen(true)}
+          >
+            <span
+              aria-hidden="true"
+              className="font-mono text-micro tracking-[0.08em] not-italic"
+            >
+              ⌘K
+            </span>
+          </Button>
           <ThemeToggle />
         </div>
       </div>
