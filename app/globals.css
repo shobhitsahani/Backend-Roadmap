@@ -372,6 +372,12 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   }
 }
 
+/* react-flow pane uses a white default background; make it transparent so
+   the wrapper's bg-panel (dark in dark theme) shows through. */
+.react-flow__pane {
+  background-color: transparent !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
