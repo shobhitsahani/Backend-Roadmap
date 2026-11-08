@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ReactFlow, Background, MiniMap } from "@xyflow/react";
+import { ReactFlow, Background } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
 import { buildGraph } from "./layout";
@@ -29,10 +29,10 @@ export function GraphScreen() {
           defaultViewport={{ x: 0, y: 0, zoom: 1 }}
           minZoom={0.4}
           maxZoom={2}
+          proOptions={{ hideAttribution: true }}
         >
           <Background gap={16} offset={[0, 0]} />
           {/* mouse gestures: wheel = zoom, drag = pan, pinch = zoom; view fits on entry */}
-          <MiniMap position="bottom-right" nodeBorderRadius={2} nodeStrokeWidth={1} />
         </ReactFlow>
       </div>
     </section>
