@@ -1,0 +1,283 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-10T00:00:00.000Z",
+  "title": "Design System: Backend Roadmap Tracker",
+  "extensions": {
+    "colorMeta": {
+      "surface-0": {
+        "role": "neutral",
+        "displayName": "Graphite Canvas",
+        "canonical": "oklch(0.166 0.008 145)",
+        "tonalRamp": [
+          "oklch(0.12 0.006 145)",
+          "oklch(0.166 0.008 145)",
+          "oklch(0.196 0.009 145)",
+          "oklch(0.226 0.010 145)",
+          "oklch(0.266 0.011 145)",
+          "oklch(0.42 0.010 145)",
+          "oklch(0.62 0.010 145)",
+          "oklch(0.86 0.008 145)"
+        ]
+      },
+      "surface-1": {
+        "role": "neutral",
+        "displayName": "Graphite Panel",
+        "canonical": "oklch(0.196 0.009 145)",
+        "tonalRamp": [
+          "oklch(0.14 0.007 145)",
+          "oklch(0.196 0.009 145)",
+          "oklch(0.24 0.009 145)",
+          "oklch(0.30 0.010 145)",
+          "oklch(0.38 0.010 145)",
+          "oklch(0.50 0.010 145)",
+          "oklch(0.68 0.009 145)",
+          "oklch(0.88 0.008 145)"
+        ]
+      },
+      "ink": {
+        "role": "primary",
+        "displayName": "Bone Ink",
+        "canonical": "oklch(0.930 0.011 110)",
+        "tonalRamp": [
+          "oklch(0.16 0.008 110)",
+          "oklch(0.30 0.009 110)",
+          "oklch(0.44 0.010 110)",
+          "oklch(0.58 0.010 110)",
+          "oklch(0.72 0.011 110)",
+          "oklch(0.82 0.011 110)",
+          "oklch(0.88 0.011 110)",
+          "oklch(0.93 0.011 110)"
+        ]
+      },
+      "phase-1": {
+        "role": "primary",
+        "displayName": "Foundation Green",
+        "canonical": "oklch(0.775 0.130 150)",
+        "tonalRamp": [
+          "oklch(0.18 0.045 150)",
+          "oklch(0.30 0.070 150)",
+          "oklch(0.42 0.090 150)",
+          "oklch(0.54 0.105 150)",
+          "oklch(0.64 0.120 150)",
+          "oklch(0.72 0.128 150)",
+          "oklch(0.80 0.120 150)",
+          "oklch(0.90 0.070 150)"
+        ]
+      },
+      "phase-2": {
+        "role": "secondary",
+        "displayName": "Core Blue",
+        "canonical": "oklch(0.750 0.115 246)",
+        "tonalRamp": [
+          "oklch(0.18 0.040 246)",
+          "oklch(0.30 0.062 246)",
+          "oklch(0.42 0.080 246)",
+          "oklch(0.54 0.095 246)",
+          "oklch(0.64 0.108 246)",
+          "oklch(0.72 0.112 246)",
+          "oklch(0.80 0.100 246)",
+          "oklch(0.90 0.060 246)"
+        ]
+      },
+      "phase-3": {
+        "role": "tertiary",
+        "displayName": "Production Violet",
+        "canonical": "oklch(0.760 0.120 300)",
+        "tonalRamp": [
+          "oklch(0.18 0.042 300)",
+          "oklch(0.30 0.064 300)",
+          "oklch(0.42 0.084 300)",
+          "oklch(0.54 0.098 300)",
+          "oklch(0.64 0.112 300)",
+          "oklch(0.73 0.118 300)",
+          "oklch(0.81 0.100 300)",
+          "oklch(0.90 0.060 300)"
+        ]
+      },
+      "phase-4": {
+        "role": "tertiary",
+        "displayName": "Hard Core Red",
+        "canonical": "oklch(0.735 0.150 28)",
+        "tonalRamp": [
+          "oklch(0.18 0.052 28)",
+          "oklch(0.30 0.080 28)",
+          "oklch(0.42 0.105 28)",
+          "oklch(0.54 0.125 28)",
+          "oklch(0.64 0.140 28)",
+          "oklch(0.72 0.148 28)",
+          "oklch(0.80 0.120 28)",
+          "oklch(0.90 0.070 28)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page titles and phase names only."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Section titles and drawer topic title."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Interface copy, topic summaries, notes."
+      },
+      "label": { "displayName": "Label", "purpose": "Buttons, chips, metadata." },
+      "micro": {
+        "displayName": "Micro",
+        "purpose": "Eyebrows, chart axes, keyboard hints."
+      }
+    },
+    "shadows": [
+      {
+        "name": "panel",
+        "value": "0 24px 64px -32px rgb(0 0 0 / 0.65)",
+        "purpose": "Drawers, dialogs, command palette, popovers."
+      },
+      {
+        "name": "lift",
+        "value": "0 2px 0 0 rgb(0 0 0 / 0.2)",
+        "purpose": "2px hover settle on rows and cards."
+      }
+    ],
+    "motion": [
+      {
+        "name": "duration-fast",
+        "value": "150ms",
+        "purpose": "Button, chip, border feedback."
+      },
+      {
+        "name": "duration-base",
+        "value": "220ms",
+        "purpose": "Rows, tabs, theme crossfade."
+      },
+      {
+        "name": "duration-slow",
+        "value": "300ms",
+        "purpose": "View orchestration, drawer content."
+      },
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Reveals and hovers."
+      },
+      {
+        "name": "ease-in-out",
+        "value": "cubic-bezier(0.65, 0, 0.35, 1)",
+        "purpose": "Shared transitions."
+      },
+      {
+        "name": "current-pulse",
+        "value": "2.4s ease-in-out infinite",
+        "purpose": "The single looping motion: the current topic marker."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1440px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single affirmative action in a view.",
+      "html": "<button class=\"ds-btn-primary\">Open topic</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; height: 40px; padding: 0 16px; border: 1px solid var(--ink, #e8e6dd); border-radius: 4px; background: var(--ink, #e8e6dd); color: var(--surface-0, #141813); font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: background-color 150ms, transform 150ms; } .ds-btn-primary:hover { background: color-mix(in oklch, var(--ink, #e8e6dd) 88%, transparent); } .ds-btn-primary:active { transform: translateY(1px); } .ds-btn-primary:focus-visible { outline: 2px solid var(--phase-1, #7ac48a); outline-offset: 2px; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary action; hairline outline, ink text.",
+      "html": "<button class=\"ds-btn-outline\">Export JSON</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; height: 40px; padding: 0 16px; border: 1px solid var(--hairline-strong, rgba(232,230,221,0.26)); border-radius: 4px; background: transparent; color: var(--ink, #e8e6dd); font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: background-color 150ms, border-color 150ms; } .ds-btn-outline:hover { background: var(--surface-2, #2c312b); border-color: color-mix(in oklch, var(--ink, #e8e6dd) 40%, transparent); } .ds-btn-outline:focus-visible { outline: 2px solid var(--phase-1, #7ac48a); outline-offset: 2px; }"
+    },
+    {
+      "name": "Checkbox",
+      "kind": "input",
+      "refersTo": "checkbox",
+      "description": "20px square subtopic checkbox with hand-drawn check.",
+      "html": "<button class=\"ds-check\" aria-pressed=\"true\" aria-label=\"Mark subtopic complete\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8.5 6.4 11.8 13 4.6\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"square\" stroke-linejoin=\"miter\"/></svg></button>",
+      "css": ".ds-check { display: inline-grid; place-content: center; width: 20px; height: 20px; border: 1px solid var(--phase-1, #7ac48a); border-radius: 2px; background: var(--phase-1, #7ac48a); color: var(--phase-contrast, #141813); cursor: pointer; transition: background-color 150ms, border-color 150ms; } .ds-check:not([aria-pressed=\"true\"]) { background: transparent; color: transparent; border-color: var(--hairline-strong, rgba(232,230,221,0.26)); } .ds-check:hover { border-color: color-mix(in oklch, var(--ink, #e8e6dd) 45%, transparent); } .ds-check:focus-visible { outline: 2px solid var(--phase-1, #7ac48a); outline-offset: 2px; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Single-line field for start date and notes.",
+      "html": "<input class=\"ds-input\" placeholder=\"2026-01-05\" />",
+      "css": ".ds-input { height: 40px; padding: 0 12px; border: 1px solid var(--hairline-strong, rgba(232,230,221,0.26)); border-radius: 4px; background: var(--surface-1, #1c201b); color: var(--ink, #e8e6dd); font-family: 'Instrument Sans', ui-sans-serif, sans-serif; font-size: 15px; } .ds-input::placeholder { color: var(--ink-subtle, #9b9d94); } .ds-input:focus-visible { outline: 2px solid color-mix(in oklch, var(--phase-1, #7ac48a) 60%, transparent); outline-offset: 2px; border-color: var(--phase-1, #7ac48a); }"
+    },
+    {
+      "name": "Panel Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Grouped content block for dashboard sections and notes.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-card-eyebrow\">Current streak</div><div class=\"ds-card-value\">12 days</div></div>",
+      "css": ".ds-card { display: flex; flex-direction: column; gap: 8px; padding: 16px; border: 1px solid var(--hairline, rgba(232,230,221,0.14)); border-radius: 12px; background: var(--surface-1, #1c201b); color: var(--ink, #e8e6dd); } .ds-card-eyebrow { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-subtle, #9b9d94); } .ds-card-value { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 28px; font-variant-numeric: tabular-nums; }"
+    },
+    {
+      "name": "Masthead Navigation",
+      "kind": "nav",
+      "refersTo": "nav",
+      "description": "Sticky 64px ruled bar with mono view index.",
+      "html": "<nav class=\"ds-nav\"><span class=\"ds-nav-brand\">BACKEND ROADMAP</span><span class=\"ds-nav-item ds-nav-active\">Roadmap</span><span class=\"ds-nav-item\">Field log</span><span class=\"ds-nav-item\">Timeline</span></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; gap: 24px; height: 64px; padding: 0 40px; border-bottom: 1px solid var(--hairline, rgba(232,230,221,0.14)); background: var(--surface-0, #141813); color: var(--ink, #e8e6dd); } .ds-nav-brand { margin-right: auto; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; } .ds-nav-item { display: inline-flex; align-items: center; height: 64px; padding: 0 16px; border-bottom: 2px solid transparent; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted, #b0b2a9); cursor: pointer; } .ds-nav-active { border-bottom-color: var(--phase-1, #7ac48a); color: var(--ink, #e8e6dd); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Engineer's Field Notebook",
+    "overview": "The app should feel like a working document pinned to a drafting table: graphite surfaces, measured hairlines, compact annotations, and one flat signal colour per phase. It is a tool that records work, not a dashboard that performs enthusiasm. Dark is the default working light; light mode is drafting paper, not a different product. The roadmap itself is the composition. Structure comes from 1px rules, a tight type scale, and generous margins before it comes from boxes.",
+    "keyCharacteristics": [
+      "Graphite canvas with a green undertone; cool paper in light mode.",
+      "Hairline structure; one border, one accent.",
+      "Flat phase tints, never gradients, glows, or tinted glass.",
+      "Mono data type with tabular numerals; display face reserved for names and titles.",
+      "Measured 2–6px radii; controls on a 4px baseline.",
+      "Dense labels, open section spacing."
+    ],
+    "rules": [
+      {
+        "name": "The One Border, One Accent Rule",
+        "body": "Structure comes from hairlines, type scale, and whitespace before boxes. Phase tints occupy less than 10% of any viewport.",
+        "section": "colors"
+      },
+      {
+        "name": "The Flat Signal Rule",
+        "body": "Phase colours are flat tints. Never gradients, glows, or tinted glass.",
+        "section": "colors"
+      },
+      {
+        "name": "The Mono Numbers Rule",
+        "body": "Every percentage, duration, date, week count, and keyboard hint uses JetBrains Mono with tabular numerals.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat-By-Default Rule",
+        "body": "Surfaces are flat at rest. Shadows appear only for overlays and as a response to state.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep phase tints under 10% of any viewport and use them only for real state.",
+      "Do set every number, date, and duration in mono with tabular numerals.",
+      "Do use 1px hairlines and tonal steps before adding a border or a shadow.",
+      "Do align controls to the 4px baseline and use 40px desktop / 44px mobile heights.",
+      "Do preserve visible focus rings and 44px touch targets at 375px.",
+      "Do let the roadmap content carry the composition; chrome stays quiet."
+    ],
+    "donts": [
+      "Don't use gradients, glows, glassmorphism, blobs, or emoji icons.",
+      "Don't use pill-shaped navigation, badges, or buttons.",
+      "Don't set numbers in the display face or body copy in mono.",
+      "Don't add looping motion beyond the current-topic pulse.",
+      "Don't invent encouragement, social proof, or marketing headings.",
+      "Don't replace the field-notebook world with a generic dashboard look."
+    ]
+  }
+}

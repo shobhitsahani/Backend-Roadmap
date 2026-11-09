@@ -1,185 +1,276 @@
-# DESIGN.md — Backend Roadmap Tracker
+---
+name: Backend Roadmap Tracker
+description: A graphite field manual for a 36-week backend engineering syllabus.
+colors:
+  surface-0: "oklch(0.166 0.008 145)"
+  surface-1: "oklch(0.196 0.009 145)"
+  surface-2: "oklch(0.226 0.010 145)"
+  surface-3: "oklch(0.266 0.011 145)"
+  ink: "oklch(0.930 0.011 110)"
+  ink-muted: "oklch(0.710 0.012 135)"
+  ink-subtle: "oklch(0.650 0.012 135)"
+  hairline: "oklch(0.930 0.020 120 / 0.14)"
+  hairline-strong: "oklch(0.930 0.020 120 / 0.26)"
+  phase-1: "oklch(0.775 0.130 150)"
+  phase-2: "oklch(0.750 0.115 246)"
+  phase-3: "oklch(0.760 0.120 300)"
+  phase-4: "oklch(0.735 0.150 28)"
+  phase-contrast: "oklch(0.166 0.008 145)"
+  surface-0-paper: "oklch(0.968 0.005 120)"
+  surface-1-paper: "oklch(0.992 0.002 120)"
+  surface-2-paper: "oklch(0.946 0.006 120)"
+  surface-3-paper: "oklch(0.920 0.008 120)"
+  ink-paper: "oklch(0.220 0.012 140)"
+  ink-muted-paper: "oklch(0.430 0.012 140)"
+  ink-subtle-paper: "oklch(0.470 0.012 140)"
+  hairline-paper: "oklch(0.220 0.012 140 / 0.16)"
+  hairline-strong-paper: "oklch(0.220 0.012 140 / 0.28)"
+  phase-1-paper: "oklch(0.465 0.105 150)"
+  phase-2-paper: "oklch(0.470 0.125 250)"
+  phase-3-paper: "oklch(0.475 0.150 300)"
+  phase-4-paper: "oklch(0.480 0.155 29)"
+typography:
+  display:
+    fontFamily: "Bricolage Grotesque, ui-sans-serif, sans-serif"
+    fontSize: "3.5rem"
+    fontWeight: 600
+    lineHeight: 0.98
+    letterSpacing: "-0.045em"
+  title:
+    fontFamily: "Bricolage Grotesque, ui-sans-serif, sans-serif"
+    fontSize: "1.75rem"
+    fontWeight: 600
+    lineHeight: 1.15
+    letterSpacing: "-0.025em"
+  body:
+    fontFamily: "Instrument Sans, ui-sans-serif, sans-serif"
+    fontSize: "0.9375rem"
+    fontWeight: 400
+    lineHeight: 1.55
+    letterSpacing: "-0.005em"
+  label:
+    fontFamily: "JetBrains Mono, ui-monospace, monospace"
+    fontSize: "0.75rem"
+    fontWeight: 500
+    lineHeight: 1.35
+    letterSpacing: "0.06em"
+  micro:
+    fontFamily: "JetBrains Mono, ui-monospace, monospace"
+    fontSize: "0.625rem"
+    fontWeight: 500
+    lineHeight: 1.3
+    letterSpacing: "0.14em"
+rounded:
+  xs: "2px"
+  sm: "4px"
+  md: "6px"
+  lg: "8px"
+  xl: "12px"
+spacing:
+  "1": "4px"
+  "2": "8px"
+  "3": "12px"
+  "4": "16px"
+  "5": "20px"
+  "6": "24px"
+  "8": "32px"
+  "10": "40px"
+  "12": "48px"
+  "16": "64px"
+components:
+  button-primary:
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.surface-0}"
+    rounded: "{rounded.sm}"
+    padding: "0 16px"
+    height: "40px"
+    typography: "{typography.label}"
+  button-outline:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.sm}"
+    padding: "0 16px"
+    height: "40px"
+    typography: "{typography.label}"
+  input:
+    backgroundColor: "{colors.surface-1}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.sm}"
+    padding: "0 12px"
+    height: "40px"
+  card:
+    backgroundColor: "{colors.surface-1}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.xl}"
+    padding: "16px"
+  checkbox:
+    backgroundColor: "transparent"
+    textColor: "{colors.phase-1}"
+    rounded: "{rounded.xs}"
+    size: "20px"
+---
 
-## 1. Direction
+# Design System: Backend Roadmap Tracker
 
-**Engineer's blueprint / field notebook.** The app should feel like a working document pinned to a drafting table: graphite surfaces, measured hairlines, compact annotations, and one flat signal colour per phase. It is a tool that records work, not a dashboard that performs enthusiasm.
+## Overview
 
-- **Audience:** one self-directed developer following a 36-week backend syllabus.
-- **Single job of the screen:** answer “where am I, what is next, and what have I finished?”
-- **Signature:** the **36-week measure** — a hairline ruler split into seven/every topic block, filled only by real completed weeks, with a crosshair marking today's expected position. It appears large in the field log and compact in the roadmap header.
-- **Second motif:** handwritten margin logic without handwriting fonts — mono annotations, small crosshair marks, and index numbers attached to real sequence, never decoration.
+**Creative North Star: "The Engineer's Field Notebook"**
 
-The interface is dark-first. Light mode is drafting paper, not a different product.
+The app should feel like a working document pinned to a drafting table: graphite surfaces, measured hairlines, compact annotations, and one flat signal colour per phase. It is a tool that records work, not a dashboard that performs enthusiasm. Dark is the default working light; light mode is drafting paper, not a different product.
 
-## 2. Design principles
+The roadmap itself is the composition. Structure comes from 1px rules, a tight type scale, and generous margins before it comes from boxes. Phase colour is a flat tint that marks real state, never atmosphere. The signature element is the 36-week measure: a hairline ruler split across phases, filled only by completed weeks, with a crosshair marking today's expected position.
 
-1. **One border, one accent.** Structure comes from hairlines, type scale, and whitespace before boxes.
-2. **Data is the decoration.** Rings, ticks and fills always encode progress. Nothing loops except the current topic marker.
-3. **Flat phase signals.** Phase colours are flat tints. Never gradients, glows, or tinted glass.
-4. **Measured, not rounded.** Small 2–6px radii. Controls align to a 4px baseline.
-5. **The notebook stays quiet; the plan carries the colour.** Phase tints occupy less than 10% of any viewport.
-6. **Tight type, generous margins.** Dense labels and numbers, open section spacing.
+Motion is restrained and semantic: a check stroke draws, a row settles 2px, a drawer springs in. Only `transform` and `opacity` animate, with path drawing reserved for progress and checkmarks because drawing _is_ the state.
 
-## 3. Colour tokens
+**Key Characteristics:**
 
-All tokens are OKLCH. Phase colours are defined separately per theme so text passes WCAG AA on their own surfaces.
+- Graphite canvas with a green undertone; cool paper in light mode.
+- Hairline structure; one border, one accent.
+- Flat phase tints, never gradients, glows, or tinted glass.
+- Mono data type with tabular numerals; display face reserved for names and titles.
+- Measured 2–6px radii; controls on a 4px baseline.
+- Dense labels, open section spacing.
 
-### Graphite (dark, default)
+## Colors
 
-| Token               | Value                           | Role                                        |
-| ------------------- | ------------------------------- | ------------------------------------------- |
-| `--surface-0`       | `oklch(0.166 0.008 145)`        | app canvas, graphite with a green undertone |
-| `--surface-1`       | `oklch(0.196 0.009 145)`        | panels, inputs                              |
-| `--surface-2`       | `oklch(0.226 0.010 145)`        | raised controls, hover rows                 |
-| `--surface-3`       | `oklch(0.266 0.011 145)`        | tooltips, selected fields                   |
-| `--ink`             | `oklch(0.930 0.011 110)`        | primary text                                |
-| `--ink-muted`       | `oklch(0.710 0.012 135)`        | secondary text                              |
-| `--ink-subtle`      | `oklch(0.650 0.012 135)`        | metadata that must still pass AA            |
-| `--hairline`        | `oklch(0.930 0.020 120 / 0.14)` | 1px rules                                   |
-| `--hairline-strong` | `oklch(0.930 0.020 120 / 0.26)` | control borders                             |
-| `--phase-1`         | `oklch(0.775 0.130 150)`        | Foundation / green                          |
-| `--phase-2`         | `oklch(0.750 0.115 246)`        | Core backend / blue                         |
-| `--phase-3`         | `oklch(0.760 0.120 300)`        | Production / violet                         |
-| `--phase-4`         | `oklch(0.735 0.150 28)`         | Hard core / red                             |
-| `--accent-contrast` | `oklch(0.166 0.008 145)`        | text sitting on a phase fill                |
+A near-neutral graphite range carries almost the whole screen; four flat phase hues do the signalling.
 
-### Drafting paper (light)
+### Primary
 
-| Token               | Value                           | Role                         |
-| ------------------- | ------------------------------- | ---------------------------- |
-| `--surface-0`       | `oklch(0.968 0.005 120)`        | cool paper, never cream      |
-| `--surface-1`       | `oklch(0.992 0.002 120)`        | panels                       |
-| `--surface-2`       | `oklch(0.946 0.006 120)`        | raised fields                |
-| `--surface-3`       | `oklch(0.920 0.008 120)`        | tooltips, selected fields    |
-| `--ink`             | `oklch(0.220 0.012 140)`        | near-black ink               |
-| `--ink-muted`       | `oklch(0.430 0.012 140)`        | secondary text               |
-| `--ink-subtle`      | `oklch(0.470 0.012 140)`        | metadata                     |
-| `--hairline`        | `oklch(0.220 0.012 140 / 0.16)` | 1px rules                    |
-| `--hairline-strong` | `oklch(0.220 0.012 140 / 0.28)` | control borders              |
-| `--phase-1`         | `oklch(0.465 0.105 150)`        | Foundation / green           |
-| `--phase-2`         | `oklch(0.470 0.125 250)`        | Core backend / blue          |
-| `--phase-3`         | `oklch(0.475 0.150 300)`        | Production / violet          |
-| `--phase-4`         | `oklch(0.480 0.155 29)`         | Hard core / red              |
-| `--accent-contrast` | `oklch(0.968 0.005 120)`        | text sitting on a phase fill |
+- **Ink** (`oklch(0.930 0.011 110)`): primary text, primary button fill, active navigation. In light mode, **Paper Ink** (`oklch(0.220 0.012 140)`).
+- **Foundation Green** (`oklch(0.775 0.130 150)`): phase 1, current-topic pulse, focus ring, selected navigation underline.
 
-Soft phase fills use `color-mix(in oklch, var(--phase-N) 12%, transparent)`. Phase borders use 34% mix. No phase fill exceeds 12% opacity across large areas.
+### Secondary
 
-Semantic shadcn variables map directly: `background` → surface-0, `card`/`popover` → surface-1, `secondary`/`muted` → surface-2, `border`/`input` → hairline tokens, `foreground` → ink, `muted-foreground` → ink-subtle, `primary` → ink (dark) / ink (light), `ring` → phase-1. Exceptions are documented per theme in `app/globals.css`.
+- **Core Blue** (`oklch(0.750 0.115 246)`): phase 2 signals, progress segments, chart series 2.
+- **Production Violet** (`oklch(0.760 0.120 300)`): phase 3 signals, chart series 3.
+- **Hard Core Red** (`oklch(0.735 0.150 28)`): phase 4 signals, destructive actions, chart series 4.
 
-## 4. Type
+### Neutral
 
-| Role    | Family                  | Usage                                                                                          |
-| ------- | ----------------------- | ---------------------------------------------------------------------------------------------- |
-| Display | **Bricolage Grotesque** | page titles, phase names, drawer title. Restrained, 600–700 weight.                            |
-| Body    | **Instrument Sans**     | interface copy, topic summaries, notes. 400–600.                                               |
-| Data    | **JetBrains Mono**      | percentages, durations, dates, week counts, eyebrows, keyboard hints. Always tabular numerals. |
+- **Graphite Canvas** (`oklch(0.166 0.008 145)`): app background.
+- **Graphite Panel** (`oklch(0.196 0.009 145)`): panels, cards, inputs, drawer.
+- **Graphite Raised** (`oklch(0.226 0.010 145)`): hover rows, secondary controls.
+- **Graphite Field** (`oklch(0.266 0.011 145)`): tooltips, selected fields.
+- **Ink Muted** (`oklch(0.710 0.012 135)`): secondary copy, inactive navigation.
+- **Ink Subtle** (`oklch(0.650 0.012 135)`): metadata that must still pass AA.
+- **Hairline** (`oklch(0.930 0.020 120 / 0.14)`): 1px rules.
+- **Hairline Strong** (`oklch(0.930 0.020 120 / 0.26)`): interactive field borders.
 
-### Scale
+### Named Rules
 
-| Token        | Size / line-height | Tracking | Use                           |
-| ------------ | ------------------ | -------- | ----------------------------- |
-| `micro`      | 10px / 1.3         | +0.14em  | uppercase eyebrow, chart axes |
-| `label`      | 12px / 1.35        | +0.06em  | metadata, buttons, chips      |
-| `caption`    | 13px / 1.45        | 0        | helper text                   |
-| `body`       | 15px / 1.55        | -0.005em | default copy                  |
-| `body-lg`    | 17px / 1.55        | -0.01em  | lead paragraphs               |
-| `title-sm`   | 22px / 1.25        | -0.02em  | drawer topic title            |
-| `title`      | 28px / 1.15        | -0.025em | section titles                |
-| `display-sm` | 40px / 1.03        | -0.035em | mobile page titles            |
-| `display`    | 56px / 0.98        | -0.045em | desktop page titles           |
-| `readout`    | 72px / 0.9         | -0.05em  | progress readout only         |
+**The One Border, One Accent Rule.** Structure comes from hairlines, type scale, and whitespace before boxes. Phase tints occupy less than 10% of any viewport.
 
-Numbers are monospace and tabular. No number is rendered in the display face.
+**The Flat Signal Rule.** Phase colours are flat tints. Never gradients, glows, or tinted glass. Soft fills use `color-mix(in oklch, var(--phase-N) 12%, transparent)`; borders use 34%.
 
-## 5. Spacing, radii, border, elevation
+## Typography
 
-- **Spacing:** 4px base; permitted steps are 4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96, 128. Page gutters: 16px mobile, 24px tablet, 40px desktop, 64px at 1440+.
-- **Radius:** `xs` 2px, `sm` 4px, `md` 6px, `lg` 8px, `xl` 12px. Pills only for status dots/week markers, never for navigation or badges.
-- **Border:** 1px only. Strong borders mark interactive fields; regular borders mark structure.
-- **Shadow:** near-none in flat areas. One reserved elevation shadow for overlays: `0 24px 64px -32px rgb(0 0 0 / 0.65)` dark, lighter in paper. Cards lift 2px on hover and border brightens; no glow.
-- **Grid:** 12-column desktop, 8-column tablet, 4-column mobile. Everything aligns to the column start; no centred floating cards.
+**Display Font:** Bricolage Grotesque (with ui-sans-serif fallback)
+**Body Font:** Instrument Sans (with ui-sans-serif fallback)
+**Label/Mono Font:** JetBrains Mono (with ui-monospace fallback)
 
-## 6. Layout sketch
+**Character:** A compact grotesque for names and page titles, a neutral humanist sans for reading, and a mono face for every number, date, eyebrow, and keyboard hint. Numbers are always monospace and tabular; no number is set in the display face.
 
-```
-┌──────────────────────────────────────────────────────────────────────────┐
-│ ▦ BACKEND ROADMAP      Roadmap   Field log   Timeline     ⌘K   ◐         │ 64px masthead
-├──────────────────────────────────────────────────────────────────────────┤
-│ FIELD MANUAL / 36 WEEKS                                     OVERALL      │
-│ Backend roadmap                              0%  ███░░░░░ 36-week measure │
-│ Four phases. One working system.            0 / 36 weeks                 │
-├──────────────────────────────────────────────────────────────────────────┤
-│  [ LIST | MAP ]                                      [ SET START DATE ]  │
-│ ┌ 01 FOUNDATION ────────────────────────────── 0 / 7 weeks ───────────┐  │
-│ │ 1.1  Pick a programming language       4w   ◯ 0%   ▾                 │  │
-│ │      □ Pick one: JavaScript, Golang, Java, or Python                 │  │
-│ │      □ Clear the language fundamentals                               │  │
-│ │ 1.2  How the web works                 3w   ◯ 0%   ▾                 │  │
-│ └─────────────────────────────────────────────────────────────────────┘  │
-│ ...                                                                       │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Backend isn't about memorizing tools...                                  │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+### Hierarchy
 
-- The masthead is a single ruled bar, not a floating nav card.
-- Desktop defaults to the list on first visit? No: desktop uses the map when the user has no saved preference; mobile always starts in list. Both share the same row and state treatment.
-- Mobile navigation becomes a fixed 64px bottom index; the topic panel becomes a bottom sheet.
+- **Display** (600, 56px / 0.98, −0.045em): desktop page titles only; 40px on mobile.
+- **Readout** (500, 72px / 0.9, −0.05em, mono): the overall progress figure, used once per screen.
+- **Title** (600, 28px / 1.15, −0.025em): section titles and phase names.
+- **Title Small** (600, 22px / 1.25, −0.02em): drawer topic title.
+- **Body** (400, 15px / 1.55): interface copy and notes; 17px for lead paragraphs.
+- **Caption** (400, 13px / 1.45): helper text.
+- **Label** (500, 12px / 1.35, +0.06em, uppercase, mono): metadata, buttons, chips.
+- **Micro** (500, 10px / 1.3, +0.14em, uppercase, mono): eyebrows, chart axes, keyboard hints.
 
-## 7. Motion tokens
+### Named Rules
 
-| Token           | Value                               | Use                                      |
-| --------------- | ----------------------------------- | ---------------------------------------- |
-| `duration.fast` | 150ms                               | button, chip, border feedback            |
-| `duration.base` | 220ms                               | rows, tabs, theme crossfade              |
-| `duration.slow` | 300ms                               | view orchestration, drawer content       |
-| `ease.out`      | `cubic-bezier(0.22, 1, 0.36, 1)`    | reveals, hovers                          |
-| `ease.inOut`    | `cubic-bezier(0.65, 0, 0.35, 1)`    | shared transitions                       |
-| `spring.panel`  | stiffness 320, damping 34, mass 0.9 | drawer slide-in                          |
-| `spring.layout` | stiffness 380, damping 38, mass 0.7 | selected row, layoutId                   |
-| stagger         | 40ms                                | drawer content, first-load orchestration |
+**The Mono Numbers Rule.** Every percentage, duration, date, week count, and keyboard hint uses JetBrains Mono with tabular numerals.
 
-Rules:
+## Layout
 
-- Only `transform` and `opacity` animate in UI transitions. Progress path fills and checkmark path drawing are the two semantic exceptions because drawing is the state.
-- No looping motion except a 2.4s opacity pulse on the current topic marker.
-- `MotionConfig reducedMotion="user"` wraps the tree. When reduced motion is on: no orchestrated entrance, no pulse, no path drawing; values snap.
-- Hover lift max 2px. Never scale above 1.02.
+A single 1440px-max column with page gutters of 16px at mobile, 24px at tablet, and 40px at desktop. The masthead is a sticky 64px ruled bar, not a floating card. Content follows a 12-column desktop grid, 8-column tablet, 4-column mobile; everything aligns to column start and no card floats centred.
 
-### Signature motion moments
+Density is deliberately uneven: topic rows are compact (12–16px vertical padding), while section breaks open up to 32–64px. The roadmap list and map share one header and one measure. Mobile navigation becomes a fixed 64px bottom index and the topic panel becomes a bottom sheet at 92dvh.
 
-1. **Tick a subtopic:** check stroke draws, row settles 2px, topic ring stroke animates, readout ticks by one.
-2. **Complete a topic:** the node takes its phase tint and border; the next edge draws its path from top to bottom.
-3. **List ↔ map:** topic title shared with a `layoutId`, with a full crossfade fallback if measured positions fight.
-4. **Drawer:** spring in from the right on desktop / bottom on mobile; content stagger 40ms; exit via `AnimatePresence`.
-5. **Dashboard:** count-up numbers, one-time entrance sequence, diagonal-wave heatmap.
-6. **Hover:** row panels raise 2px, hairline brightens, phase marker expands 2px.
+The 4px baseline governs control heights (40px desktop, 44px mobile), icon sizes, and gaps. Permitted spacing steps: 4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96, 128.
 
-## 8. Component treatment
+## Elevation & Depth
 
-- **Buttons:** 40px desktop / 44px mobile, 4px radius, mono uppercase labels, flat ink fill or hairline outline. Active state nudges down 1px, no glow.
-- **Inputs/selects:** 40–44px, surface-1, 1px strong hairline, 2px focus ring. Native date input uses the same shell.
-- **Badges/chips:** 2px radius, 10–12px mono, hairline, phase tint only for state. No pills.
-- **Checkbox:** 20px square, 2px radius, phase fill and a hand-drawn SVG check. 44px row hit area.
-- **Tabs/toggle groups:** bottom-border index, not pill toggles. Active label gets ink and a 1px phase underline.
-- **Dialogs/command:** panel on surface-1, 6px radius, no blur, border hairline, elevation shadow. Command rows use mono shortcuts.
-- **Drawer:** surface-1 panel, thick left border phase tint (desktop) / top drag handle (mobile). Tip appears as a margin note with a phase rule, not a filled alert box.
-- **Charts:** Recharts with a custom tick style, no gridline noise; only 4 phase bars. Use shadcn Chart primitives.
-- **Graph:** custom rectangular nodes, 6px radius, phase hairline, dot canvas. Edges are 1px cubic Béziers at 30% opacity; completed segments fill with the phase tint. Controls/MiniMap flattened to the same tokens.
-- **Empty states:** small line-art SVG built from crosshairs and rulers; plain explanation and one action. No mascots.
-- **Skeletons:** real layout silhouettes (masthead, phase row, topic rows, checklist), pulsing opacity only.
+The system is flat by default. Depth is conveyed by tonal steps (`surface-0` → `surface-3`) and 1px hairlines, not shadows. One reserved elevation shadow exists for overlays: `0 24px 64px -32px rgb(0 0 0 / 0.65)` in dark, lighter in paper. Cards lift 2px on hover and their border brightens; no glow.
 
-## 9. Copy rules
+### Shadow Vocabulary
 
-- Use the roadmap data verbatim for phase names, topics, subtopics, tips, and the footer quote.
-- Interface labels are short verbs: "Set start date", "Export JSON", "Reset progress", "Open topic".
-- Empty states direct the next action; no apology, no mood.
-- Never invent encouragement, fake social proof, marketing headings, or lorem ipsum.
+- **Panel** (`0 24px 64px -32px rgb(0 0 0 / 0.65)`): drawers, dialogs, command palette, popovers.
+- **Lift** (`0 2px 0 0 rgb(0 0 0 / 0.2)`): the 2px hover settle on interactive rows and cards.
 
-## 10. Verification
+### Named Rules
 
-- Axe/Lighthouse accessibility >= 95 in dark and light.
-- Keyboard: focus always visible; `?`, `Cmd/Ctrl+K`, arrows, Space, Esc all work.
-- 44px touch targets at 375px; no horizontal overflow at 375, 768, 1440.
-- Reduced-motion pass: no entrance orchestration, no looping current-topic pulse, values snap.
-- Screenshot evidence for every UI branch at 375/768/1440 in both themes.
+**The Flat-By-Default Rule.** Surfaces are flat at rest. Shadows appear only for overlays and as a response to state.
+
+## Shapes
+
+Corners are measured, not rounded: 2px for checkboxes and micro controls, 4px for buttons and inputs, 6px for dialogs and the mobile sheet, 8px for grouped panels, 12px for cards. Pills appear only for status dots and week markers, never for navigation or badges. Borders are 1px only: strong borders mark interactive fields, regular hairlines mark structure.
+
+The recurring silhouette is the ruled row: a full-width line with an index number, a title, a mono readout, and a progress mark. The second motif is the crosshair: a small plus or tick mark attached to real sequence, never decoration.
+
+## Components
+
+### Buttons
+
+- **Shape:** 4px radius (2px for extra-small), mono uppercase label.
+- **Primary:** ink fill with surface-0 text; 40px desktop / 44px mobile; 16px horizontal padding.
+- **Hover / Focus:** background shifts to 88% ink; 2px focus ring in phase-1 with 2px offset; active nudges down 1px. No glow.
+- **Secondary / Ghost / Outline:** hairline-strong outline on transparent, raised fill on hover; ghost uses ink-muted text and a raised hover fill. Destructive uses phase-4 at 10% fill and 35% border.
+
+### Chips
+
+- **Style:** 2px radius, 10–12px mono, hairline border, phase tint only for state.
+- **State:** no pill shapes; selected state uses a phase tint plus ink text.
+
+### Cards / Containers
+
+- **Corner Style:** 12px radius for cards, 8px for grouped panels.
+- **Background:** surface-1.
+- **Shadow Strategy:** flat at rest; panel shadow only when elevated as an overlay.
+- **Border:** 1px hairline ring.
+- **Internal Padding:** 16px default, 12px compact.
+
+### Inputs / Fields
+
+- **Style:** surface-1 fill, 1px hairline-strong border, 4px radius, 40–44px height.
+- **Focus:** 2px phase-1 ring at 60% with 2px offset; border shifts to ring colour.
+- **Error / Disabled:** phase-4 border and 20% ring on invalid; 45% opacity and no pointer events when disabled. Native date input uses the same shell with an inverted picker icon in dark mode.
+
+### Navigation
+
+- **Style:** sticky 64px masthead with a bottom hairline. Desktop items are mono uppercase micro labels with a 2px bottom border; active gets ink text and a phase-1 underline. The wordmark is a ruled mark plus a two-line wordmark.
+- **Mobile:** fixed 64px bottom index, three equal cells, 20px Lucide icon plus micro label; active icon takes phase-1.
+- **Skip link:** appears top-left on focus with panel fill and hairline border.
+
+### Topic Row (signature)
+
+A full-width ruled row: index number in mono, topic title in display face, duration and percentage in mono, a ring or bar progress mark, and a disclosure control. Subtopics sit underneath as a 20px square checkbox with a hand-drawn SVG check and a 44px hit area. The current topic carries a 2.4s opacity pulse on a small dot.
+
+### 36-Week Measure (signature)
+
+A hairline ruler split into phase blocks, filled only by real completed weeks, with a crosshair at today's expected position. It appears large on the roadmap header and compact in the masthead context line. It is the one place where phase colour may span a wide area, and only as a 12% wash or a 1px rule.
+
+## Do's and Don'ts
+
+### Do:
+
+- **Do** keep phase tints under 10% of any viewport and use them only for real state.
+- **Do** set every number, date, and duration in mono with tabular numerals.
+- **Do** use 1px hairlines and tonal steps before adding a border or a shadow.
+- **Do** align controls to the 4px baseline and use 40px desktop / 44px mobile heights.
+- **Do** preserve visible focus rings and 44px touch targets at 375px.
+- **Do** let the roadmap content carry the composition; chrome stays quiet.
+
+### Don't:
+
+- **Don't** use gradients, glows, glassmorphism, blobs, or emoji icons.
+- **Don't** use pill-shaped navigation, badges, or buttons.
+- **Don't** set numbers in the display face or body copy in mono.
+- **Don't** add looping motion beyond the current-topic pulse.
+- **Don't** invent encouragement, social proof, or marketing headings.
+- **Don't** replace the field-notebook world with a generic dashboard look.
