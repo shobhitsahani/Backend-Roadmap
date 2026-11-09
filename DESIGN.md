@@ -56,7 +56,7 @@ typography:
     letterSpacing: "0.06em"
   micro:
     fontFamily: "JetBrains Mono, ui-monospace, monospace"
-    fontSize: "0.625rem"
+    fontSize: "0.6875rem"
     fontWeight: 500
     lineHeight: 1.3
     letterSpacing: "0.14em"
@@ -180,7 +180,7 @@ A near-neutral graphite range carries almost the whole screen; four flat phase h
 - **Body** (400, 15px / 1.55): interface copy and notes; 17px for lead paragraphs.
 - **Caption** (400, 13px / 1.45): helper text.
 - **Label** (500, 12px / 1.35, +0.06em, uppercase, mono): metadata, buttons, chips.
-- **Micro** (500, 10px / 1.3, +0.14em, uppercase, mono): eyebrows, chart axes, keyboard hints.
+- **Micro** (500, 11px / 1.3, +0.14em, uppercase, mono): eyebrows, chart axes, keyboard hints.
 
 ### Named Rules
 

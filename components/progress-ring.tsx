@@ -75,7 +75,7 @@ export function ProgressRing({
       {showValue ? (
         <span
           aria-hidden="true"
-          className="absolute inset-0 grid place-items-center font-mono text-[0.55rem] font-medium tracking-[-0.05em] text-ink"
+          className="absolute inset-0 grid place-items-center font-mono text-micro font-medium tracking-[-0.05em] text-ink"
         >
           <TickingNumber value={normalized} suffix="%" duration={0.4} />
         </span>
