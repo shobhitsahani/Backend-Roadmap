@@ -4,15 +4,13 @@ import React, { useState } from "react";
 import { useReducedMotion } from "motion/react";
 import { type Edge } from "@xyflow/react";
 
-import { cn } from "@/lib/utils";
-
 export type PhaseFlowEdgeData = {
   phaseOrder: number;
 };
 
-export type PhaseFlowEdge = Edge & {
+export type PhaseFlowEdgeProps = Edge & {
   type: "phase-flow";
-  data: PhaseFlowEdgeData;
+  data?: PhaseFlowEdgeData;
   sourceX?: number;
   sourceY?: number;
   targetX?: number;
@@ -27,7 +25,7 @@ export function PhaseFlowEdge({
   targetY,
   data,
   style,
-}: PhaseFlowEdge) {
+}: PhaseFlowEdgeProps) {
   const reduceMotion = useReducedMotion();
   const [offset] = useState(0);
 
@@ -41,16 +39,18 @@ export function PhaseFlowEdge({
 
   const d = `M ${sx} ${sy} C ${cp1x} ${sy} ${cp2x} ${ty} ${tx} ${ty}`;
 
-  const phaseColor = `var(--phase-${Math.max(1, Math.min(4, data.phaseOrder))})`;
+  const phaseOrder = Math.max(1, Math.min(4, data?.phaseOrder ?? 1));
+  const phaseColor = `var(--phase-${phaseOrder})`;
 
   return (
     <path
       id={id}
       d={d}
       fill="none"
-      stroke={cn(phaseColor, style?.stroke)}
-      strokeWidth={1}
-      strokeOpacity={0.3}
+      stroke={phaseColor}
+      strokeWidth={1.25}
+      strokeOpacity={0.38}
+      strokeLinecap="round"
       strokeDasharray={reduceMotion ? "none" : "240"}
       strokeDashoffset={reduceMotion ? 0 : offset}
       style={style}
