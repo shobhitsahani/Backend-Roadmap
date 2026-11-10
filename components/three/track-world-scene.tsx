@@ -1,8 +1,8 @@
 "use client";
 
-import { useFrame, type ThreeElements } from "@react-three/fiber";
+import { useFrame, useThree, type ThreeElements } from "@react-three/fiber";
 import * as THREE from "three";
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useEffect } from "react";
 
 import { threeColorFromCssVar } from "./track-world-colors";
 import { consumeTrackWorldDolly } from "./track-world-events";
@@ -25,13 +25,24 @@ function readSceneColors(): SceneColors {
 
 const PULSE_COUNT = 6;
 
-export function TrackWorldScene(props: ThreeElements["group"]) {
+type TrackWorldMode = "both" | "backend" | "ai-engineer";
+
+export function TrackWorldScene({
+  activeTrack = "both",
+  ...props
+}: ThreeElements["group"] & { activeTrack?: TrackWorldMode }) {
   const colors = useMemo(() => readSceneColors(), []);
+  const activeTrackRef = useRef(activeTrack);
+  useEffect(() => {
+    activeTrackRef.current = activeTrack;
+  }, [activeTrack]);
+  const invalidate = useThree((state) => state.invalidate);
   const pulseEdges = CONSTELLATION_EDGES;
   const ref = useRef<THREE.Group>(null);
   const latticeRef = useRef<THREE.Group>(null);
   const aiRef = useRef<THREE.Group>(null);
   const pulseRefs = useRef<Array<THREE.Mesh | null>>(Array(PULSE_COUNT).fill(null));
+  const prevActiveRef = useRef<TrackWorldMode | null>(null);
 
   const latticePositions = useMemo(() => {
     const array = new Float32Array(LATTICE_NODES.length * 3);
@@ -78,11 +89,25 @@ export function TrackWorldScene(props: ThreeElements["group"]) {
   }, []);
 
   useFrame(() => {
+    const currentActive = activeTrackRef.current;
+    if (prevActiveRef.current !== currentActive) {
+      prevActiveRef.current = currentActive;
+      if (latticeRef.current) {
+        latticeRef.current.userData.targetZ =
+          currentActive === "backend" ? 3.2 : currentActive === "ai-engineer" ? 9 : 4.5;
+      }
+      if (aiRef.current) {
+        aiRef.current.userData.targetZ =
+          currentActive === "ai-engineer"
+            ? -1.2
+            : currentActive === "backend"
+              ? -4.5
+              : -4.5;
+      }
+    }
+
     const request = consumeTrackWorldDolly();
     if (request) {
-      // A click asked to approach the chosen track: push the matching cluster
-      // and its caption corridor toward the camera. No easing tricks — the
-      // z-lerp is the whole move.
       if (latticeRef.current && aiRef.current) {
         latticeRef.current.userData.targetZ = request.slug === "backend" ? 3.2 : 9;
         aiRef.current.userData.targetZ = request.slug === "ai-engineer" ? -1.2 : -4.5;
@@ -120,6 +145,7 @@ export function TrackWorldScene(props: ThreeElements["group"]) {
       );
       mesh.scale.setScalar(0.75 + 0.5 * Math.sin(phase * Math.PI));
     });
+    invalidate();
   });
 
   return (

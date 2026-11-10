@@ -214,7 +214,8 @@ export function LandingPage({ mode, tracks, snapshots }: LandingPageProps) {
             aria-label="The recommended path"
             className="self-start border border-hairline bg-panel p-6 lg:col-span-5"
           >
-            <p className="font-mono text-micro tracking-[0.2em] text-ink-subtle uppercase">
+            <TrackWorldSection tilt dollyThenNavigate activeTrack="both" height={240} />
+            <p className="mt-5 font-mono text-micro tracking-[0.2em] text-ink-subtle uppercase">
               Recommended path
             </p>
             <ol className="mt-5">
@@ -260,8 +261,6 @@ export function LandingPage({ mode, tracks, snapshots }: LandingPageProps) {
             </ol>
           </aside>
         </section>
-
-        <TrackWorldSection />
 
         <section
           id="tracks"

@@ -12,14 +12,12 @@ function FrameOnce() {
   return null;
 }
 
-/**
- * Runtime shell for the R3F canvas. Kept as its own file so next/dynamic
- * can `ssr: false` it as a client-only boundary.
- */
 export default function TrackWorldCanvas({
   staticFrame = false,
+  activeTrack = "both",
 }: {
   staticFrame?: boolean;
+  activeTrack?: "both" | "backend" | "ai-engineer";
 }) {
   return (
     <Canvas
@@ -30,7 +28,7 @@ export default function TrackWorldCanvas({
       camera={{ position: [0, 0.4, 9], fov: 48 }}
     >
       {staticFrame ? <FrameOnce /> : null}
-      <TrackWorldScene />
+      <TrackWorldScene activeTrack={activeTrack} />
     </Canvas>
   );
 }

@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { RoadmapOverview } from "@/components/roadmap/overview";
 import { PhaseSection } from "@/components/roadmap/phase-section";
 import { GraphScreen } from "@/components/graph/graph-screen";
+import { TrackHeaderScene } from "@/components/three/track-world";
 import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { duration, ease } from "@/lib/motion";
@@ -37,6 +38,9 @@ export function RoadmapScreen() {
 
   return (
     <div className="pt-8 md:pt-12">
+      <TrackHeaderScene
+        activeTrack={track.slug === "ai-engineer" ? "ai-engineer" : "backend"}
+      />
       <RoadmapOverview
         phases={phases}
         progress={progress}
