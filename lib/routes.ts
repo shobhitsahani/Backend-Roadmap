@@ -62,7 +62,7 @@ export function trackSwitchHref(
   }
   if (section === "roadmap") {
     const view = new URLSearchParams(search).get("view");
-    if (view === "list" || view === "graph") {
+    if (view === "list" || view === "graph" || view === "journey") {
       return `/${targetSlug}?view=${view}`;
     }
     return `/${targetSlug}`;
@@ -74,12 +74,18 @@ export function trackSwitchHref(
  * B1 renders the map for `?view=journey` until the 3D journey view lands.
  * Keeping the parser here means the fallback is tested in one place.
  */
-export function parseRoadmapView(value: string | null): "list" | "graph" {
-  return value === "graph" || value === "journey" ? "graph" : "list";
+export function parseRoadmapView(value: string | null): "list" | "graph" | "journey" {
+  if (value === "graph") return "graph";
+  if (value === "journey") return "journey";
+  return "list";
 }
 
-export function roadmapViewHref(pathname: string, view: "list" | "graph"): string {
-  return view === "graph" ? `${pathname}?view=graph` : pathname;
+export function roadmapViewHref(
+  pathname: string,
+  view: "list" | "graph" | "journey",
+): string {
+  if (view === "list") return pathname;
+  return `${pathname}?view=${view}`;
 }
 
 export function isRoadmapView(value: string | null): value is RoadmapView {
