@@ -23,6 +23,7 @@ export const contentTopicSchema = z.object({
   flow: z.string().nullable().default(null),
   estimated: z.boolean().default(false),
   linkedTopicId: z.string().nullable().default(null),
+  honestyNote: z.string().nullable().default(null),
   subtopics: z.array(contentSubtopicSchema).default([]),
   resources: z.array(contentResourceSchema).default([]),
 });

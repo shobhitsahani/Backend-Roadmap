@@ -37,6 +37,11 @@ export function RoadmapOverview({
       <div>
         <h1 className="max-w-3xl font-display text-display-sm leading-[0.98] font-semibold tracking-[-0.045em] text-balance md:text-display">
           {track.title} roadmap<span className="text-phase-1">.</span>
+          {track.slug === "ai-engineer" ? (
+            <span className="ml-3 align-middle font-mono text-micro tracking-[0.14em] text-ink-subtle uppercase">
+              TypeScript
+            </span>
+          ) : null}
         </h1>
         <p className="mt-4 font-mono text-micro tracking-[0.16em] text-phase-1 uppercase">
           Field manual / {progress.totalWeeks} weeks /{" "}

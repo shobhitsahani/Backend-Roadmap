@@ -52,6 +52,7 @@ export const topicSchema = z.object({
   flow: z.string().nullable(),
   estimated: z.boolean(),
   linkedTopicId: z.string().nullable(),
+  honestyNote: z.string().nullable(),
   status: topicStatusSchema,
   notes: z.string(),
   /** True when the status comes from the linked Backend topic, not this track. */

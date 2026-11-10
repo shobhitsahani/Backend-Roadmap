@@ -162,6 +162,7 @@ export async function getRoadmapSnapshot(
             flow: topic.flow,
             estimated: topic.estimated,
             linkedTopicId: topic.linkedTopicId,
+            honestyNote: topic.honestyNote,
             status: resolvedStatus.get(topic.id) ?? "not_started",
             notes: stateByTopic.get(topic.id)?.notes ?? "",
             mirrored: mirrored.has(topic.id),

@@ -6,9 +6,9 @@ export const aiEngineerTrack = trackContentSchema.parse({
   title: "AI Engineer",
   subtitle: "From retrieval to agents in production",
   summary:
-    "Applied AI for engineers who already ship software: models, retrieval, agents, and the production systems around them.",
+    "Applied AI for engineers who already ship software: models, retrieval, agents, and the production systems around them. Every topic, tool, library and code sample is JavaScript/TypeScript: AI products need a UI, the UI is TypeScript, and one language end to end means shared types and code between the frontend and the AI backend.",
   footer:
-    "Durations are estimates. Curriculum adapted from Coder's Gyan, “Fastest AI Engineers Roadmap for 2027”.",
+    'Durations are estimates. Curriculum adapted from Coder\'s Gyan, "Fastest AI Engineers Roadmap for 2027".',
   order: 2,
   identityHue: 62,
   sourceTitle: "AI Engineer Roadmap 2027",
@@ -116,178 +116,204 @@ export const aiEngineerTrack = trackContentSchema.parse({
     },
     {
       id: "ai-foundations",
-      title: "Python and LLM foundations",
+      title: "AI primitives",
       subtitle:
-        "The working language of AI engineering, then how models actually behave.",
+        "TypeScript end to end: language fluency, model APIs, prompts, and context budgets.",
       tip: "Build small, observable scripts before you build an application. The model is the easy part.",
       order: 2,
       topics: [
         {
-          id: "ai-python",
-          title: "Python for AI engineers",
+          id: "typescript-for-ai-engineering",
+          title: "TypeScript for AI engineering",
           summary:
-            "Typed Python, async clients, packaging, and the shape of a small AI service.",
-          durationWeeks: 3,
+            "Strict TypeScript as the only language of the track: async iterators and streaming, cancellation, validation, and tests.",
+          durationWeeks: 1,
           order: 1,
-          tip: "Most AI tooling is Python-first. Learn enough to read library source when the docs stop.",
+          tip: "One language end to end means shared types and code between the frontend and the AI backend.",
           outcome:
-            "Ship a typed Python service with one async model call, validation, and tests.",
-          flow: "input → pydantic model → async client → typed response → test",
+            "Ship a streaming AI endpoint in strict TypeScript with cancellation, validation, and tests.",
+          flow: "tsconfig strict → async iterator → ReadableStream → Zod → AbortController → test",
           estimated: true,
           linkedTopicId: null,
           subtopics: [
+            { id: "ts-ai-1", title: "Strict tsconfig and project layout", order: 1 },
             {
-              id: "ai-python-1",
-              title: "Typing, dataclasses, and Pydantic models",
-              order: 1,
-            },
-            {
-              id: "ai-python-2",
-              title: "Async I/O and HTTP clients",
+              id: "ts-ai-2",
+              title: "Async iterators and streaming (SSE, ReadableStream)",
               order: 2,
             },
-            {
-              id: "ai-python-3",
-              title: "Packaging, environments, and dependency pinning",
-              order: 3,
-            },
-            {
-              id: "ai-python-4",
-              title: "Turn a notebook into a tested module",
-              order: 4,
-            },
+            { id: "ts-ai-3", title: "AbortController, retries, and timeouts", order: 3 },
+            { id: "ts-ai-4", title: "Zod schemas and env validation", order: 4 },
+            { id: "ts-ai-5", title: "Vitest for AI code", order: 5 },
           ],
           resources: [
             {
-              id: "ai-python-tutorial",
-              title: "The Python Tutorial",
-              url: "https://docs.python.org/3/tutorial/",
+              id: "ts-ai-handbook",
+              title: "TypeScript handbook",
+              url: "https://www.typescriptlang.org/docs/handbook/intro.html",
             },
             {
-              id: "ai-python-asyncio",
-              title: "asyncio — asynchronous I/O",
-              url: "https://docs.python.org/3/library/asyncio.html",
+              id: "ts-ai-node",
+              title: "Node.js documentation",
+              url: "https://nodejs.org/docs/latest/api/",
             },
             {
-              id: "ai-python-pydantic",
-              title: "Pydantic documentation",
-              url: "https://docs.pydantic.dev/latest/",
+              id: "ts-ai-zod",
+              title: "Zod documentation",
+              url: "https://zod.dev/",
             },
             {
-              id: "ai-python-fastapi",
-              title: "FastAPI tutorial",
-              url: "https://fastapi.tiangolo.com/tutorial/",
+              id: "ts-ai-vitest",
+              title: "Vitest documentation",
+              url: "https://vitest.dev/",
             },
           ],
         },
         {
           id: "ai-llm-fundamentals",
-          title: "How LLMs work",
+          title: "LLM fundamentals and APIs",
           summary:
-            "Tokens, context windows, sampling, and the real cost and latency trade-offs between models.",
-          durationWeeks: 2,
+            "Call models with the official TypeScript SDKs (OpenAI, Anthropic) and plain fetch first, then the Vercel AI SDK as the unified API.",
+          durationWeeks: 1,
           order: 2,
-          tip: "You do not need to train a model to engineer with one. You do need to know why output varies.",
+          tip: "Start with plain fetch and an SDK. You need to feel the raw request before a framework hides it.",
           outcome:
-            "Choose a model and settings for a task, and explain the cost, latency, and quality trade-off.",
-          flow: "prompt → tokens → model → sampling → output",
+            "Build a streaming chat endpoint in a Next.js route handler using generateText and streamText.",
+          flow: "prompt → tokens → model → sampling → stream → route handler",
           estimated: true,
           linkedTopicId: null,
           subtopics: [
             {
-              id: "ai-llm-1",
+              id: "llm-ts-1",
               title: "Tokens, context windows, and truncation",
               order: 1,
             },
             {
-              id: "ai-llm-2",
+              id: "llm-ts-2",
               title: "Temperature, top-p, and deterministic-enough output",
               order: 2,
             },
+            { id: "llm-ts-3", title: "OpenAI and Anthropic TypeScript SDKs", order: 3 },
             {
-              id: "ai-llm-3",
-              title: "Model selection: quality, latency, and price",
-              order: 3,
-            },
-            {
-              id: "ai-llm-4",
-              title: "Structured output and JSON schemas",
-              order: 4,
-            },
-          ],
-          resources: [
-            {
-              id: "ai-llm-hf-course",
-              title: "Hugging Face LLM course",
-              url: "https://huggingface.co/learn/llm-course",
-            },
-            {
-              id: "ai-llm-gemini",
-              title: "Gemini API documentation",
-              url: "https://ai.google.dev/gemini-api/docs",
-            },
-            {
-              id: "ai-llm-structured",
-              title: "Structured outputs guide",
-              url: "https://platform.openai.com/docs/guides/structured-outputs",
-            },
-          ],
-        },
-        {
-          id: "ai-prompting",
-          title: "Prompt engineering",
-          summary:
-            "Prompts as interfaces: instructions, examples, decomposition, and defenses against injected input.",
-          durationWeeks: 3,
-          order: 3,
-          tip: "A prompt that cannot be evaluated is a guess. Write the check first.",
-          outcome:
-            "Maintain a versioned prompt with examples, failure cases, and an evaluation set.",
-          flow: "task → instructions → examples → output contract → eval",
-          estimated: true,
-          linkedTopicId: null,
-          subtopics: [
-            {
-              id: "ai-prompting-1",
-              title: "System, developer, and user instructions",
-              order: 1,
-            },
-            {
-              id: "ai-prompting-2",
-              title: "Few-shot examples and output contracts",
-              order: 2,
-            },
-            {
-              id: "ai-prompting-3",
-              title: "Task decomposition and reasoning budgets",
-              order: 3,
-            },
-            {
-              id: "ai-prompting-4",
-              title: "Prompt injection and instruction boundaries",
+              id: "llm-ts-4",
+              title: "Vercel AI SDK generateText and streamText",
               order: 4,
             },
             {
-              id: "ai-prompting-5",
-              title: "Iterate against a small evaluation set",
+              id: "llm-ts-5",
+              title: "Streaming chat endpoint in a Next.js route handler",
               order: 5,
             },
           ],
           resources: [
             {
-              id: "ai-prompting-openai",
+              id: "llm-ts-openai",
+              title: "OpenAI Node.js library",
+              url: "https://github.com/openai/openai-node",
+            },
+            {
+              id: "llm-ts-anthropic",
+              title: "Anthropic TypeScript SDK",
+              url: "https://docs.anthropic.com/en/docs/initial-setup/typescript",
+            },
+            {
+              id: "llm-ts-ai-sdk",
+              title: "Vercel AI SDK documentation",
+              url: "https://ai-sdk.dev/docs/introduction",
+            },
+            {
+              id: "llm-ts-next",
+              title: "Next.js route handlers",
+              url: "https://nextjs.org/docs/app/building-your-application/routing/route-handlers",
+            },
+          ],
+        },
+        {
+          id: "ai-prompting",
+          title: "Prompting",
+          summary:
+            "Prompts as typed template functions: instructions, examples, personas, versioning, and defences against injected input.",
+          durationWeeks: 1,
+          order: 3,
+          tip: "A prompt that cannot be evaluated is a guess. Write the check first.",
+          outcome:
+            "Maintain a versioned prompt as a typed function with examples, failure cases, and an evaluation set.",
+          flow: "task → instructions → examples → output contract → eval",
+          estimated: true,
+          linkedTopicId: null,
+          subtopics: [
+            {
+              id: "prompt-ts-1",
+              title: "System, developer, and user instructions",
+              order: 1,
+            },
+            {
+              id: "prompt-ts-2",
+              title: "Few-shot examples and output contracts",
+              order: 2,
+            },
+            {
+              id: "prompt-ts-3",
+              title: "Task decomposition and reasoning budgets",
+              order: 3,
+            },
+            {
+              id: "prompt-ts-4",
+              title: "Prompt injection and instruction boundaries",
+              order: 4,
+            },
+            {
+              id: "prompt-ts-5",
+              title: "Prompts as typed template functions and versioning",
+              order: 5,
+            },
+          ],
+          resources: [
+            {
+              id: "prompt-ts-openai",
               title: "Prompt engineering guide — OpenAI",
               url: "https://platform.openai.com/docs/guides/prompt-engineering",
             },
             {
-              id: "ai-prompting-anthropic",
+              id: "prompt-ts-anthropic",
               title: "Prompt engineering overview — Anthropic",
               url: "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview",
             },
+          ],
+        },
+        {
+          id: "ai-context-engineering",
+          title: "Context engineering and model selection",
+          summary:
+            "Token counting, context bloat, truncation and summarization, model capabilities, and switching models through the AI SDK provider layer.",
+          durationWeeks: 1,
+          order: 4,
+          tip: "Context is a budget. Spend it on the facts the answer needs, nothing else.",
+          outcome:
+            "Choose a model and context strategy for a task, and explain the cost, latency, and quality trade-off.",
+          flow: "count → trim → summarize → select model → measure cost and latency",
+          estimated: true,
+          linkedTopicId: null,
+          subtopics: [
+            { id: "ctx-ts-1", title: "Token counting and context bloat", order: 1 },
+            { id: "ctx-ts-2", title: "Truncation and summarization", order: 2 },
             {
-              id: "ai-prompting-guide",
-              title: "Prompt Engineering Guide",
-              url: "https://www.promptingguide.ai/",
+              id: "ctx-ts-3",
+              title: "Text, vision, and audio model capabilities",
+              order: 3,
+            },
+            {
+              id: "ctx-ts-4",
+              title: "Switching models through the AI SDK provider layer",
+              order: 4,
+            },
+            { id: "ctx-ts-5", title: "Cost and latency trade-offs", order: 5 },
+          ],
+          resources: [
+            {
+              id: "ctx-ts-ai-sdk",
+              title: "Vercel AI SDK providers",
+              url: "https://ai-sdk.dev/docs/foundations/providers-and-models",
             },
           ],
         },
@@ -295,124 +321,387 @@ export const aiEngineerTrack = trackContentSchema.parse({
     },
     {
       id: "ai-retrieval",
-      title: "RAG and knowledge systems",
+      title: "AI systems",
       subtitle:
-        "Give a model your data: embeddings, retrieval, citations, and the evaluation that keeps it honest.",
-      tip: "Most RAG failures are retrieval failures. Inspect what the model was given before you change the prompt.",
+        "Build each piece from scratch with a provider SDK or fetch plus Zod. No framework yet.",
+      tip: "No framework until you have written the loop yourself. The framework is the last thing, not the first.",
       order: 3,
       topics: [
         {
-          id: "ai-embeddings",
-          title: "Embeddings and vector search",
+          id: "ai-agent-loops",
+          title: "Agent loop",
           summary:
-            "Turn text into vectors, choose a similarity measure, chunk deliberately, and index for recall.",
-          durationWeeks: 2,
+            "Write your own loop in TypeScript: the model returns a tool call or a final answer, with max steps and stop conditions.",
+          durationWeeks: 1,
           order: 1,
-          tip: "Chunk size is a product decision: too small loses context, too large dilutes the match.",
+          tip: "An agent is a loop with tools and a stopping condition. If you cannot describe the stop, do not ship the loop.",
           outcome:
-            "Build a searchable index over a real document set and inspect nearest neighbours.",
-          flow: "documents → chunks → embeddings → index → nearest neighbours",
+            "Build a bounded agent loop, then compare it with the Vercel AI SDK's ToolLoopAgent.",
+          flow: "goal → model call → tool call or final → observe → stop",
           estimated: true,
           linkedTopicId: null,
           subtopics: [
+            { id: "agent-loop-1", title: "The plan-act-observe loop", order: 1 },
+            { id: "agent-loop-2", title: "Max steps and stop conditions", order: 2 },
+            { id: "agent-loop-3", title: "Tool call parsing and dispatch", order: 3 },
+            { id: "agent-loop-4", title: "Compare with ToolLoopAgent", order: 4 },
+          ],
+          resources: [
             {
-              id: "ai-embeddings-1",
-              title: "Embedding models and dimensions",
-              order: 1,
+              id: "agent-loop-ai-sdk",
+              title: "Vercel AI SDK tool calling",
+              url: "https://ai-sdk.dev/docs/ai-sdk-core/tools-and-tool-calling",
             },
             {
-              id: "ai-embeddings-2",
-              title: "Cosine, dot product, and distance metrics",
-              order: 2,
+              id: "agent-loop-anthropic",
+              title: "Building effective agents — Anthropic",
+              url: "https://www.anthropic.com/research/building-effective-agents",
+            },
+          ],
+        },
+        {
+          id: "ai-structured-outputs",
+          title: "Structured outputs",
+          summary:
+            "Zod schemas, JSON-schema-constrained output, validate and retry on failure, then the AI SDK structured output API.",
+          durationWeeks: 1,
+          order: 2,
+          tip: "Validate every model output against a schema. Never trust model output.",
+          outcome:
+            "Generate and validate a typed object from a prompt, with retry on failure.",
+          flow: "schema → constrained generation → parse → validate → retry",
+          estimated: true,
+          linkedTopicId: null,
+          subtopics: [
+            { id: "struct-1", title: "Zod schemas as output contracts", order: 1 },
+            { id: "struct-2", title: "JSON-schema-constrained generation", order: 2 },
+            { id: "struct-3", title: "Validate and retry on failure", order: 3 },
+            { id: "struct-4", title: "AI SDK Output.object and Output.array", order: 4 },
+          ],
+          resources: [
+            {
+              id: "struct-openai",
+              title: "Structured outputs guide — OpenAI",
+              url: "https://platform.openai.com/docs/guides/structured-outputs",
             },
             {
-              id: "ai-embeddings-3",
-              title: "Chunking strategy and metadata",
-              order: 3,
+              id: "struct-ai-sdk",
+              title: "Generating structured data — AI SDK",
+              url: "https://ai-sdk.dev/docs/ai-sdk-core/generating-structured-data",
             },
+          ],
+        },
+        {
+          id: "ai-tool-calling",
+          title: "Tool calling",
+          summary:
+            "Typed tools with Zod input schemas and execute functions: a database query (Drizzle), web search, Google Calendar, sending email.",
+          durationWeeks: 1,
+          order: 3,
+          tip: "Design tools like public APIs: narrow, named for intent, and impossible to misuse silently.",
+          outcome:
+            "Ship a tool-using endpoint with schema validation, retries, and a human confirmation gate.",
+          flow: "user intent → tool schema → validated call → result → model",
+          estimated: true,
+          linkedTopicId: null,
+          subtopics: [
+            { id: "tools-1", title: "Tool schemas and JSON Schema", order: 1 },
+            { id: "tools-2", title: "Typed execute functions with Zod", order: 2 },
+            { id: "tools-3", title: "A Drizzle database query tool", order: 3 },
             {
-              id: "ai-embeddings-4",
-              title: "Vector indexes and filtering",
+              id: "tools-4",
+              title: "Web search, Google Calendar, and email tools",
               order: 4,
+            },
+            {
+              id: "tools-5",
+              title: "Validate tool results and never trust model output",
+              order: 5,
             },
           ],
           resources: [
             {
-              id: "ai-embeddings-openai",
-              title: "Embeddings guide — OpenAI",
-              url: "https://platform.openai.com/docs/guides/embeddings",
+              id: "tools-openai",
+              title: "Function calling guide — OpenAI",
+              url: "https://platform.openai.com/docs/guides/function-calling",
             },
             {
-              id: "ai-embeddings-qdrant",
-              title: "Qdrant concepts",
-              url: "https://qdrant.tech/documentation/concepts/",
+              id: "tools-anthropic",
+              title: "Tool use with Claude",
+              url: "https://docs.anthropic.com/en/docs/build-with-claude/tool-use/overview",
             },
             {
-              id: "ai-embeddings-pgvector",
-              title: "pgvector",
-              url: "https://github.com/pgvector/pgvector",
+              id: "tools-drizzle",
+              title: "Drizzle ORM documentation",
+              url: "https://orm.drizzle.team/docs/overview",
+            },
+            {
+              id: "tools-google-calendar",
+              title: "Google Calendar API overview",
+              url: "https://developers.google.com/calendar/api/guides/overview",
+            },
+          ],
+        },
+        {
+          id: "ai-memory",
+          title: "Memory",
+          summary:
+            "Conversation history in Postgres: thread ids, windowing, and summarization for multi-turn chat.",
+          durationWeeks: 1,
+          order: 4,
+          tip: "Memory is a query problem. Store everything, send only what the turn needs.",
+          outcome:
+            "Persist multi-turn conversations with thread ids and a windowing strategy.",
+          flow: "message → thread id → store → window → summarize → prompt",
+          estimated: true,
+          linkedTopicId: null,
+          subtopics: [
+            { id: "mem-1", title: "Conversation history in Postgres", order: 1 },
+            { id: "mem-2", title: "Thread ids and ownership", order: 2 },
+            { id: "mem-3", title: "Windowing and summarization", order: 3 },
+            { id: "mem-4", title: "Multi-turn chat end to end", order: 4 },
+          ],
+          resources: [
+            {
+              id: "mem-drizzle",
+              title: "Drizzle ORM documentation",
+              url: "https://orm.drizzle.team/docs/overview",
+            },
+            {
+              id: "mem-pg",
+              title: "PostgreSQL documentation",
+              url: "https://www.postgresql.org/docs/",
+            },
+          ],
+        },
+        {
+          id: "ai-workflows",
+          title: "Workflows",
+          summary:
+            "Typed multi-step pipelines (search, refine, grade) as plain async functions or a small state machine.",
+          durationWeeks: 1,
+          order: 5,
+          tip: "Prefer a state machine with a visible graph over an open-ended loop you cannot replay.",
+          outcome: "Build a typed pipeline and explain when a workflow beats an agent.",
+          flow: "input → step → state → next step → output",
+          estimated: true,
+          linkedTopicId: null,
+          subtopics: [
+            { id: "wf-1", title: "Typed multi-step pipelines", order: 1 },
+            { id: "wf-2", title: "Plain async functions vs state machines", order: 2 },
+            { id: "wf-3", title: "Search, refine, grade pipeline", order: 3 },
+            { id: "wf-4", title: "When a workflow beats an agent", order: 4 },
+          ],
+          resources: [
+            {
+              id: "wf-ai-sdk",
+              title: "Workflow patterns — AI SDK",
+              url: "https://ai-sdk.dev/docs/agents/workflows",
             },
           ],
         },
         {
           id: "ai-rag",
-          title: "Retrieval pipelines",
+          title: "RAG pipelines",
           summary:
-            "Ingestion, hybrid search, reranking, context assembly, and citations that point at real sources.",
-          durationWeeks: 3,
-          order: 2,
-          tip: "A citation is only useful if it resolves to the passage the answer actually used.",
+            "Chunking, embeddings, pgvector with Drizzle, similarity search, reranking, citations, and an ingestion script.",
+          durationWeeks: 2,
+          order: 6,
+          tip: "Most RAG failures are retrieval failures. Inspect what the model was given before you change the prompt.",
           outcome:
             "Ship a retrieval pipeline that answers with quoted, linked sources and degrades when nothing matches.",
-          flow: "query → retrieve → rerank → assemble context → answer + citations",
+          flow: "documents → chunks → embeddings → pgvector → retrieve → rerank → answer + citations",
           estimated: true,
           linkedTopicId: null,
           subtopics: [
-            {
-              id: "ai-rag-1",
-              title: "Ingestion, deduplication, and metadata",
-              order: 1,
-            },
-            {
-              id: "ai-rag-2",
-              title: "Hybrid search and reranking",
-              order: 2,
-            },
-            {
-              id: "ai-rag-3",
-              title: "Context assembly and token budgets",
-              order: 3,
-            },
-            {
-              id: "ai-rag-4",
-              title: "Citations, grounding, and abstention",
-              order: 4,
-            },
+            { id: "rag-1", title: "Chunking strategy and metadata", order: 1 },
+            { id: "rag-2", title: "Embeddings and vector search", order: 2 },
+            { id: "rag-3", title: "pgvector with Drizzle", order: 3 },
+            { id: "rag-4", title: "Similarity search and reranking", order: 4 },
+            { id: "rag-5", title: "Citations, grounding, and abstention", order: 5 },
+            { id: "rag-6", title: "Ingestion script and support chatbot", order: 6 },
           ],
           resources: [
             {
-              id: "ai-rag-llamaindex",
-              title: "LlamaIndex documentation",
-              url: "https://docs.llamaindex.ai/en/stable/",
+              id: "rag-openai-emb",
+              title: "Embeddings guide — OpenAI",
+              url: "https://platform.openai.com/docs/guides/embeddings",
             },
             {
-              id: "ai-rag-contextual",
-              title: "Contextual retrieval — Anthropic",
-              url: "https://www.anthropic.com/research/contextual-retrieval",
+              id: "rag-pgvector",
+              title: "pgvector",
+              url: "https://github.com/pgvector/pgvector",
             },
             {
-              id: "ai-rag-qdrant",
-              title: "Qdrant documentation",
+              id: "rag-drizzle",
+              title: "Drizzle ORM documentation",
+              url: "https://orm.drizzle.team/docs/overview",
+            },
+            {
+              id: "rag-qdrant",
+              title: "Qdrant concepts",
               url: "https://qdrant.tech/documentation/concepts/",
             },
           ],
         },
         {
-          id: "ai-rag-eval",
-          title: "RAG evaluation",
+          id: "ai-agentic-patterns",
+          title: "Agentic patterns",
           summary:
-            "Golden sets, retrieval metrics, answer faithfulness, and regression runs that catch drift.",
-          durationWeeks: 3,
+            "Routing, parallelization, human-in-the-loop approval, reflection, and plan-and-execute as small TypeScript modules.",
+          durationWeeks: 2,
+          order: 7,
+          tip: "One small module per pattern. A pattern you cannot read in one screen is not a pattern.",
+          outcome:
+            "Implement each pattern as a module and pick the right one for a given task.",
+          flow: "pattern → module → test → compare",
+          estimated: true,
+          linkedTopicId: null,
+          subtopics: [
+            { id: "agentic-1", title: "Routing", order: 1 },
+            { id: "agentic-2", title: "Parallelization with Promise.all", order: 2 },
+            { id: "agentic-3", title: "Human-in-the-loop approval", order: 3 },
+            { id: "agentic-4", title: "Reflection (one model checks another)", order: 4 },
+            { id: "agentic-5", title: "Plan-and-execute", order: 5 },
+          ],
+          resources: [
+            {
+              id: "agentic-anthropic",
+              title: "Building effective agents — Anthropic",
+              url: "https://www.anthropic.com/research/building-effective-agents",
+            },
+          ],
+        },
+        {
+          id: "ai-frameworks",
+          title: "Frameworks",
+          summary:
+            "Only after the above: Vercel AI SDK, Mastra, LangGraph.js, and OpenAI Agents SDK for JS.",
+          durationWeeks: 1,
+          order: 8,
+          tip: "Pick one and rebuild one of your earlier modules with it. That is the only way to learn the framework.",
+          outcome: "Rebuild one earlier module with a chosen framework and compare.",
+          flow: "choose → rebuild → compare → decide",
+          estimated: true,
+          linkedTopicId: null,
+          subtopics: [
+            {
+              id: "fw-1",
+              title:
+                "Vercel AI SDK: agents, tools, structured output, MCP, tool approval",
+              order: 1,
+            },
+            {
+              id: "fw-2",
+              title: "Mastra: agents, workflows, memory, RAG, evals",
+              order: 2,
+            },
+            { id: "fw-3", title: "LangGraph.js and LangChain.js", order: 3 },
+            { id: "fw-4", title: "OpenAI Agents SDK for JavaScript", order: 4 },
+          ],
+          resources: [
+            {
+              id: "fw-ai-sdk",
+              title: "Vercel AI SDK documentation",
+              url: "https://ai-sdk.dev/docs/introduction",
+            },
+            {
+              id: "fw-mastra",
+              title: "Mastra documentation",
+              url: "https://mastra.ai/docs",
+            },
+            {
+              id: "fw-langgraph",
+              title: "LangGraph.js documentation",
+              url: "https://langchain-ai.github.io/langgraphjs/",
+            },
+            {
+              id: "fw-openai-agents",
+              title: "OpenAI Agents SDK for JavaScript",
+              url: "https://openai.github.io/openai-agents-js/",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: "ai-agents",
+      title: "Production AI",
+      subtitle:
+        "Guardrails, observability, evals, self-hosting, MCP, fine-tuning, and billing.",
+      tip: "Production AI is ordinary distributed systems work with a nondeterministic dependency in the middle.",
+      order: 4,
+      topics: [
+        {
+          id: "ai-guardrails",
+          title: "Guardrails",
+          summary:
+            "Validate and screen input before it reaches the model, validate output against schemas, and allow-list tools.",
+          durationWeeks: 1,
+          order: 1,
+          tip: "Treat retrieved documents and model output as untrusted input at every boundary.",
+          outcome:
+            "Implement input screening, output validation, and tool allow-lists as middleware or processors.",
+          flow: "input → screen → model → validate output → allow-listed tools",
+          estimated: true,
+          linkedTopicId: null,
+          subtopics: [
+            { id: "guard-1", title: "Prompt-injection checks", order: 1 },
+            { id: "guard-2", title: "PII redaction", order: 2 },
+            { id: "guard-3", title: "Output validation against schemas", order: 3 },
+            { id: "guard-4", title: "Tool allow-lists", order: 4 },
+          ],
+          resources: [
+            {
+              id: "guard-owasp",
+              title: "OWASP Top 10 for LLM applications",
+              url: "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+            },
+          ],
+        },
+        {
+          id: "ai-observability",
+          title: "Observability",
+          summary:
+            "Trace every request and tool call with Langfuse, self-hostable via OpenTelemetry with AI SDK integration.",
+          durationWeeks: 1,
+          order: 2,
+          tip: "Log the prompt version, model, token counts, and outcome for every call. Without them, incidents are guesswork.",
+          outcome:
+            "Instrument an AI endpoint with traces, token cost, p95 latency, and an explicit fallback.",
+          flow: "request → span → model call → tokens → metric → alert",
+          estimated: true,
+          linkedTopicId: null,
+          subtopics: [
+            { id: "obs-1", title: "Traces, spans, and prompt versions", order: 1 },
+            { id: "obs-2", title: "Token accounting and unit economics", order: 2 },
+            { id: "obs-3", title: "Latency budgets and streaming UX", order: 3 },
+            { id: "obs-4", title: "Fallback models and graceful degradation", order: 4 },
+          ],
+          resources: [
+            {
+              id: "obs-langfuse",
+              title: "Langfuse TypeScript SDK",
+              url: "https://langfuse.com/docs/sdk/typescript",
+            },
+            {
+              id: "obs-otel",
+              title: "OpenTelemetry documentation",
+              url: "https://opentelemetry.io/docs/",
+            },
+            {
+              id: "obs-latency",
+              title: "Latency optimization — OpenAI",
+              url: "https://platform.openai.com/docs/guides/latency-optimization",
+            },
+          ],
+        },
+        {
+          id: "ai-evals",
+          title: "Evals",
+          summary:
+            "Evals are tests for LLM behavior: datasets, rule-based and LLM-as-judge scorers, run in CI.",
+          durationWeeks: 2,
           order: 3,
           tip: "Measure retrieval and generation separately, or you will fix the wrong half.",
           outcome:
@@ -422,167 +711,88 @@ export const aiEngineerTrack = trackContentSchema.parse({
           linkedTopicId: null,
           subtopics: [
             {
-              id: "ai-rag-eval-1",
+              id: "eval-1",
               title: "Build a golden question set from real usage",
               order: 1,
             },
             {
-              id: "ai-rag-eval-2",
+              id: "eval-2",
               title: "Retrieval metrics: recall, precision, and rank",
               order: 2,
             },
             {
-              id: "ai-rag-eval-3",
+              id: "eval-3",
               title: "Faithfulness, relevance, and answer quality",
               order: 3,
             },
+            { id: "eval-4", title: "Rule-based and LLM-as-judge scorers", order: 4 },
             {
-              id: "ai-rag-eval-4",
-              title: "Regression runs and release gates",
-              order: 4,
+              id: "eval-5",
+              title: "Regression runs in CI with Vitest or promptfoo",
+              order: 5,
             },
           ],
           resources: [
             {
-              id: "ai-rag-eval-openai",
+              id: "eval-promptfoo",
+              title: "promptfoo documentation",
+              url: "https://www.promptfoo.dev/docs/",
+            },
+            {
+              id: "eval-openai",
               title: "Evals guide — OpenAI",
               url: "https://platform.openai.com/docs/guides/evals",
             },
-            {
-              id: "ai-rag-eval-ragas",
-              title: "Ragas",
-              url: "https://github.com/explodinggradients/ragas",
-            },
-            {
-              id: "ai-rag-eval-langsmith",
-              title: "LangSmith observability",
-              url: "https://docs.langchain.com/langsmith/observability",
-            },
           ],
         },
-      ],
-    },
-    {
-      id: "ai-agents",
-      title: "Agents and tool use",
-      subtitle:
-        "Models that act: tool contracts, loop control, memory, and the boundaries that keep them safe.",
-      tip: "An agent is a loop with tools and a stopping condition. If you cannot describe the stop, do not ship the loop.",
-      order: 4,
-      topics: [
         {
-          id: "ai-tool-calling",
-          title: "Tool calling and structured outputs",
+          id: "ai-self-hosting",
+          title: "Self-hosting open-source models",
           summary:
-            "Give the model typed tools, validate arguments, handle failures, and require confirmation for side effects.",
+            "Serve open-weight models behind an OpenAI-compatible endpoint and call them from TypeScript.",
           durationWeeks: 2,
-          order: 1,
-          tip: "Design tools like public APIs: narrow, named for intent, and impossible to misuse silently.",
+          order: 4,
+          tip: "Needed when data cannot leave the country. Measure before you migrate.",
           outcome:
-            "Ship a tool-using endpoint with schema validation, retries, and a human confirmation gate.",
-          flow: "user intent → tool schema → validated call → result → model",
+            "Run a model locally and in production behind an OpenAI-compatible endpoint, called through the AI SDK.",
+          flow: "model → Ollama or vLLM → OpenAI-compatible endpoint → AI SDK provider → app",
           estimated: true,
           linkedTopicId: null,
           subtopics: [
+            { id: "self-1", title: "Ollama locally", order: 1 },
+            { id: "self-2", title: "vLLM on a server", order: 2 },
+            { id: "self-3", title: "OpenAI-compatible provider in the AI SDK", order: 3 },
             {
-              id: "ai-tools-1",
-              title: "Tool schemas and JSON Schema",
-              order: 1,
-            },
-            {
-              id: "ai-tools-2",
-              title: "Parallel calls and result ordering",
-              order: 2,
-            },
-            {
-              id: "ai-tools-3",
-              title: "Validation, retries, and error messages",
-              order: 3,
-            },
-            {
-              id: "ai-tools-4",
-              title: "Confirmation gates for side effects",
+              id: "self-4",
+              title: "Transformers.js for small models in Node or the browser",
               order: 4,
             },
           ],
           resources: [
             {
-              id: "ai-tools-openai",
-              title: "Function calling guide — OpenAI",
-              url: "https://platform.openai.com/docs/guides/function-calling",
+              id: "self-ollama",
+              title: "Ollama documentation",
+              url: "https://ollama.com/",
             },
             {
-              id: "ai-tools-anthropic",
-              title: "Tool use with Claude",
-              url: "https://docs.anthropic.com/en/docs/build-with-claude/tool-use/overview",
+              id: "self-vllm",
+              title: "vLLM documentation",
+              url: "https://docs.vllm.ai/en/latest/",
             },
             {
-              id: "ai-tools-structured",
-              title: "Structured outputs guide",
-              url: "https://platform.openai.com/docs/guides/structured-outputs",
-            },
-          ],
-        },
-        {
-          id: "ai-agent-loops",
-          title: "Agent loops and orchestration",
-          summary:
-            "ReAct-style loops, explicit state machines, memory, handoffs, and stopping conditions.",
-          durationWeeks: 3,
-          order: 2,
-          tip: "Prefer a state machine with a visible graph over an open-ended loop you cannot replay.",
-          outcome:
-            "Build a bounded agent with persisted state, a step limit, and a trace you can replay.",
-          flow: "goal → plan → act → observe → stop",
-          estimated: true,
-          linkedTopicId: null,
-          subtopics: [
-            {
-              id: "ai-agents-1",
-              title: "The plan-act-observe loop",
-              order: 1,
-            },
-            {
-              id: "ai-agents-2",
-              title: "State machines and durable checkpoints",
-              order: 2,
-            },
-            {
-              id: "ai-agents-3",
-              title: "Memory, summaries, and context hygiene",
-              order: 3,
-            },
-            {
-              id: "ai-agents-4",
-              title: "Handoffs, step limits, and human review",
-              order: 4,
-            },
-          ],
-          resources: [
-            {
-              id: "ai-agents-anthropic",
-              title: "Building effective agents — Anthropic",
-              url: "https://www.anthropic.com/research/building-effective-agents",
-            },
-            {
-              id: "ai-agents-langgraph",
-              title: "LangGraph overview",
-              url: "https://docs.langchain.com/oss/python/langgraph/overview",
-            },
-            {
-              id: "ai-agents-openai-sdk",
-              title: "OpenAI Agents SDK",
-              url: "https://openai.github.io/openai-agents-python/",
+              id: "self-transformers",
+              title: "Transformers.js documentation",
+              url: "https://huggingface.co/docs/transformers.js",
             },
           ],
         },
         {
           id: "ai-mcp",
-          title: "MCP and integrations",
+          title: "MCP",
           summary:
-            "The Model Context Protocol: tools, resources, prompts, transports, and permission boundaries.",
-          durationWeeks: 2,
-          order: 3,
+            "The MCP TypeScript SDK: build an MCP server (tools, resources) and an MCP client, then use MCP tools in an agent.",
+          durationWeeks: 1,
+          order: 5,
           tip: "An MCP server is a capability grant. Scope it like a database user, not like a plugin.",
           outcome:
             "Build and connect an MCP server that exposes one read-only tool with scoped credentials.",
@@ -590,37 +800,98 @@ export const aiEngineerTrack = trackContentSchema.parse({
           estimated: true,
           linkedTopicId: null,
           subtopics: [
+            { id: "mcp-1", title: "MCP primitives: tools, resources, prompts", order: 1 },
+            { id: "mcp-2", title: "Transports and server lifecycle", order: 2 },
+            { id: "mcp-3", title: "Auth, scopes, and least privilege", order: 3 },
+            { id: "mcp-4", title: "Build a small MCP server and client", order: 4 },
             {
-              id: "ai-mcp-1",
-              title: "MCP primitives: tools, resources, prompts",
-              order: 1,
-            },
-            {
-              id: "ai-mcp-2",
-              title: "Transports and server lifecycle",
-              order: 2,
-            },
-            {
-              id: "ai-mcp-3",
-              title: "Auth, scopes, and least privilege",
-              order: 3,
-            },
-            {
-              id: "ai-mcp-4",
-              title: "Build a small MCP server",
-              order: 4,
+              id: "mcp-5",
+              title: "Use MCP tools inside an AI SDK or Mastra agent",
+              order: 5,
             },
           ],
           resources: [
             {
-              id: "ai-mcp-intro",
-              title: "MCP — getting started",
-              url: "https://modelcontextprotocol.io/docs/getting-started/intro",
+              id: "mcp-intro",
+              title: "MCP documentation",
+              url: "https://modelcontextprotocol.io/docs",
             },
             {
-              id: "ai-mcp-architecture",
-              title: "MCP architecture",
-              url: "https://modelcontextprotocol.io/docs/learn/architecture",
+              id: "mcp-ts-sdk",
+              title: "MCP TypeScript SDK",
+              url: "https://ts.sdk.modelcontextprotocol.io/v2/",
+            },
+          ],
+        },
+        {
+          id: "ai-fine-tuning",
+          title: "Fine-tuning",
+          summary:
+            "When to fine-tune versus prompt versus RAG. Prepare JSONL datasets in TypeScript and run hosted fine-tuning through provider APIs.",
+          durationWeeks: 2,
+          order: 6,
+          tip: "Fine-tune last, after prompts and retrieval are measured. Most of the time you do not need it.",
+          outcome:
+            "Prepare a dataset, run hosted fine-tuning, and judge the tuned model with your own eval suite.",
+          flow: "dataset (JSONL) → hosted fine-tuning → eval suite → compare",
+          estimated: true,
+          linkedTopicId: null,
+          honestyNote:
+            "Training open-weight models yourself is mostly done with Python tooling. As a TypeScript engineer you drive hosted fine-tuning and evaluation, and treat open-weight training as out of scope here.",
+          subtopics: [
+            { id: "ft-1", title: "When to fine-tune versus prompt versus RAG", order: 1 },
+            { id: "ft-2", title: "Prepare JSONL datasets in TypeScript", order: 2 },
+            { id: "ft-3", title: "Hosted fine-tuning through provider APIs", order: 3 },
+            { id: "ft-4", title: "Judge the tuned model with your eval suite", order: 4 },
+          ],
+          resources: [
+            {
+              id: "ft-openai",
+              title: "Fine-tuning guide — OpenAI",
+              url: "https://platform.openai.com/docs/guides/fine-tuning",
+            },
+          ],
+        },
+        {
+          id: "ai-auth-payments",
+          title: "Auth, payments, and credits",
+          summary:
+            "Auth for AI endpoints, per-user rate limits, usage metering from token counts, credit balances, and billing.",
+          durationWeeks: 1,
+          order: 7,
+          tip: "Meter every call. A feature you cannot bill for is a feature you cannot sustain.",
+          outcome:
+            "Protect an AI endpoint with auth, rate limits, metering, credits, and billing.",
+          flow: "auth → rate limit (Redis) → meter tokens → credits (Postgres) → billing",
+          estimated: true,
+          linkedTopicId: null,
+          subtopics: [
+            { id: "authpay-1", title: "Auth for AI endpoints (Better Auth)", order: 1 },
+            { id: "authpay-2", title: "Per-user rate limits with Redis", order: 2 },
+            { id: "authpay-3", title: "Usage metering from token counts", order: 3 },
+            { id: "authpay-4", title: "Credit balances in Postgres", order: 4 },
+            { id: "authpay-5", title: "Billing with Stripe or Razorpay", order: 5 },
+          ],
+          resources: [
+            {
+              id: "authpay-better-auth",
+              title: "Better Auth documentation",
+              url: "https://www.better-auth.com/docs",
+            },
+            {
+              id: "authpay-redis",
+              title: "Redis documentation",
+              url: "https://redis.io/docs/latest/",
+            },
+            {
+              id: "authpay-stripe",
+              title: "Stripe documentation",
+              url: "https://docs.stripe.com/",
+            },
+            {
+              id: "authpay-razorpay",
+              title: "Razorpay documentation",
+              url: "https://razorpay.com/docs/",
             },
           ],
         },
@@ -628,165 +899,57 @@ export const aiEngineerTrack = trackContentSchema.parse({
     },
     {
       id: "ai-production",
-      title: "Production AI systems",
+      title: "Leverage and build",
       subtitle:
-        "Architecture, observability, safety, and one shipped product you can defend in an interview.",
-      tip: "Production AI is ordinary distributed systems work with a nondeterministic dependency in the middle.",
+        "Use AI coding tools as leverage only after the above. Then build products, not projects.",
+      tip: "A narrow product that works beats a platform that demos. Ship the narrow one.",
       order: 5,
       topics: [
         {
-          id: "ai-architecture",
-          title: "AI backend architecture",
+          id: "ai-coding-tools",
+          title: "AI coding tools as leverage",
           summary:
-            "Streaming responses, queues, caching, multi-tenant keys, and failure isolation around model calls.",
-          durationWeeks: 2,
+            "Use AI coding tools only after Phases 1-4. Before that, you skip the learning.",
+          durationWeeks: 1,
           order: 1,
-          tip: "Put the model call behind a boundary you own. Providers change; your product should not.",
+          tip: "The tool amplifies what you already know. It cannot substitute for it.",
           outcome:
-            "Design a service that streams answers, survives provider timeouts, and isolates tenant keys.",
-          flow: "client → API → queue → model provider → stream → client",
+            "Use an AI coding tool deliberately, with review and tests, on a codebase you understand.",
+          flow: "understand → prompt → review → test → ship",
           estimated: true,
           linkedTopicId: null,
           subtopics: [
-            {
-              id: "ai-arch-1",
-              title: "Sync, async, and streaming responses",
-              order: 1,
-            },
-            {
-              id: "ai-arch-2",
-              title: "Queues, retries, and idempotency",
-              order: 2,
-            },
-            {
-              id: "ai-arch-3",
-              title: "Caching prompts and responses safely",
-              order: 3,
-            },
-            {
-              id: "ai-arch-4",
-              title: "Multi-tenant keys and cost isolation",
-              order: 4,
-            },
+            { id: "aicoding-1", title: "When to reach for an AI coding tool", order: 1 },
+            { id: "aicoding-2", title: "Review and test generated code", order: 2 },
+            { id: "aicoding-3", title: "Keep the learning, skip the shortcut", order: 3 },
           ],
           resources: [
             {
-              id: "ai-arch-openai",
-              title: "Production best practices — OpenAI",
-              url: "https://platform.openai.com/docs/guides/production-best-practices",
-            },
-            {
-              id: "ai-arch-12factor",
-              title: "The Twelve-Factor App",
-              url: "https://12factor.net/",
+              id: "aicoding-ai-sdk",
+              title: "Vercel AI SDK documentation",
+              url: "https://ai-sdk.dev/docs/introduction",
             },
           ],
         },
         {
-          id: "ai-observability",
-          title: "Observability, cost, and latency",
+          id: "ai-build-products",
+          title: "Build products, not projects",
           summary:
-            "Trace model calls, count tokens, set latency budgets, and know when to fall back.",
+            "UX, business thinking, monetization, and real users: the builder mindset.",
           durationWeeks: 2,
           order: 2,
-          tip: "Log the prompt version, model, token counts, and outcome for every call. Without them, incidents are guesswork.",
-          outcome:
-            "Instrument an AI endpoint with traces, token cost, p95 latency, and an explicit fallback.",
-          flow: "request → span → model call → tokens → metric → alert",
+          tip: "Ship to real users. Demos do not count.",
+          outcome: "Scope, build, and charge for a small AI product with real users.",
+          flow: "scope → build → charge → listen → iterate",
           estimated: true,
           linkedTopicId: null,
           subtopics: [
-            {
-              id: "ai-obs-1",
-              title: "Traces, spans, and prompt versions",
-              order: 1,
-            },
-            {
-              id: "ai-obs-2",
-              title: "Token accounting and unit economics",
-              order: 2,
-            },
-            {
-              id: "ai-obs-3",
-              title: "Latency budgets and streaming UX",
-              order: 3,
-            },
-            {
-              id: "ai-obs-4",
-              title: "Fallback models and graceful degradation",
-              order: 4,
-            },
+            { id: "buildprod-1", title: "UX for AI products", order: 1 },
+            { id: "buildprod-2", title: "Business thinking and monetization", order: 2 },
+            { id: "buildprod-3", title: "Real users and feedback loops", order: 3 },
+            { id: "buildprod-4", title: "Builder mindset", order: 4 },
           ],
-          resources: [
-            {
-              id: "ai-obs-otel",
-              title: "OpenTelemetry documentation",
-              url: "https://opentelemetry.io/docs/",
-            },
-            {
-              id: "ai-obs-langsmith",
-              title: "LangSmith observability",
-              url: "https://docs.langchain.com/langsmith/observability",
-            },
-            {
-              id: "ai-obs-latency",
-              title: "Latency optimization — OpenAI",
-              url: "https://platform.openai.com/docs/guides/latency-optimization",
-            },
-          ],
-        },
-        {
-          id: "ai-safety",
-          title: "Safety, privacy, and evaluation",
-          summary:
-            "PII handling, prompt injection, content policy, human review, and release gates for probabilistic systems.",
-          durationWeeks: 2,
-          order: 3,
-          tip: "Safety is a product surface: the refusal, the review queue, and the audit log are all UX.",
-          outcome:
-            "Write a threat model and an evaluation gate for an AI feature, then enforce both in code.",
-          flow: "threat model → controls → eval gate → monitor → review",
-          estimated: true,
-          linkedTopicId: null,
-          subtopics: [
-            {
-              id: "ai-safety-1",
-              title: "PII, retention, and data boundaries",
-              order: 1,
-            },
-            {
-              id: "ai-safety-2",
-              title: "Prompt injection and tool abuse",
-              order: 2,
-            },
-            {
-              id: "ai-safety-3",
-              title: "Content policy and refusal design",
-              order: 3,
-            },
-            {
-              id: "ai-safety-4",
-              title: "Human review and audit trails",
-              order: 4,
-            },
-            {
-              id: "ai-safety-5",
-              title: "Evaluation gates before release",
-              order: 5,
-            },
-          ],
-          resources: [
-            {
-              id: "ai-safety-owasp",
-              title: "OWASP Top 10 for LLM applications",
-              url: "https://owasp.org/projects/top-10-for-large-language-model-applications",
-            },
-            {
-              id: "ai-safety-nist",
-              title: "NIST AI Risk Management Framework",
-              url: "https://www.nist.gov/itl/ai-risk-management-framework",
-            },
-          ],
+          resources: [],
         },
         {
           id: "ai-capstone",
@@ -794,7 +957,7 @@ export const aiEngineerTrack = trackContentSchema.parse({
           summary:
             "Scope one real workflow, build it end to end, evaluate it, deploy it, and write the postmortem.",
           durationWeeks: 1,
-          order: 4,
+          order: 3,
           tip: "A narrow product that works beats a platform that demos. Ship the narrow one.",
           outcome:
             "A deployed AI feature with a success metric, an evaluation set, monitoring, and a written postmortem.",
@@ -803,34 +966,30 @@ export const aiEngineerTrack = trackContentSchema.parse({
           linkedTopicId: null,
           subtopics: [
             {
-              id: "ai-capstone-1",
+              id: "capstone-1",
               title: "Choose a workflow and a success metric",
               order: 1,
             },
             {
-              id: "ai-capstone-2",
+              id: "capstone-2",
               title: "Build the smallest end-to-end version",
               order: 2,
             },
+            { id: "capstone-3", title: "Evaluate, deploy, and monitor", order: 3 },
             {
-              id: "ai-capstone-3",
-              title: "Evaluate, deploy, and monitor",
-              order: 3,
-            },
-            {
-              id: "ai-capstone-4",
+              id: "capstone-4",
               title: "Write the postmortem and next iteration",
               order: 4,
             },
           ],
           resources: [
             {
-              id: "ai-capstone-agents",
+              id: "capstone-agents",
               title: "Building effective agents — Anthropic",
               url: "https://www.anthropic.com/research/building-effective-agents",
             },
             {
-              id: "ai-capstone-production",
+              id: "capstone-production",
               title: "Production best practices — OpenAI",
               url: "https://platform.openai.com/docs/guides/production-best-practices",
             },

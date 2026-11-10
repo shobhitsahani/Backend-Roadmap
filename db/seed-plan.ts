@@ -57,6 +57,7 @@ export function buildSeedRows(): SeedRows {
           flow: topic.flow,
           estimated: topic.estimated,
           linkedTopicId: topic.linkedTopicId,
+          honestyNote: topic.honestyNote,
         });
 
         for (const subtopic of topic.subtopics) {
