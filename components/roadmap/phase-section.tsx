@@ -175,13 +175,19 @@ function TopicRow({
               {topicStatusLabel(topic.status)}
             </span>
           </span>
-          <ProgressRing
-            value={progress.percent}
-            label={`${topic.title} progress`}
-            size={38}
-            strokeWidth={2}
-            accent="var(--topic-accent)"
-          />
+          {topic.durationWeeks === 0 ? (
+            <Badge variant="outline" className="shrink-0">
+              {topic.mirrored ? "Mirrored" : "Known"}
+            </Badge>
+          ) : (
+            <ProgressRing
+              value={progress.percent}
+              label={`${topic.title} progress`}
+              size={38}
+              strokeWidth={2}
+              accent="var(--topic-accent)"
+            />
+          )}
           <ChevronRightIcon
             aria-hidden="true"
             className="hidden size-4 shrink-0 text-ink-subtle transition-transform duration-150 group-hover:translate-x-0.5 group-hover:text-ink md:block"

@@ -1,7 +1,6 @@
 "use client";
 
 import { badgeVariants } from "@/components/ui/badge";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { useRoadmapStore } from "@/store/roadmap-store";
 
@@ -11,34 +10,28 @@ type EstimatedBadgeProps = {
 };
 
 /**
- * Marks a duration the curriculum only estimates. The tooltip names the source
- * so the number is never presented as measured fact.
+ * Marks a duration the curriculum only estimates. The badge is deliberately
+ * non-interactive: it lives inside the topic row button, and a nested button
+ * would break both hydration and the accessibility tree. The native title and
+ * the screen-reader sentence still name the source.
  */
 export function EstimatedBadge({ sourceTitle, className }: EstimatedBadgeProps) {
   const trackSource = useRoadmapStore((state) => state.snapshot.track.sourceTitle);
   const source = sourceTitle ?? trackSource;
+  const from = source ? ` from ${source}` : "";
+  const explanation = `Duration is an estimate${from}. Edit it in the content file.`;
 
   return (
-    <Tooltip>
-      <TooltipTrigger
-        render={
-          <button
-            type="button"
-            aria-label="Estimated duration"
-            className={cn(
-              badgeVariants({ variant: "outline" }),
-              "cursor-help border-phase-2/30 bg-phase-2/10 text-phase-2",
-              className,
-            )}
-          />
-        }
-      >
-        Estimated
-      </TooltipTrigger>
-      <TooltipContent side="top">
-        Duration is an estimate
-        {source ? ` from ${source}` : ""}. Edit it in the content file.
-      </TooltipContent>
-    </Tooltip>
+    <span
+      title={explanation}
+      className={cn(
+        badgeVariants({ variant: "outline" }),
+        "cursor-help border-phase-2/30 bg-phase-2/10 text-phase-2",
+        className,
+      )}
+    >
+      Estimated
+      <span className="sr-only"> — {explanation}</span>
+    </span>
   );
 }

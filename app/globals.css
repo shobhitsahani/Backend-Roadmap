@@ -58,6 +58,7 @@
   --color-phase-4: var(--phase-4);
   --color-phase-5: var(--phase-5);
   --color-phase-contrast: var(--phase-contrast);
+  --color-track-accent: var(--track-accent);
 
   --radius-xs: 2px;
   --radius-sm: 4px;
@@ -125,6 +126,11 @@
   --phase-contrast: oklch(0.968 0.005 120);
   --dot: oklch(0.22 0.012 140 / 0.16);
 
+  /* Track identities. Components read the stable names, never a raw hue. */
+  --track-backend: oklch(0.465 0.105 150);
+  --track-ai-engineer: oklch(0.52 0.12 62);
+  --track-accent: var(--track-backend);
+
   --background: var(--surface-0);
   --foreground: var(--ink);
   --card: var(--surface-1);
@@ -142,7 +148,7 @@
   --destructive: var(--phase-4);
   --border: var(--hairline);
   --input: var(--hairline-strong);
-  --ring: var(--phase-1);
+  --ring: var(--track-accent);
 }
 
 .dark {
@@ -163,6 +169,30 @@
   --phase-5: oklch(0.68 0.12 40);
   --phase-contrast: oklch(0.166 0.008 145);
   --dot: oklch(0.93 0.02 120 / 0.13);
+  --track-backend: oklch(0.775 0.13 150);
+  --track-ai-engineer: oklch(0.78 0.14 62);
+}
+
+/*
+ * AI Engineer: warm grey-gold, amber, copper, rust, deep rust. The ramp is
+ * deliberately not blue-violet; both themes keep text-sized phase tokens at
+ * AA contrast against their own surface.
+ */
+html[data-track="ai-engineer"] {
+  --track-accent: var(--track-ai-engineer);
+  --phase-1: oklch(0.54 0.045 85);
+  --phase-2: oklch(0.52 0.1 75);
+  --phase-3: oklch(0.5 0.12 55);
+  --phase-4: oklch(0.47 0.14 35);
+  --phase-5: oklch(0.4 0.1 25);
+}
+
+html.dark[data-track="ai-engineer"] {
+  --phase-1: oklch(0.78 0.05 85);
+  --phase-2: oklch(0.8 0.12 75);
+  --phase-3: oklch(0.78 0.14 55);
+  --phase-4: oklch(0.72 0.15 35);
+  --phase-5: oklch(0.65 0.12 25);
 }
 
 @keyframes current-pulse {

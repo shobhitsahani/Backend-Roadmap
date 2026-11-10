@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React from "react";
 import { Bar, BarChart, Cell, XAxis, YAxis } from "recharts";
 import { motion } from "motion/react";
@@ -9,7 +10,7 @@ import { revealContainer, revealItem } from "@/lib/motion";
 import { DataSection } from "@/components/data/data-section";
 import { RulerMark } from "@/components/empty-states/line-art";
 import { TickingNumber } from "@/components/ticking-number";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   ChartContainer,
   ChartTooltip,
@@ -32,7 +33,6 @@ import {
 } from "@/lib/progress";
 import { cn } from "@/lib/utils";
 import { useRoadmapStore } from "@/store/roadmap-store";
-import { useUiStore } from "@/store/ui-store";
 import type { ActivityKind, PhaseWithTopics, Topic } from "@/types/roadmap";
 
 const phaseChartConfig = {
@@ -72,7 +72,6 @@ function dayLabel(value: string, today: Date) {
 
 export function DashboardScreen() {
   const snapshot = useRoadmapStore((state) => state.snapshot);
-  const setView = useUiStore((state) => state.setView);
 
   const phases = snapshot.phases;
   const activity = snapshot.activity;
@@ -375,14 +374,12 @@ export function DashboardScreen() {
                   Check a subtopic in the roadmap to start the field log.
                 </EmptyContent>
               </EmptyHeader>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => setView("roadmap")}
+              <Link
+                href={`/${snapshot.track.slug}`}
+                className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
               >
                 Go to Roadmap
-              </Button>
+              </Link>
             </Empty>
           ) : (
             <motion.ul

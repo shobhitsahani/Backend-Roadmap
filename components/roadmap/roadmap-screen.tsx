@@ -1,6 +1,7 @@
 "use client";
 
 import { CalendarIcon } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 
 import { RoadmapOverview } from "@/components/roadmap/overview";
@@ -11,6 +12,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { duration, ease } from "@/lib/motion";
 import { formatDate, formatWeeks } from "@/lib/format";
 import { currentTopic, phaseProgress, roadmapProgress } from "@/lib/progress";
+import { parseRoadmapView, roadmapViewHref } from "@/lib/routes";
 import { buildTimeline } from "@/lib/timeline";
 import { useRoadmapStore } from "@/store/roadmap-store";
 import { useUiStore } from "@/store/ui-store";
@@ -20,9 +22,11 @@ export function RoadmapScreen() {
   const track = useRoadmapStore((state) => state.snapshot.track);
   const startDate = useRoadmapStore((state) => state.snapshot.settings.startDate);
   const openTopic = useUiStore((state) => state.openTopic);
-  const roadmapView = useUiStore((state) => state.roadmapView);
-  const setRoadmapView = useUiStore((state) => state.setRoadmapView);
   const setStartDateOpen = useUiStore((state) => state.setStartDateOpen);
+  const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const roadmapView = parseRoadmapView(searchParams.get("view"));
 
   const progress = roadmapProgress(phases);
   const current = currentTopic(phases);
@@ -53,7 +57,9 @@ export function RoadmapScreen() {
             value={[roadmapView] as string[]}
             onValueChange={(next) => {
               const view = next[0];
-              if (view === "list" || view === "graph") setRoadmapView(view);
+              if (view === "list" || view === "graph") {
+                router.replace(roadmapViewHref(pathname, view), { scroll: false });
+              }
             }}
             aria-label="Roadmap view"
           >
