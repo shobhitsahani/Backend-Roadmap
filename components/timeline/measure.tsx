@@ -22,21 +22,24 @@ const phaseTint = {
   2: "bg-phase-2/10",
   3: "bg-phase-3/10",
   4: "bg-phase-4/10",
-} satisfies Record<1 | 2 | 3 | 4, string>;
+  5: "bg-phase-5/10",
+} satisfies Record<1 | 2 | 3 | 4 | 5, string>;
 
 const phaseFill = {
   1: "bg-phase-1",
   2: "bg-phase-2",
   3: "bg-phase-3",
   4: "bg-phase-4",
-} satisfies Record<1 | 2 | 3 | 4, string>;
+  5: "bg-phase-5",
+} satisfies Record<1 | 2 | 3 | 4 | 5, string>;
 
 const phaseText = {
   1: "text-phase-1",
   2: "text-phase-2",
   3: "text-phase-3",
   4: "text-phase-4",
-} satisfies Record<1 | 2 | 3 | 4, string>;
+  5: "text-phase-5",
+} satisfies Record<1 | 2 | 3 | 4 | 5, string>;
 
 /**
  * The signature week measure: a per-week cell block with a "water level"
@@ -88,7 +91,7 @@ export function TimelineMeasure({
             className={cn(
               "flex h-6 min-w-0 items-center overflow-hidden border-b px-1 whitespace-nowrap",
               `border-[color-mix(in_oklch,var(--phase-${entry.phase.order})_50%,transparent)]`,
-              phaseText[entry.phase.order as 1 | 2 | 3 | 4],
+              phaseText[entry.phase.order as 1 | 2 | 3 | 4 | 5],
             )}
             style={{
               gridColumn: `${entry.startWeek} / span ${entry.endWeek - entry.startWeek + 1}`,
@@ -110,7 +113,7 @@ export function TimelineMeasure({
         {Array.from({ length: cellCount }, (_, index) => {
           const week = index + 1;
           const window = phaseAt(week);
-          const order = (window?.phase.order ?? 1) as 1 | 2 | 3 | 4;
+          const order = (window?.phase.order ?? 1) as 1 | 2 | 3 | 4 | 5;
           const fillRatio = Math.max(0, Math.min(1, completedWeeks - index));
           return (
             <span

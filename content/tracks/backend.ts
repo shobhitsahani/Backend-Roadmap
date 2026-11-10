@@ -4,10 +4,11 @@ export const backendTrack = trackContentSchema.parse({
   id: "backend",
   slug: "backend",
   title: "Backend Engineer",
-  subtitle: "36 weeks · 4 phases",
+  subtitle: "From language fundamentals to production systems",
   summary:
     "A field plan for moving from language fundamentals to systems that hold up in production.",
-  footer: null,
+  footer:
+    "Backend isn't about memorizing tools — it's about solving problems under constraints.",
   order: 1,
   identityHue: 150,
   sourceTitle: null,

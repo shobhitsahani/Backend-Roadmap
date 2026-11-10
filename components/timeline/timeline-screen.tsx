@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 
 import { CrosshairMark } from "@/components/empty-states/line-art";
 import { revealContainer, revealItem } from "@/lib/motion";
+import { EstimatedBadge } from "@/components/estimated-badge";
 import { TimelineMeasure } from "@/components/timeline/measure";
 import { TickingNumber } from "@/components/ticking-number";
 import { Button } from "@/components/ui/button";
@@ -248,6 +249,7 @@ export function TimelineScreen() {
                     <span className="font-mono text-micro tracking-[0.1em] text-ink-subtle tabular-nums">
                       {entry.topic.durationWeeks}w
                     </span>
+                    {entry.topic.estimated ? <EstimatedBadge /> : null}
                   </span>
                   <span className="mt-0.5 line-clamp-2 block font-sans text-body leading-snug font-medium text-ink md:line-clamp-1">
                     {entry.topic.title}
@@ -256,7 +258,9 @@ export function TimelineScreen() {
 
                 <div
                   className="grid h-6 w-full"
-                  style={{ gridTemplateColumns: "repeat(36, minmax(0, 1fr))" }}
+                  style={{
+                    gridTemplateColumns: `repeat(${Math.max(1, timeline.totalWeeks)}, minmax(0, 1fr))`,
+                  }}
                   role="img"
                   aria-label={`${entry.topic.title}: ${weekRange(entry.startWeek, entry.endWeek)}, ${Math.round(entry.progress.percent)}% complete`}
                 >

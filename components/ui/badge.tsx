@@ -17,6 +17,7 @@ const badgeVariants = cva(
         "phase-2": "border-phase-2/30 bg-phase-2/10 text-phase-2",
         "phase-3": "border-phase-3/30 bg-phase-3/10 text-phase-3",
         "phase-4": "border-phase-4/30 bg-phase-4/10 text-phase-4",
+        "phase-5": "border-phase-5/30 bg-phase-5/10 text-phase-5",
       },
     },
     defaultVariants: {

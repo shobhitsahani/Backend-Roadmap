@@ -39,7 +39,7 @@ export function PhaseFlowEdge({
 
   const d = `M ${sx} ${sy} C ${cp1x} ${sy} ${cp2x} ${ty} ${tx} ${ty}`;
 
-  const phaseOrder = Math.max(1, Math.min(4, data?.phaseOrder ?? 1));
+  const phaseOrder = Math.max(1, Math.min(5, data?.phaseOrder ?? 1));
   const phaseColor = `var(--phase-${phaseOrder})`;
 
   return (

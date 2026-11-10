@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 
-export type PhaseNumber = 1 | 2 | 3 | 4;
+export type PhaseNumber = 1 | 2 | 3 | 4 | 5;
 
 export type WeekSegment = {
   phase: PhaseNumber;
@@ -20,6 +20,7 @@ const phaseTick = {
   2: "bg-phase-2",
   3: "bg-phase-3",
   4: "bg-phase-4",
+  5: "bg-phase-5",
 } satisfies Record<PhaseNumber, string>;
 
 const phaseTickMuted = {
@@ -27,6 +28,7 @@ const phaseTickMuted = {
   2: "bg-phase-2/20",
   3: "bg-phase-3/20",
   4: "bg-phase-4/20",
+  5: "bg-phase-5/20",
 } satisfies Record<PhaseNumber, string>;
 
 export function WeekRuler({
@@ -104,8 +106,10 @@ export function WeekRuler({
       {!compact ? (
         <div className="mt-2 flex items-center justify-between font-mono text-micro tracking-[0.12em] text-ink-subtle">
           <span>W01</span>
-          <span className="hidden sm:inline">36 WEEKS / 4 PHASES</span>
-          <span>W36</span>
+          <span className="hidden sm:inline">
+            {total} weeks / {segments.length} phases
+          </span>
+          <span>W{String(total).padStart(2, "0")}</span>
         </div>
       ) : null}
     </div>

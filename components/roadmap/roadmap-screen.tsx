@@ -17,6 +17,7 @@ import { useUiStore } from "@/store/ui-store";
 
 export function RoadmapScreen() {
   const phases = useRoadmapStore((state) => state.snapshot.phases);
+  const track = useRoadmapStore((state) => state.snapshot.track);
   const startDate = useRoadmapStore((state) => state.snapshot.settings.startDate);
   const openTopic = useUiStore((state) => state.openTopic);
   const roadmapView = useUiStore((state) => state.roadmapView);
@@ -121,10 +122,23 @@ export function RoadmapScreen() {
       </AnimatePresence>
 
       <footer className="mt-14 grid gap-6 border-t border-hairline pt-8 md:grid-cols-[1fr_auto] md:items-end">
-        <blockquote className="max-w-2xl font-display text-title-sm leading-snug font-medium tracking-[-0.02em] text-balance text-ink">
-          “Backend isn&apos;t about memorizing tools — it&apos;s about solving problems
-          under constraints.”
-        </blockquote>
+        <div>
+          {track.footer ? (
+            <blockquote className="max-w-2xl font-display text-title-sm leading-snug font-medium tracking-[-0.02em] text-balance text-ink">
+              “{track.footer}”
+            </blockquote>
+          ) : null}
+          {track.sourceUrl ? (
+            <a
+              href={track.sourceUrl}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="mt-3 inline-flex min-h-11 items-center font-mono text-micro tracking-[0.08em] text-ink-subtle uppercase underline-offset-4 transition-colors hover:text-ink hover:underline"
+            >
+              Source / {track.sourceTitle ?? "Original curriculum"}
+            </a>
+          ) : null}
+        </div>
         <p className="font-mono text-micro tracking-[0.1em] text-ink-subtle uppercase">
           Field manual / v0.1.0
         </p>
