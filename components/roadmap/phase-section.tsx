@@ -3,6 +3,7 @@
 import type { KeyboardEvent } from "react";
 import { CheckIcon, ChevronRightIcon } from "lucide-react";
 
+import { EstimatedBadge } from "@/components/estimated-badge";
 import { ProgressBar } from "@/components/progress-bar";
 import { ProgressRing } from "@/components/progress-ring";
 import { Badge } from "@/components/ui/badge";
@@ -16,11 +17,17 @@ type PhaseSectionProps = {
   onOpenTopic: (topicId: string) => void;
 };
 
-const phaseBadgeVariants = ["phase-1", "phase-2", "phase-3", "phase-4"] as const;
+const phaseBadgeVariants = [
+  "phase-1",
+  "phase-2",
+  "phase-3",
+  "phase-4",
+  "phase-5",
+] as const;
 
 export function PhaseSection({ phase, currentTopicId, onOpenTopic }: PhaseSectionProps) {
   const progress = phaseProgress(phase);
-  const badgeVariant = phaseBadgeVariants[(phase.order - 1) % 4] ?? "phase-1";
+  const badgeVariant = phaseBadgeVariants[(phase.order - 1) % 5] ?? "phase-1";
 
   return (
     <section
@@ -144,6 +151,7 @@ function TopicRow({
                 {progress.percent > 0 ? "Current" : "Next"}
               </Badge>
             ) : null}
+            {topic.estimated && topic.durationWeeks > 0 ? <EstimatedBadge /> : null}
           </span>
           <span className="mt-1.5 line-clamp-2 block font-sans text-caption leading-relaxed text-ink-muted">
             {topic.summary}

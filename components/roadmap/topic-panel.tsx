@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { ArrowUpRightIcon, XIcon } from "lucide-react";
 import { toast } from "sonner";
 
+import { EstimatedBadge } from "@/components/estimated-badge";
 import { ProgressRing } from "@/components/progress-ring";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -22,9 +23,15 @@ import { findTopic, topicProgress } from "@/lib/progress";
 import { buildTimeline } from "@/lib/timeline";
 import { useRoadmapStore } from "@/store/roadmap-store";
 import { useUiStore } from "@/store/ui-store";
-import type { Topic } from "@/types/roadmap";
+import type { Topic, TopicStatus } from "@/types/roadmap";
 
-const phaseBadgeVariants = ["phase-1", "phase-2", "phase-3", "phase-4"] as const;
+const phaseBadgeVariants = [
+  "phase-1",
+  "phase-2",
+  "phase-3",
+  "phase-4",
+  "phase-5",
+] as const;
 
 export function TopicPanel() {
   const selectedTopicId = useUiStore((state) => state.selectedTopicId);
@@ -47,7 +54,7 @@ export function TopicPanel() {
 
   const { topic, phase } = found;
   const entry = timeline.entries.find((item) => item.topic.id === topic.id);
-  const badgeVariant = phaseBadgeVariants[(phase.order - 1) % 4] ?? "phase-1";
+  const badgeVariant = phaseBadgeVariants[(phase.order - 1) % 5] ?? "phase-1";
   const progress = topicProgress(topic);
   const isPending = pending !== null;
 
@@ -71,6 +78,8 @@ export function TopicPanel() {
               <Badge variant={badgeVariant}>
                 Phase {String(phase.order).padStart(2, "0")}
               </Badge>
+              {topic.linkedTopicId ? <Badge variant="outline">Prerequisite</Badge> : null}
+              {topic.estimated && topic.durationWeeks > 0 ? <EstimatedBadge /> : null}
               <span className="font-mono text-micro tracking-[0.08em] text-ink-subtle uppercase">
                 {phase.title}
               </span>
@@ -118,11 +127,13 @@ export function TopicPanel() {
                   Weeks
                 </dt>
                 <dd className="mt-1 font-mono text-caption text-ink tabular-nums">
-                  {entry
-                    ? `W${String(entry.startWeek).padStart(2, "0")}–W${String(
-                        entry.endWeek,
-                      ).padStart(2, "0")}`
-                    : topic.durationWeeks}
+                  {topic.durationWeeks === 0
+                    ? "Prereq"
+                    : entry
+                      ? `W${String(entry.startWeek).padStart(2, "0")}–W${String(
+                          entry.endWeek,
+                        ).padStart(2, "0")}`
+                      : topic.durationWeeks}
                 </dd>
               </div>
               <div>
@@ -138,53 +149,59 @@ export function TopicPanel() {
         </header>
 
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pt-6 pb-10 md:px-7">
-          <section aria-labelledby="subtopic-checklist-heading">
-            <div className="flex items-baseline justify-between gap-4">
-              <h3
-                id="subtopic-checklist-heading"
-                className="font-mono text-micro tracking-[0.12em] text-ink-subtle uppercase"
-              >
-                Subtopic checklist
-              </h3>
-              <span className="font-mono text-micro text-ink-subtle tabular-nums">
-                {String(progress.completedSubtopics).padStart(2, "0")} /{" "}
-                {String(progress.totalSubtopics).padStart(2, "0")}
-              </span>
-            </div>
+          {topic.linkedTopicId ? (
+            <PrerequisitePanel topic={topic} disabled={isPending} />
+          ) : null}
 
-            <ul className="mt-2 border-t border-hairline">
-              {topic.subtopics.map((subtopic) => (
-                <li key={subtopic.id} className="border-b border-hairline">
-                  <label className="group flex min-h-11 cursor-pointer items-start gap-3 py-3">
-                    <Checkbox
-                      checked={subtopic.done}
-                      disabled={isPending}
-                      onCheckedChange={(checked) => {
-                        void toggleSubtopic(subtopic.id, checked).catch(
-                          (error: unknown) => {
-                            toast.error("Could not update the checklist.", {
-                              description:
-                                error instanceof Error ? error.message : "Try again.",
-                            });
-                          },
-                        );
-                      }}
-                      className="mt-0.5"
-                    />
-                    <span
-                      className={`font-sans text-body leading-relaxed transition-colors ${
-                        subtopic.done
-                          ? "text-ink-subtle line-through decoration-hairline-strong/70"
-                          : "text-ink-muted group-hover:text-ink"
-                      }`}
-                    >
-                      {subtopic.title}
-                    </span>
-                  </label>
-                </li>
-              ))}
-            </ul>
-          </section>
+          {topic.subtopics.length > 0 ? (
+            <section aria-labelledby="subtopic-checklist-heading">
+              <div className="flex items-baseline justify-between gap-4">
+                <h3
+                  id="subtopic-checklist-heading"
+                  className="font-mono text-micro tracking-[0.12em] text-ink-subtle uppercase"
+                >
+                  Subtopic checklist
+                </h3>
+                <span className="font-mono text-micro text-ink-subtle tabular-nums">
+                  {String(progress.completedSubtopics).padStart(2, "0")} /{" "}
+                  {String(progress.totalSubtopics).padStart(2, "0")}
+                </span>
+              </div>
+
+              <ul className="mt-2 border-t border-hairline">
+                {topic.subtopics.map((subtopic) => (
+                  <li key={subtopic.id} className="border-b border-hairline">
+                    <label className="group flex min-h-11 cursor-pointer items-start gap-3 py-3">
+                      <Checkbox
+                        checked={subtopic.done}
+                        disabled={isPending}
+                        onCheckedChange={(checked) => {
+                          void toggleSubtopic(subtopic.id, checked).catch(
+                            (error: unknown) => {
+                              toast.error("Could not update the checklist.", {
+                                description:
+                                  error instanceof Error ? error.message : "Try again.",
+                              });
+                            },
+                          );
+                        }}
+                        className="mt-0.5"
+                      />
+                      <span
+                        className={`font-sans text-body leading-relaxed transition-colors ${
+                          subtopic.done
+                            ? "text-ink-subtle line-through decoration-hairline-strong/70"
+                            : "text-ink-muted group-hover:text-ink"
+                        }`}
+                      >
+                        {subtopic.title}
+                      </span>
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
 
           {topic.tip ? (
             <aside className="mt-8 border-l-2 border-[var(--topic-accent)] pl-4">
@@ -256,6 +273,69 @@ export function TopicPanel() {
         </div>
       </SheetContent>
     </Sheet>
+  );
+}
+
+function PrerequisitePanel({ topic, disabled }: { topic: Topic; disabled: boolean }) {
+  const saveTopicStatus = useRoadmapStore((state) => state.saveTopicStatus);
+
+  async function update(status: TopicStatus | null) {
+    try {
+      await saveTopicStatus(topic.id, status);
+      toast.success(
+        status === null
+          ? "Mirroring Backend progress again."
+          : "Marked as already known in this track.",
+      );
+    } catch (error) {
+      toast.error("Could not update the prerequisite.", {
+        description: error instanceof Error ? error.message : "Try again.",
+      });
+    }
+  }
+
+  return (
+    <section
+      aria-labelledby="prerequisite-heading"
+      className="mb-8 border border-hairline bg-panel p-4"
+    >
+      <h3
+        id="prerequisite-heading"
+        className="font-mono text-micro tracking-[0.12em] text-ink-subtle uppercase"
+      >
+        Prerequisite
+      </h3>
+      <p className="mt-2 font-sans text-caption leading-relaxed text-ink-muted">
+        This item mirrors the matching Backend topic. Finish it there and the status
+        updates here automatically.
+      </p>
+      <div className="mt-3 flex flex-wrap items-center gap-2">
+        <Badge variant="outline">
+          {topic.mirrored ? "Mirrored from Backend" : "Overridden in this track"}
+        </Badge>
+        {topic.mirrored ? (
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            disabled={disabled}
+            onClick={() => void update("done")}
+          >
+            I already know this
+          </Button>
+        ) : (
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            disabled={disabled}
+            onClick={() => void update(null)}
+          >
+            Use Backend progress
+          </Button>
+        )}
+      </div>
+    </section>
   );
 }
 

@@ -56,6 +56,7 @@
   --color-phase-2: var(--phase-2);
   --color-phase-3: var(--phase-3);
   --color-phase-4: var(--phase-4);
+  --color-phase-5: var(--phase-5);
   --color-phase-contrast: var(--phase-contrast);
 
   --radius-xs: 2px;
@@ -120,6 +121,7 @@
   --phase-2: oklch(0.47 0.125 250);
   --phase-3: oklch(0.475 0.15 300);
   --phase-4: oklch(0.48 0.155 29);
+  --phase-5: oklch(0.42 0.11 40);
   --phase-contrast: oklch(0.968 0.005 120);
   --dot: oklch(0.22 0.012 140 / 0.16);
 
@@ -158,6 +160,7 @@
   --phase-2: oklch(0.75 0.115 246);
   --phase-3: oklch(0.76 0.12 300);
   --phase-4: oklch(0.735 0.15 28);
+  --phase-5: oklch(0.68 0.12 40);
   --phase-contrast: oklch(0.166 0.008 145);
   --dot: oklch(0.93 0.02 120 / 0.13);
 }

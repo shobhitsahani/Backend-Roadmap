@@ -1,7 +1,8 @@
+import { aiEngineerTrack } from "./ai-engineer";
 import { backendTrack } from "./backend";
 import type { TrackContent } from "@/content/schema";
 
-export const trackContents: TrackContent[] = [backendTrack];
+export const trackContents: TrackContent[] = [backendTrack, aiEngineerTrack];
 
 export const trackBySlug = new Map(trackContents.map((track) => [track.slug, track]));
 

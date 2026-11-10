@@ -73,7 +73,8 @@ export function TopicNode({ data }: TopicNodeProps) {
           </span>
           <Badge
             variant={
-              `phase-${phaseOrder}` as "phase-1" | "phase-2" | "phase-3" | "phase-4"
+              `phase-${phaseOrder}` as
+                "phase-1" | "phase-2" | "phase-3" | "phase-4" | "phase-5"
             }
           >
             {done ? "Done" : topicStatusLabel(topic.status)}

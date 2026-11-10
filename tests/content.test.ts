@@ -70,4 +70,50 @@ describe("track content", () => {
       }
     }
   });
+
+  it("keeps the AI Engineer track at 5 phases with a zero-week linked prerequisite phase", () => {
+    const ai = getTrackContent("ai-engineer");
+    expect(ai).not.toBeNull();
+    if (!ai) return;
+
+    const prerequisite = ai.phases[0];
+    expect(ai.phases).toHaveLength(5);
+    expect(prerequisite).toBeDefined();
+    expect(prerequisite!.topics.length).toBeGreaterThan(0);
+    expect(prerequisite!.topics.every((topic) => topic.durationWeeks === 0)).toBe(true);
+    expect(prerequisite!.topics.every((topic) => topic.linkedTopicId !== null)).toBe(
+      true,
+    );
+    expect(
+      ai.phases
+        .slice(1)
+        .flatMap((phase) => phase.topics)
+        .every((topic) => topic.durationWeeks > 0),
+    ).toBe(true);
+  });
+
+  it("marks every AI duration as estimated and credits the source", () => {
+    const ai = getTrackContent("ai-engineer");
+    expect(ai).not.toBeNull();
+    if (!ai) return;
+
+    const topics = ai.phases.flatMap((phase) => phase.topics);
+    expect(topics.every((topic) => topic.estimated)).toBe(true);
+    expect(ai.sourceTitle).toBe("AI Engineer Roadmap 2027");
+    expect(ai.sourceUrl).toBe("https://www.youtube.com/watch?v=CpI7pd5yGCw");
+  });
+
+  it("derives the AI plan length from topic durations instead of a constant", () => {
+    const ai = getTrackContent("ai-engineer");
+    expect(ai).not.toBeNull();
+    if (!ai) return;
+
+    const weeks = ai.phases
+      .flatMap((phase) => phase.topics)
+      .reduce((total, topic) => total + topic.durationWeeks, 0);
+
+    expect(weeks).toBeGreaterThan(0);
+    expect(weeks).not.toBe(36);
+    expect(ai.subtitle).not.toMatch(/\d+\s*weeks/i);
+  });
 });

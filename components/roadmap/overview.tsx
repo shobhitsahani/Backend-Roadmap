@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { WeekRuler } from "@/components/week-ruler";
 import { formatWeeks } from "@/lib/format";
 import type { ProgressStats } from "@/lib/progress";
+import { useRoadmapStore } from "@/store/roadmap-store";
 import type { PhaseWithTopics, Topic } from "@/types/roadmap";
 
 type RoadmapOverviewProps = {
@@ -29,19 +30,20 @@ export function RoadmapOverview({
   phaseWeeks,
   onOpenTopic,
 }: RoadmapOverviewProps) {
+  const track = useRoadmapStore((state) => state.snapshot.track);
+
   return (
     <section className="grid gap-10 border-b border-hairline pb-12 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-end">
       <div>
         <h1 className="max-w-3xl font-display text-display-sm leading-[0.98] font-semibold tracking-[-0.045em] text-balance md:text-display">
-          Backend roadmap<span className="text-phase-1">.</span>
+          {track.title} roadmap<span className="text-phase-1">.</span>
         </h1>
         <p className="mt-4 font-mono text-micro tracking-[0.16em] text-phase-1 uppercase">
           Field manual / {progress.totalWeeks} weeks /{" "}
           {phases.length === 1 ? "One phase" : `${phases.length} phases`}
         </p>
         <p className="mt-5 max-w-xl font-sans text-body-lg leading-relaxed text-ink-muted">
-          A field plan for moving from language fundamentals to systems that hold up in
-          production.
+          {track.summary}
         </p>
 
         <div className="mt-7 flex flex-wrap items-center gap-2">
@@ -49,7 +51,8 @@ export function RoadmapOverview({
             <Badge
               key={phase.id}
               variant={
-                `phase-${phase.order}` as "phase-1" | "phase-2" | "phase-3" | "phase-4"
+                `phase-${phase.order}` as
+                  "phase-1" | "phase-2" | "phase-3" | "phase-4" | "phase-5"
               }
             >
               {String(phase.order).padStart(2, "0")} {phase.title} /{" "}
@@ -111,7 +114,7 @@ export function RoadmapOverview({
         <div className="mt-6 border-t border-hairline pt-5">
           <WeekRuler
             segments={phases.map((phase) => ({
-              phase: phase.order as 1 | 2 | 3 | 4,
+              phase: phase.order as 1 | 2 | 3 | 4 | 5,
               weeks: phaseWeeks.get(phase.id) ?? 0,
             }))}
             completedWeeks={progress.completedWeeks}
