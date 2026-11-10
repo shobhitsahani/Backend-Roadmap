@@ -12,7 +12,7 @@ async function open(page: Page, path: string) {
 }
 
 test("roadmap renders the seeded plan", async ({ page }) => {
-  await open(page, "/");
+  await open(page, "/backend");
 
   await expect(page).toHaveURL(/\/backend$/);
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
@@ -23,7 +23,7 @@ test("roadmap renders the seeded plan", async ({ page }) => {
 });
 
 test("theme toggle persists across reloads", async ({ page }) => {
-  await open(page, "/");
+  await open(page, "/backend");
   await page.getByRole("button", { name: /Switch to light theme/i }).click();
   await expect(page.locator("html")).toHaveClass(/light/);
 
@@ -56,12 +56,27 @@ test("track switcher changes the URL, the cookie and the document accent", async
   await expect(page.locator("html")).toHaveAttribute("data-track", "ai-engineer");
 });
 
-test("the remembered track wins when visiting the root", async ({ page }) => {
-  await open(page, "/ai-engineer");
+test("the landing is the root and the picker shows both tracks", async ({ page }) => {
   await open(page, "/");
 
-  await expect(page).toHaveURL(/\/ai-engineer$/);
-  await expect(page.locator("html")).toHaveAttribute("data-track", "ai-engineer");
+  await expect(page).toHaveURL(/\/$/);
+  await expect(
+    page.getByRole("heading", { level: 1, name: /Two tracks/i }),
+  ).toBeVisible();
+  await expect(page.getByRole("link", { name: /Start Backend Engineer/i })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Start AI Engineer/i })).toBeVisible();
+});
+
+test("returning to the root shows progress on both tracks", async ({ page }) => {
+  await open(page, "/ai-engineer");
+  await page.goto("/");
+  await page.waitForLoadState("networkidle");
+
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.getByRole("link", { name: /Continue AI Engineer/i })).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: /Continue Backend Engineer/i }),
+  ).toBeVisible();
 });
 
 test("Alt+2 switches track and keeps the current screen", async ({ page }) => {
@@ -99,7 +114,7 @@ test("journey and settings are real routes", async ({ page }) => {
 });
 
 test("key screens have no serious axe violations", async ({ page }) => {
-  for (const path of ["/backend", "/ai-engineer", "/journey", "/settings"]) {
+  for (const path of ["/", "/backend", "/ai-engineer", "/journey", "/settings"]) {
     await open(page, path);
     const results = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
