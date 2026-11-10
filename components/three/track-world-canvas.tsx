@@ -24,7 +24,7 @@ export default function TrackWorldCanvas({
       aria-hidden="true"
       dpr={[1, 2]}
       frameloop={staticFrame ? "never" : "demand"}
-      gl={{ antialias: true, alpha: true }}
+      gl={{ antialias: true, alpha: true, preserveDrawingBuffer: true }}
       camera={{ position: [0, 0.4, 9], fov: 48 }}
     >
       {staticFrame ? <FrameOnce /> : null}

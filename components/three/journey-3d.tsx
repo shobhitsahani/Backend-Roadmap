@@ -105,7 +105,7 @@ export function Journey3D({
           aria-hidden="true"
           dpr={[1, 2]}
           frameloop="demand"
-          gl={{ antialias: true, alpha: true }}
+          gl={{ antialias: true, alpha: true, preserveDrawingBuffer: true }}
           camera={{ position: [0, 0, 6.5], fov: 50 }}
           key={overviewKey}
         >

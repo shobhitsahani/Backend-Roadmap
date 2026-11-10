@@ -45,7 +45,7 @@ export function ProgressCore({
           aria-hidden="true"
           dpr={[1, 2]}
           frameloop="demand"
-          gl={{ antialias: true, alpha: true }}
+          gl={{ antialias: true, alpha: true, preserveDrawingBuffer: true }}
           camera={{ position: [0, 0, 4.6], fov: 45 }}
         >
           <ProgressScene segments={segments} hovered={hovered} />
