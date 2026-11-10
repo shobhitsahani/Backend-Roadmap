@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { RoadmapOverview } from "@/components/roadmap/overview";
 import { PhaseSection } from "@/components/roadmap/phase-section";
 import { GraphScreen } from "@/components/graph/graph-screen";
+import { Journey3D } from "@/components/three/journey-3d";
 import { TrackHeaderScene } from "@/components/three/track-world";
 import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
@@ -61,7 +62,7 @@ export function RoadmapScreen() {
             value={[roadmapView] as string[]}
             onValueChange={(next) => {
               const view = next[0];
-              if (view === "list" || view === "graph") {
+              if (view === "list" || view === "graph" || view === "journey") {
                 router.replace(roadmapViewHref(pathname, view), { scroll: false });
               }
             }}
@@ -74,6 +75,10 @@ export function RoadmapScreen() {
             <ToggleGroupItem value="graph">
               <span className="sr-only">Map view</span>
               <span aria-hidden="true">Map</span>
+            </ToggleGroupItem>
+            <ToggleGroupItem value="journey">
+              <span className="sr-only">3D Journey view</span>
+              <span aria-hidden="true">3D</span>
             </ToggleGroupItem>
           </ToggleGroup>
           <Button
@@ -89,7 +94,23 @@ export function RoadmapScreen() {
       </div>
 
       <AnimatePresence mode="wait" initial={false}>
-        {roadmapView === "graph" ? (
+        {roadmapView === "journey" ? (
+          <motion.div
+            key="journey"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              transition: { duration: duration.base, ease: ease.out },
+            }}
+            exit={{
+              opacity: 0,
+              transition: { duration: duration.fast, ease: ease.inOut },
+            }}
+          >
+            <Journey3D phases={phases} onOpenTopic={openTopic} />
+          </motion.div>
+        ) : roadmapView === "graph" ? (
           <motion.div
             key="graph"
             initial={{ opacity: 0, y: 8 }}
