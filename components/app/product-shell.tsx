@@ -1,18 +1,18 @@
 "use client";
 
-import { DashboardScreen } from "@/components/dashboard/dashboard-screen";
+import type { ReactNode } from "react";
+
 import { Masthead } from "@/components/app/masthead";
 import { MobileNav } from "@/components/app/mobile-nav";
-import { CommandPalette } from "@/components/command/command-palette";
 import { StartDateDialog } from "@/components/app/start-date-dialog";
-import { RoadmapScreen } from "@/components/roadmap/roadmap-screen";
-import { TimelineScreen } from "@/components/timeline/timeline-screen";
+import { CommandPalette } from "@/components/command/command-palette";
 import { TopicPanel } from "@/components/roadmap/topic-panel";
-import { useUiStore } from "@/store/ui-store";
 
-export function AppShell() {
-  const view = useUiStore((state) => state.view);
-
+/**
+ * Chrome shared by every product route. The screen itself is a real page in
+ * `children`, so navigation, back/forward, and deep links behave like URLs.
+ */
+export function ProductShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-dvh bg-canvas text-ink">
       <a
@@ -22,10 +22,8 @@ export function AppShell() {
         Skip to content
       </a>
       <Masthead />
-      <main id="main" className="mx-auto max-w-[1440px] px-4 pb-28 md:px-10 md:pb-16">
-        {view === "roadmap" ? <RoadmapScreen /> : null}
-        {view === "dashboard" ? <DashboardScreen /> : null}
-        {view === "timeline" ? <TimelineScreen /> : null}
+      <main id="main" className="mx-auto max-w-[1440px] px-4 pb-44 md:px-10 md:pb-16">
+        {children}
       </main>
       <MobileNav />
       <CommandPalette />

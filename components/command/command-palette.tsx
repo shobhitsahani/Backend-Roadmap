@@ -2,14 +2,18 @@
 
 import {
   CalendarPlusIcon,
+  CompassIcon,
   ContrastIcon,
   DownloadIcon,
   HouseIcon,
   LineChartIcon,
+  RouteIcon,
   RulerIcon,
+  SettingsIcon,
   TriangleAlertIcon,
 } from "lucide-react";
 import { useTheme } from "next-themes";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
 import { ShortcutsDialog } from "@/components/command/shortcuts-dialog";
@@ -24,21 +28,27 @@ import {
   CommandShortcut,
 } from "@/components/ui/command";
 import { resetAllProgress, exportSnapshot } from "@/lib/data-actions";
+import { sectionHref, trackSwitchHref } from "@/lib/routes";
 import { useRoadmapStore } from "@/store/roadmap-store";
 import { useUiStore } from "@/store/ui-store";
-import type { AppView } from "@/types/roadmap";
+import type { TrackSection } from "@/types/roadmap";
 
-const navByEventKey: Record<string, AppView> = {
+const sectionByEventKey: Record<string, TrackSection> = {
   "1": "roadmap",
-  "2": "dashboard",
+  "2": "log",
   "3": "timeline",
 };
 
-const iconByView = {
-  roadmap: HouseIcon,
-  dashboard: LineChartIcon,
-  timeline: RulerIcon,
-} satisfies Record<AppView, typeof HouseIcon>;
+const navItems: Array<{
+  section: TrackSection;
+  label: string;
+  icon: typeof HouseIcon;
+  shortcut: string;
+}> = [
+  { section: "roadmap", label: "Go to Roadmap", icon: HouseIcon, shortcut: "1" },
+  { section: "log", label: "Go to Field log", icon: LineChartIcon, shortcut: "2" },
+  { section: "timeline", label: "Go to Timeline", icon: RulerIcon, shortcut: "3" },
+];
 
 function isTypingTarget(target: EventTarget | null) {
   return (
@@ -55,12 +65,15 @@ export function CommandPalette() {
   const setOpen = useUiStore((state) => state.setCommandOpen);
   const [helpOpen, setHelpOpen] = useState(false);
 
-  const view = useUiStore((state) => state.view);
-  const setView = useUiStore((state) => state.setView);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const openTopic = useUiStore((state) => state.openTopic);
   const setStartDateOpen = useUiStore((state) => state.setStartDateOpen);
-  const phases = useRoadmapStore((state) => state.snapshot.phases);
   const snapshot = useRoadmapStore((state) => state.snapshot);
+  const phases = snapshot.phases;
+  const tracks = snapshot.tracks;
+  const slug = snapshot.track.slug;
   const replaceSnapshot = useRoadmapStore((state) => state.replaceSnapshot);
   const { resolvedTheme, setTheme } = useTheme();
 
@@ -79,15 +92,32 @@ export function CommandPalette() {
         setHelpOpen(true);
         return;
       }
-      const navView = navByEventKey[event.key];
-      if (navView && navView !== view) {
+
+      if (event.altKey && !event.ctrlKey && !event.metaKey) {
+        const target = tracks[Number(event.key) - 1];
+        if (target) {
+          event.preventDefault();
+          router.push(
+            trackSwitchHref(
+              pathname,
+              searchParams.toString(),
+              target.slug,
+              tracks.map((track) => track.slug),
+            ),
+          );
+          return;
+        }
+      }
+
+      const section = sectionByEventKey[event.key];
+      if (section) {
         event.preventDefault();
-        setView(navView);
+        router.push(sectionHref(slug, section));
       }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [helpOpen, open, setOpen, setView, view]);
+  }, [helpOpen, open, pathname, router, searchParams, setOpen, slug, tracks]);
 
   const runCommand = useCallback(
     (run: () => void) => {
@@ -103,7 +133,7 @@ export function CommandPalette() {
     <>
       <CommandDialog
         title="Command palette"
-        description="Jump to a view, open a topic or run a data command."
+        description="Jump to a track, view, or topic, or run a data command."
         open={open}
         onOpenChange={setOpen}
       >
@@ -112,32 +142,63 @@ export function CommandPalette() {
           <CommandEmpty>No matching command.</CommandEmpty>
 
           <CommandGroup heading="Navigate">
-            {(
-              [
-                { label: "Go to Roadmap", view: "roadmap" },
-                { label: "Go to Field log", view: "dashboard" },
-                { label: "Go to Timeline", view: "timeline" },
-              ] as Array<{ label: string; view: AppView }>
-            ).map((item) => {
-              const Icon = iconByView[item.view];
+            {navItems.map((item) => {
+              const Icon = item.icon;
               return (
                 <CommandItem
-                  key={item.view}
-                  value={`${item.label} ${item.view}`}
-                  onSelect={() => runCommand(() => setView(item.view))}
+                  key={item.section}
+                  value={`${item.label} ${item.section}`}
+                  onSelect={() =>
+                    runCommand(() => router.push(sectionHref(slug, item.section)))
+                  }
                 >
                   <Icon aria-hidden="true" />
                   {item.label}
-                  <CommandShortcut>
-                    {item.view === "roadmap"
-                      ? "1"
-                      : item.view === "dashboard"
-                        ? "2"
-                        : "3"}
-                  </CommandShortcut>
+                  <CommandShortcut>{item.shortcut}</CommandShortcut>
                 </CommandItem>
               );
             })}
+            <CommandItem
+              value="Go to Journey journey"
+              onSelect={() => runCommand(() => router.push("/journey"))}
+            >
+              <CompassIcon aria-hidden="true" />
+              Go to Journey
+            </CommandItem>
+            <CommandItem
+              value="Go to Settings settings"
+              onSelect={() => runCommand(() => router.push("/settings"))}
+            >
+              <SettingsIcon aria-hidden="true" />
+              Go to Settings
+            </CommandItem>
+          </CommandGroup>
+
+          <CommandSeparator />
+
+          <CommandGroup heading="Tracks">
+            {tracks.map((track, index) => (
+              <CommandItem
+                key={track.id}
+                value={`Switch to ${track.title}`}
+                onSelect={() =>
+                  runCommand(() =>
+                    router.push(
+                      trackSwitchHref(
+                        pathname,
+                        searchParams.toString(),
+                        track.slug,
+                        tracks.map((entry) => entry.slug),
+                      ),
+                    ),
+                  )
+                }
+              >
+                <RouteIcon aria-hidden="true" />
+                Switch to {track.title}
+                <CommandShortcut>Alt+{index + 1}</CommandShortcut>
+              </CommandItem>
+            ))}
           </CommandGroup>
 
           <CommandSeparator />
@@ -153,7 +214,7 @@ export function CommandPalette() {
                   value={`${String(phase.order).padStart(2, "0")}_${String(topic.order).padStart(2, "0")} ${topic.title}`}
                   onSelect={() =>
                     runCommand(() => {
-                      setView("roadmap");
+                      if (pathname !== `/${slug}`) router.push(`/${slug}`);
                       openTopic(topic.id);
                     })
                   }

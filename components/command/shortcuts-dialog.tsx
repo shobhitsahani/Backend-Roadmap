@@ -3,8 +3,9 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { DialogDescription } from "@/components/ui/dialog";
 
-const shortcuts: Array<{ keys: string; description: string }> = [
+export const SHORTCUTS: Array<{ keys: string; description: string }> = [
   { keys: "⌘ K", description: "Toggle the command palette" },
+  { keys: "Alt 1 / Alt 2", description: "Switch between tracks" },
   { keys: "1 / 2 / 3", description: "Go to Roadmap / Field log / Timeline" },
   { keys: "?", description: "Show this shortcut help" },
   { keys: "↑ ↓", description: "Move through palette results" },
@@ -29,7 +30,7 @@ export function ShortcutsDialog({
           </DialogDescription>
         </DialogHeader>
         <dl className="flex flex-col border-t border-hairline">
-          {shortcuts.map((shortcut) => (
+          {SHORTCUTS.map((shortcut) => (
             <div
               key={shortcut.keys}
               className="flex min-h-11 items-center justify-between gap-6 border-b border-hairline py-1.5"
