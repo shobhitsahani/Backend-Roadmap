@@ -41,16 +41,17 @@ export function DataSection() {
 
       <div className="mt-5 rounded-sm border border-hairline bg-panel p-5">
         <p className="font-mono text-micro tracking-[0.1em] text-ink-subtle uppercase">
-          Format backend-roadmap-progress · v1 · {snapshot.phases.length} phases ·{" "}
+          Format backend-roadmap-progress · v2 · {snapshot.track.title} ·{" "}
+          {snapshot.phases.length} phases ·{" "}
           {snapshot.phases.reduce((total, phase) => total + phase.topics.length, 0)}{" "}
           topics · {subtopicCount} subtopics · {snapshot.activity.length} log entries
         </p>
 
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <a
-            href="/api/export"
+            href={`/api/export?track=${encodeURIComponent(snapshot.track.slug)}`}
             className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
-            onClick={() => exportSnapshot()}
+            onClick={() => exportSnapshot(snapshot.track.slug)}
           >
             <DownloadIcon data-icon="inline-start" aria-hidden="true" />
             Export JSON

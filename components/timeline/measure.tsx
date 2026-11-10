@@ -39,7 +39,7 @@ const phaseText = {
 } satisfies Record<1 | 2 | 3 | 4, string>;
 
 /**
- * The signature 36-week measure: a per-week cell block with a "water level"
+ * The signature week measure: a per-week cell block with a "water level"
  * progress fill, a phase index strip, week ticks, and an expected-week crosshair.
  */
 export function TimelineMeasure({
@@ -70,7 +70,7 @@ export function TimelineMeasure({
     <div
       className={cn("relative font-mono select-none", className)}
       role="img"
-      aria-label={`36-week measure, ${completedWeeks.toFixed(1)} of ${totalWeeks} weeks complete${
+      aria-label={`${totalWeeks}-week measure, ${completedWeeks.toFixed(1)} of ${totalWeeks} weeks complete${
         expectedWeek !== null
           ? `, expected position week ${Math.ceil(expectedWeek)}`
           : ", no start date set"

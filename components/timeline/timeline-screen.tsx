@@ -106,16 +106,16 @@ export function TimelineScreen() {
         });
       }
       dates.push({
-        label: "Final week · W36",
+        label: `Final week · W${timeline.totalWeeks}`,
         date: formatMilestoneDate(
-          weekToDate(startDate, timeline.phases.at(-1)?.endWeek ?? 36),
+          weekToDate(startDate, timeline.phases.at(-1)?.endWeek ?? timeline.totalWeeks),
         ),
       });
     } else {
       dates.push({
         label: "All topics complete",
         date: formatMilestoneDate(
-          weekToDate(startDate, timeline.phases.at(-1)?.endWeek ?? 36),
+          weekToDate(startDate, timeline.phases.at(-1)?.endWeek ?? timeline.totalWeeks),
         ),
       });
     }
@@ -131,7 +131,7 @@ export function TimelineScreen() {
               Timeline<span className="text-phase-1">.</span>
             </h1>
             <p className="mt-4 font-mono text-micro tracking-[0.16em] text-phase-1 uppercase">
-              Field log / 36-week measure
+              Field log / {timeline.totalWeeks}-week measure
             </p>
             <p className="mt-5 max-w-xl font-sans text-body-lg leading-relaxed text-ink-muted">
               One ruler for the whole plan. The crosshair marks where the calendar says

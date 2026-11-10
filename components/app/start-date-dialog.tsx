@@ -19,6 +19,11 @@ export function StartDateDialog() {
   const open = useUiStore((state) => state.startDateOpen);
   const setOpen = useUiStore((state) => state.setStartDateOpen);
   const startDate = useRoadmapStore((state) => state.snapshot.settings.startDate);
+  const totalWeeks = useRoadmapStore(
+    (state) =>
+      state.snapshot.tracks.find((track) => track.id === state.snapshot.track.id)
+        ?.totalWeeks ?? 0,
+  );
   const saveStartDate = useRoadmapStore((state) => state.saveStartDate);
   const pending = useRoadmapStore((state) => state.pending);
 
@@ -49,8 +54,8 @@ export function StartDateDialog() {
           </p>
           <DialogTitle>Set start date</DialogTitle>
           <DialogDescription>
-            The start date anchors the 36-week plan and marks today&apos;s expected
-            position. Completion always comes from your checklist.
+            The start date anchors the {totalWeeks}-week plan and marks today&apos;s
+            expected position. Completion always comes from your checklist.
           </DialogDescription>
         </DialogHeader>
 

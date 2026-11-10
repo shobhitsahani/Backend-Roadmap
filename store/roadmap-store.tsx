@@ -4,12 +4,13 @@ import { createContext, useContext, useState, type ReactNode } from "react";
 import { createStore, useStore } from "zustand";
 
 import { apiRequest } from "@/lib/client-api";
-import { deriveTopicStatus } from "@/lib/progress";
-import type { RoadmapSnapshot } from "@/types/roadmap";
+import { deriveTopicStatus, roadmapProgress } from "@/lib/progress";
+import type { RoadmapSnapshot, TopicStatus } from "@/types/roadmap";
 
 type PendingMutation =
   | { kind: "subtopic"; id: string }
   | { kind: "notes"; id: string }
+  | { kind: "topic-status"; id: string }
   | { kind: "start-date" };
 
 type RoadmapState = {
@@ -17,16 +18,37 @@ type RoadmapState = {
   pending: PendingMutation | null;
   toggleSubtopic: (subtopicId: string, done: boolean) => Promise<void>;
   saveNotes: (topicId: string, notes: string) => Promise<void>;
+  saveTopicStatus: (topicId: string, status: TopicStatus | null) => Promise<void>;
   saveStartDate: (startDate: string | null) => Promise<void>;
   replaceSnapshot: (snapshot: RoadmapSnapshot) => void;
 };
+
+/** Keeps the switcher's progress ring honest after an optimistic change. */
+function withDerivedTrackSummary(snapshot: RoadmapSnapshot): RoadmapSnapshot {
+  const progress = roadmapProgress(snapshot.phases);
+  return {
+    ...snapshot,
+    tracks: snapshot.tracks.map((track) =>
+      track.id === snapshot.track.id
+        ? {
+            ...track,
+            percent: progress.percent,
+            completedWeeks: progress.completedWeeks,
+            totalWeeks: progress.totalWeeks,
+            completedTopics: progress.completedTopics,
+            totalTopics: progress.totalTopics,
+          }
+        : track,
+    ),
+  };
+}
 
 function applySubtopicState(
   snapshot: RoadmapSnapshot,
   subtopicId: string,
   done: boolean,
 ): RoadmapSnapshot {
-  return {
+  return withDerivedTrackSummary({
     ...snapshot,
     phases: snapshot.phases.map((phase) => ({
       ...phase,
@@ -40,7 +62,7 @@ function applySubtopicState(
         return { ...topic, subtopics, status: deriveTopicStatus(subtopics) };
       }),
     })),
-  };
+  });
 }
 
 function applyNotes(
@@ -57,6 +79,28 @@ function applyNotes(
       ),
     })),
   };
+}
+
+function applyTopicStatus(
+  snapshot: RoadmapSnapshot,
+  topicId: string,
+  status: TopicStatus | null,
+): RoadmapSnapshot {
+  return withDerivedTrackSummary({
+    ...snapshot,
+    phases: snapshot.phases.map((phase) => ({
+      ...phase,
+      topics: phase.topics.map((topic) =>
+        topic.id === topicId
+          ? {
+              ...topic,
+              status: status ?? "not_started",
+              mirrored: status === null ? topic.linkedTopicId !== null : false,
+            }
+          : topic,
+      ),
+    })),
+  });
 }
 
 function applyStartDate(
@@ -122,6 +166,30 @@ function createRoadmapStore(initialSnapshot: RoadmapSnapshot) {
       }
     },
 
+    saveTopicStatus: async (topicId, status) => {
+      const { snapshot, pending } = get();
+      if (pending !== null) return;
+      const previous = snapshot;
+      set({
+        snapshot: applyTopicStatus(snapshot, topicId, status),
+        pending: { kind: "topic-status", id: topicId },
+      });
+
+      try {
+        const next = await apiRequest<RoadmapSnapshot>(
+          `/api/topics/${encodeURIComponent(topicId)}`,
+          {
+            method: "PATCH",
+            body: JSON.stringify(status === null ? { clearOverride: true } : { status }),
+          },
+        );
+        set({ snapshot: next, pending: null });
+      } catch (error) {
+        set({ snapshot: previous, pending: null });
+        throw error;
+      }
+    },
+
     saveStartDate: async (startDate) => {
       const { snapshot, pending } = get();
       if (pending !== null) return;
@@ -134,7 +202,7 @@ function createRoadmapStore(initialSnapshot: RoadmapSnapshot) {
       try {
         const next = await apiRequest<RoadmapSnapshot>("/api/settings", {
           method: "PATCH",
-          body: JSON.stringify({ startDate }),
+          body: JSON.stringify({ trackSlug: snapshot.track.slug, startDate }),
         });
         set({ snapshot: next, pending: null });
       } catch (error) {

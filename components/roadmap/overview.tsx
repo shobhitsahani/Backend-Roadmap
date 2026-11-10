@@ -36,7 +36,8 @@ export function RoadmapOverview({
           Backend roadmap<span className="text-phase-1">.</span>
         </h1>
         <p className="mt-4 font-mono text-micro tracking-[0.16em] text-phase-1 uppercase">
-          Field manual / 36 weeks / Four phases
+          Field manual / {progress.totalWeeks} weeks /{" "}
+          {phases.length === 1 ? "One phase" : `${phases.length} phases`}
         </p>
         <p className="mt-5 max-w-xl font-sans text-body-lg leading-relaxed text-ink-muted">
           A field plan for moving from language fundamentals to systems that hold up in
@@ -83,7 +84,7 @@ export function RoadmapOverview({
             </button>
           ) : (
             <p className="font-mono text-micro tracking-[0.1em] text-phase-1 uppercase">
-              Field manual complete / 36 weeks logged
+              Field manual complete / {progress.totalWeeks} weeks logged
             </p>
           )}
         </div>
@@ -122,7 +123,7 @@ export function RoadmapOverview({
           <div>
             <p className="text-ink-subtle">Weeks complete</p>
             <p className="mt-1 text-caption text-ink tabular-nums">
-              {formatWeeks(progress.completedWeeks)} / 36
+              {formatWeeks(progress.completedWeeks)} / {progress.totalWeeks}
             </p>
           </div>
           <div className="text-right">
