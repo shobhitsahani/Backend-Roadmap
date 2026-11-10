@@ -135,7 +135,10 @@ test.describe("3D fallback reasons", () => {
     const context = await browser.newContext();
     const page = await context.newPage();
     await page.addInitScript(() => {
-      window.localStorage.setItem("backend-roadmap-3d", "off");
+      window.localStorage.setItem(
+        "backend-roadmap-3d",
+        JSON.stringify({ state: { preference: "off" }, version: 0 }),
+      );
     });
     await page.goto("http://localhost:3100/");
     await page.waitForLoadState("networkidle");
