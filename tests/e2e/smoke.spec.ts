@@ -98,7 +98,7 @@ test("the roadmap view is stored in the URL and journey falls back to the map", 
   await expect(page.locator(".react-flow")).toBeVisible();
 
   await open(page, "/backend?view=journey");
-  await expect(page.locator(".react-flow")).toBeVisible();
+  await expect(page.getByTestId("journey-3d")).toBeVisible();
 });
 
 test("journey and settings are real routes", async ({ page }) => {
