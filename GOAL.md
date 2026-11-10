@@ -1,46 +1,58 @@
-# Goal — Backend Roadmap Tracker
+# Goal — Impeccable UI/Design Pass
 
 ## Objective
-Ship a production-quality, single-user web app called **Backend Roadmap Tracker**: an interactive 36-week backend engineering field manual. Dark-first with a complete light theme, built with Next.js App Router, TypeScript strict, Tailwind v4, shadcn/ui (Base UI), Drizzle/PostgreSQL, typed Zod route handlers, Zustand, Motion, React Flow, Recharts, Sonner, next-themes, and Lucide. It must include the graph and list views, topic drawer, phase/topic/overall progress, start-date timeline with on-track/behind status, dashboard with streak and activity heatmap, export/import/reset with undo, command palette and keyboard shortcuts, responsive/mobile behavior, accessibility, design tokens, motion system, and real seed content from the brief. Repository must follow the requested branch/commit/CI/release workflow and end with README, CHANGELOG, and tag `v0.1.0`.
+Improve the UI/design of Backend Roadmap Tracker with Impeccable, entirely inside the
+`Backend-Roadmap-impeccable` worktree on branch `impeccable-enhance`. Run critique/audit,
+fix P0/P1 first, then typeset/layout/polish and harden the main screens (Roadmap list +
+map, Field log, Timeline, shared shell, topic drawer), run `impeccable detect`, and leave
+the branch building and tested. Do not merge into `main`.
 
 ## Verification
 1. `npm run lint` passes.
 2. `npm run typecheck` passes.
-3. `npm test` passes (progress/timeline/streak logic).
+3. `npm test` passes.
 4. `npm run build` passes.
-5. Drizzle schema, generated migration, and `npm run db:seed` run successfully against the configured PostgreSQL (or embedded PostgreSQL fallback documented in `.env.example`).
-6. Playwright captures screenshots at 375, 768 and 1440 px in dark and light; visual inspection confirms no overflow, spacing/contrast issues.
-7. Lighthouse accessibility score >= 95 on the final production build.
-8. Reduced-motion and keyboard flows verified (Cmd/Ctrl+K, arrows, Space, Esc, ?).
-9. `git log` shows short-lived feature branches merged into `main`; tag `v0.1.0` exists.
-10. README documents setup, env, db seed, test, screenshots, and architecture; CHANGELOG documents the release.
+5. `npx impeccable detect app/ components/` reports no unresolved findings (repo has no `src/`).
+6. Playwright screenshots at 375 and 1440 in dark and light show: map edges render,
+   no clipped graph titles, mobile toolbar labels visible, timeline bars full-width on
+   mobile, dashboard zero-state chart and square heatmap cells, readable mobile map zoom.
+7. `git log` shows small focused commits on `impeccable-enhance`; main worktree untouched.
 
 ## Constraints
-- Do not use Inter, Roboto, Arial, system fonts, Space Grotesk, Radix primitives, gradients, blobs/glows, glassmorphism, emoji icons, placeholder copy, or looping decoration.
-- Maximum four Magic UI / React Bits components; may use fewer.
-- Motion only animates transform and opacity; 150–300ms UI transitions; spring drawers/layout; one subtle pulse for the current topic.
-- No layout shift when the drawer opens; 44px mobile touch targets; WCAG AA in both themes.
-- No direct commits to `main` after the scaffold commit.
-- Never commit `.env`, `node_modules`, `.next`, or Playwright screenshots unless intentionally documented.
-- Preserve unrelated user files; existing `tmp-app/` is untracked scaffold material and may be removed only after its reusable scaffold is adopted.
+- Do not change backend logic, APIs, or the database.
+- No live-mode runs against deployed sites.
+- Preserve the existing "engineer's field notebook" visual direction and DESIGN.md tokens.
+- Keep changes small and focused, one target at a time.
+- Do not commit `.env`, `node_modules`, `.next`, or scratch screenshots.
 
 ## Boundaries
-In scope: the entire repository at `C:/projects/Backend-Roadmap` (Next app, components, lib, db, store, types, tests, tooling, docs, git history).
-Out of scope: hosting/deployment credentials, multi-user auth implementation, external production database provisioning, network-dependent third-party services beyond npm/fonts/CDN.
+In scope: `app/`, `components/`, `lib/` presentation utilities, `DESIGN.md`, `PRODUCT.md`,
+`.impeccable/`, and UI tooling config in the worktree.
+Out of scope: `db/`, API route behavior, data model, deployment, and the main worktree.
 
 ## Checkpoints
-- [x] 01 Goal structured and scaffold inspected
-- [x] 02 Scaffold: Next/Tailwind v4/shadcn Base UI, tooling, CI, Drizzle schema/migration/seed
-- [x] 03 Design system: DESIGN.md, tokens, fonts, re-themed primitives, themes, motion tokens
-- [x] 04 Typed API routes and data layer
-- [x] 05 List view, detail drawer, progress engine, optimistic updates
-- [x] 06 Graph view with custom nodes/edges
-- [x] 07 Timeline, start date, dashboard, heatmap
-- [x] 08 Export/import/reset with undo
-- [x] 09 Command palette and keyboard shortcuts
-- [x] 10 Motion, empty states, skeletons, mobile, accessibility polish
-- [x] 11 README, CHANGELOG, release tag
-- [x] 12 Final screenshots, Lighthouse, verification and merge audit
+- [x] 01 Worktree + branch created; dependencies installed; baseline tests green
+- [x] 02 Impeccable installed; PRODUCT.md and DESIGN.md written and committed
+- [x] 03 Critique + audit captured (screenshots, axe, responsive checks); findings ranked P0–P3
+- [x] 04 P0: graph edges/handles and edge data
+- [x] 05 P1: mobile roadmap toolbar, graph node typography, mobile timeline, dashboard zero-state + heatmap, mobile map zoom
+- [x] 06 P2/P3: phase labels, dynamic phase colors, graph phase headers, command palette header, metadata casing
+- [x] 07 Typeset / layout / polish / harden pass
+- [x] 08 `impeccable detect`, lint, typecheck, tests, build, screenshots, commits
+
+## Verification evidence
+- `npm run lint` — pass.
+- `npm run typecheck` — pass.
+- `npm test` — 2 files, 18 tests pass.
+- `npm run build` — pass (Next.js 16.4.5, 8 routes).
+- `npx impeccable detect app/ components/` — 0 anti-patterns.
+- `npx impeccable detect http://localhost:3001` — 0 anti-patterns; 4 advisory
+  `numbered-section-labels` notes are intentional phase indices in the field-manual
+  structure, not decorative scaffolding.
+- Playwright screenshots at 375/1440, dark/light: graph renders 10 edges and 14 nodes,
+  node titles wrap, mobile toolbar labels visible, timeline rows stack with a full-width
+  ruler, dashboard zero-state and 24px square heatmap cells, mobile map starts at phase 1.
+- Axe: 0 violations on dashboard, timeline, and topic panel at both widths and themes.
 
 ## Status
-pursuing
+achieved

@@ -6,6 +6,9 @@ screenshots
 tmp-app
 
 .agents
+.github/skills
+.github/agents
+.codex
 opencode.json
 GOAL.md
 

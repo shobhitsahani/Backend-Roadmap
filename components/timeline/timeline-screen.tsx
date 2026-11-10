@@ -127,13 +127,13 @@ export function TimelineScreen() {
       <section className="border-b border-hairline pb-10">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="font-mono text-micro tracking-[0.16em] text-phase-1 uppercase">
-              Field log / 36-week measure
-            </p>
-            <h1 className="mt-5 font-display text-display-sm leading-[0.98] font-semibold tracking-[-0.045em] text-ink md:text-display">
+            <h1 className="font-display text-display-sm leading-[0.98] font-semibold tracking-[-0.045em] text-ink md:text-display">
               Timeline<span className="text-phase-1">.</span>
             </h1>
-            <p className="mt-6 max-w-xl font-sans text-body-lg leading-relaxed text-ink-muted">
+            <p className="mt-4 font-mono text-micro tracking-[0.16em] text-phase-1 uppercase">
+              Field log / 36-week measure
+            </p>
+            <p className="mt-5 max-w-xl font-sans text-body-lg leading-relaxed text-ink-muted">
               One ruler for the whole plan. The crosshair marks where the calendar says
               you should be.
             </p>
@@ -159,14 +159,14 @@ export function TimelineScreen() {
         >
           <motion.div variants={revealItem}>
             <p className="text-ink-subtle">Weeks logged</p>
-            <p className="mt-1 flex items-baseline gap-1 text-[1.4rem] leading-none font-medium text-ink">
+            <p className="mt-1 flex items-baseline gap-1 text-title-sm leading-none font-medium text-ink">
               <TickingNumber value={timeline.overall.completedWeeks} decimals={1} />
               <span className="text-caption text-ink-subtle">/ 36</span>
             </p>
           </motion.div>
           <motion.div variants={revealItem}>
             <p className="text-ink-subtle">Expected week</p>
-            <p className="mt-1 text-[1.4rem] leading-none font-medium text-ink">
+            <p className="mt-1 text-title-sm leading-none font-medium text-ink">
               {timeline.expectedWeek === null ? (
                 <span className="text-ink-subtle">Not set</span>
               ) : (
@@ -179,7 +179,7 @@ export function TimelineScreen() {
           </motion.div>
           <motion.div variants={revealItem}>
             <p className="text-ink-subtle">Calendar week</p>
-            <p className="mt-1 text-[1.4rem] leading-none font-medium text-ink">
+            <p className="mt-1 text-title-sm leading-none font-medium text-ink">
               {timeline.currentWeek === null ? (
                 <span className="text-ink-subtle">Not set</span>
               ) : (
@@ -189,7 +189,7 @@ export function TimelineScreen() {
           </motion.div>
           <motion.div variants={revealItem}>
             <p className="text-ink-subtle">Start date</p>
-            <p className="mt-1 text-[1.4rem] leading-none font-medium text-ink">
+            <p className="mt-1 text-title-sm leading-none font-medium text-ink">
               {startDate ? (
                 <span className="font-display text-title-sm tracking-[-0.02em] normal-case">
                   {formatDate(startDate)}
@@ -226,12 +226,12 @@ export function TimelineScreen() {
             return (
               <li
                 key={entry.topic.id}
-                className="grid min-h-11 grid-cols-[minmax(8.5rem,1fr)_minmax(0,2fr)_4.5rem] items-center gap-x-4 gap-y-1 border-b border-hairline py-1.5 md:grid-cols-[minmax(15rem,19rem)_minmax(0,1fr)_5.5rem] md:gap-x-8"
+                className="grid grid-cols-1 items-center gap-y-2 border-b border-hairline py-3 md:min-h-11 md:grid-cols-[minmax(15rem,19rem)_minmax(0,1fr)_5.5rem] md:gap-x-8 md:gap-y-1 md:py-1.5"
               >
                 <button
                   type="button"
                   onClick={() => openTopic(entry.topic.id)}
-                  className="flex min-h-11 min-w-0 flex-col justify-center self-stretch text-left outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+                  className="flex min-h-11 w-full min-w-0 flex-col justify-center self-stretch text-left outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
                 >
                   <span className="flex items-center gap-2">
                     <span className="sr-only">Open topic · </span>
@@ -249,13 +249,13 @@ export function TimelineScreen() {
                       {entry.topic.durationWeeks}w
                     </span>
                   </span>
-                  <span className="mt-0.5 block truncate font-sans text-body leading-snug font-medium text-ink">
+                  <span className="mt-0.5 line-clamp-2 block font-sans text-body leading-snug font-medium text-ink md:line-clamp-1">
                     {entry.topic.title}
                   </span>
                 </button>
 
                 <div
-                  className="grid h-5 md:h-6"
+                  className="grid h-6 w-full"
                   style={{ gridTemplateColumns: "repeat(36, minmax(0, 1fr))" }}
                   role="img"
                   aria-label={`${entry.topic.title}: ${weekRange(entry.startWeek, entry.endWeek)}, ${Math.round(entry.progress.percent)}% complete`}
@@ -302,7 +302,7 @@ export function TimelineScreen() {
 
                 <span
                   className={cn(
-                    "text-right font-mono text-micro tracking-[0.1em] uppercase",
+                    "text-left font-mono text-micro tracking-[0.1em] uppercase md:text-right",
                     statusMeta.tone,
                   )}
                 >

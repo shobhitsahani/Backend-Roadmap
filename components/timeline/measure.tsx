@@ -96,7 +96,10 @@ export function TimelineMeasure({
           >
             <span className="truncate text-micro tracking-[0.14em] uppercase">
               {String(entry.phase.order).padStart(2, "0")}
-              <span className="hidden lg:inline"> {entry.phase.title}</span>
+              <span className="hidden text-micro tracking-[-0.02em] xl:inline">
+                {" "}
+                {entry.phase.title}
+              </span>
             </span>
           </span>
         ))}

@@ -130,32 +130,37 @@ export function DashboardScreen() {
   const columns = Array.from({ length: heatmapWeeks }, (_, week) =>
     heatmap.slice(week * 7, week * 7 + 7),
   );
-  const monthLabels = columns.map((column, index) => {
-    const first = column.at(0);
-    const previous = columns[index - 1]?.at(0);
-    if (!first) return "";
-    const firstDate = new Date(`${first.date}T00:00:00`);
-    if (index === 0 || !previous) {
-      return firstDate.toLocaleDateString("en-US", { month: "short" });
-    }
-    const previousDate = new Date(`${previous.date}T00:00:00`);
-    return firstDate.getMonth() === previousDate.getMonth()
-      ? ""
-      : firstDate.toLocaleDateString("en-US", { month: "short" });
-  });
+  const monthGroups = columns.reduce<{ label: string; start: number; span: number }[]>(
+    (groups, column, index) => {
+      const first = column.at(0);
+      if (!first) return groups;
+      const label = new Date(`${first.date}T00:00:00`).toLocaleDateString("en-US", {
+        month: "short",
+      });
+      const last = groups.at(-1);
+      if (last && last.label === label) {
+        last.span += 1;
+      } else {
+        groups.push({ label, start: index + 1, span: 1 });
+      }
+      return groups;
+    },
+    [],
+  );
 
   const activeDays = heatmap.filter((day) => day.count > 0).length;
+  const hasPhaseProgress = phaseBars.some((bar) => bar.percent > 0);
 
   return (
     <div className="pt-8 md:pt-12">
       <section className="border-b border-hairline pb-10">
-        <p className="font-mono text-micro tracking-[0.16em] text-phase-1 uppercase">
-          Field log / progress ledger
-        </p>
-        <h1 className="mt-5 font-display text-display-sm leading-[0.98] font-semibold tracking-[-0.045em] text-ink md:text-display">
+        <h1 className="font-display text-display-sm leading-[0.98] font-semibold tracking-[-0.045em] text-ink md:text-display">
           Field log<span className="text-phase-1">.</span>
         </h1>
-        <p className="mt-6 max-w-xl font-sans text-body-lg leading-relaxed text-ink-muted">
+        <p className="mt-4 font-mono text-micro tracking-[0.16em] text-phase-1 uppercase">
+          Field log / progress ledger
+        </p>
+        <p className="mt-5 max-w-xl font-sans text-body-lg leading-relaxed text-ink-muted">
           What the log says: streak, recent entries, and how each phase is moving.
         </p>
 
@@ -224,60 +229,68 @@ export function DashboardScreen() {
           <h2 className="font-mono text-caption tracking-[0.14em] text-ink uppercase">
             Activity / last 12 weeks
           </h2>
-          <span className="hidden font-mono text-micro text-ink-subtle sm:inline">
-            {startDate ? `${activeDays} active days` : "start date not set"}
+          <span className="hidden font-mono text-micro text-ink-subtle uppercase sm:inline">
+            {startDate ? `${activeDays} active days` : "Start date not set"}
           </span>
         </div>
 
         <div className="mt-5 flex items-start gap-2">
-          <div className="hidden shrink-0 flex-col gap-[3px] pt-[14px] font-mono text-micro text-ink-subtle sm:flex">
-            <span className="h-[13px] leading-[13px]">M</span>
-            <span className="h-[13px] leading-[13px]"> </span>
-            <span className="h-[13px] leading-[13px]">W</span>
-            <span className="h-[13px] leading-[13px]"> </span>
-            <span className="h-[13px] leading-[13px]">F</span>
-            <span className="h-[13px] leading-[13px]"> </span>
-            <span className="h-[13px] leading-[13px]"> </span>
+          <div className="hidden shrink-0 flex-col gap-[3px] pt-[17px] font-mono text-micro text-ink-subtle sm:flex">
+            {["M", "", "W", "", "F", "", ""].map((label, index) => (
+              <span
+                key={index}
+                aria-hidden="true"
+                className="flex size-6 items-center leading-none"
+              >
+                {label}
+              </span>
+            ))}
           </div>
 
           <div className="min-w-0 flex-1">
-            <div
-              className="mb-1 flex gap-[3px] font-mono text-micro text-ink-subtle"
-              aria-hidden="true"
-            >
-              {monthLabels.map((label, index) => (
-                <span
-                  key={index}
-                  className="flex-1 truncate leading-[13px] tracking-[0.08em]"
+            <div className="-mx-1 overflow-x-auto px-1 pb-1">
+              <div className="inline-block">
+                <div
+                  className="mb-1 grid gap-[3px] font-mono text-micro text-ink-subtle"
+                  style={{
+                    gridTemplateColumns: `repeat(${heatmapWeeks}, 24px)`,
+                  }}
+                  aria-hidden="true"
                 >
-                  {label}
-                </span>
-              ))}
-            </div>
+                  {monthGroups.map((group) => (
+                    <span
+                      key={`${group.label}-${group.start}`}
+                      className="truncate leading-[13px] tracking-[0.08em]"
+                      style={{ gridColumn: `${group.start} / span ${group.span}` }}
+                    >
+                      {group.label}
+                    </span>
+                  ))}
+                </div>
 
-            <div
-              className="flex flex-col gap-[3px]"
-              role="img"
-              aria-label={`Activity heatmap for the last 12 weeks: ${activeDays} active days${streak > 0 ? `, current streak ${streak} days` : ""}`}
-            >
-              <div className="flex gap-[3px]">
-                {columns.map((column, columnIndex) => (
-                  <div
-                    key={columnIndex}
-                    className="flex min-w-0 flex-1 flex-col gap-[3px]"
-                  >
-                    {column.map((day) => (
-                      <span
-                        key={day.date}
-                        title={`${day.label} · ${day.count} ${day.count === 1 ? "entry" : "entries"}`}
-                        className={cn(
-                          "h-[13px] rounded-xs transition-colors duration-200",
-                          heatLevelClass[day.level],
-                        )}
-                      />
-                    ))}
-                  </div>
-                ))}
+                <div
+                  className="grid gap-[3px]"
+                  style={{
+                    gridTemplateColumns: `repeat(${heatmapWeeks}, 24px)`,
+                  }}
+                  role="img"
+                  aria-label={`Activity heatmap for the last 12 weeks: ${activeDays} active days${streak > 0 ? `, current streak ${streak} days` : ""}`}
+                >
+                  {columns.map((column, columnIndex) => (
+                    <div key={columnIndex} className="flex flex-col gap-[3px]">
+                      {column.map((day) => (
+                        <span
+                          key={day.date}
+                          title={`${day.label} · ${day.count} ${day.count === 1 ? "entry" : "entries"}`}
+                          className={cn(
+                            "size-6 rounded-xs transition-colors duration-200",
+                            heatLevelClass[day.level],
+                          )}
+                        />
+                      ))}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -287,7 +300,7 @@ export function DashboardScreen() {
                 <span
                   key={level}
                   aria-hidden="true"
-                  className={cn("size-[13px] rounded-xs", heatLevelClass[level])}
+                  className={cn("size-3 rounded-xs", heatLevelClass[level])}
                 />
               ))}
               <span>More</span>
@@ -302,35 +315,46 @@ export function DashboardScreen() {
             Phases / percent complete
           </h2>
           <div className="mt-5 rounded-sm border border-hairline bg-panel p-4">
-            <ChartContainer
-              config={phaseChartConfig}
-              className="aspect-auto h-44 font-mono [&_.recharts-cartesian-axis-tick_text]:font-mono [&_.recharts-cartesian-axis-tick_text]:tracking-[0.1em]"
-            >
-              <BarChart
-                data={phaseBars}
-                margin={{ top: 8, right: 0, bottom: 0, left: 0 }}
+            {hasPhaseProgress ? (
+              <ChartContainer
+                config={phaseChartConfig}
+                className="aspect-auto h-44 font-mono [&_.recharts-cartesian-axis-tick_text]:font-mono [&_.recharts-cartesian-axis-tick_text]:tracking-[0.1em]"
               >
-                <XAxis
-                  dataKey="phase"
-                  tickLine={false}
-                  axisLine={{ stroke: "var(--hairline)" }}
-                  tick={{ fontSize: 10, fill: "var(--ink-subtle)" }}
-                  dy={4}
-                />
-                <YAxis domain={[0, 100]} width={0} />
-                <ChartTooltip content={<ChartTooltipContent />} cursor={false} />
-                <Bar
-                  dataKey="percent"
-                  radius={[2, 2, 0, 0]}
-                  maxBarSize={44}
-                  isAnimationActive={false}
+                <BarChart
+                  data={phaseBars}
+                  margin={{ top: 8, right: 0, bottom: 0, left: 0 }}
                 >
-                  {phaseBars.map((bar) => (
-                    <Cell key={bar.phase} fill={bar.fill} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ChartContainer>
+                  <XAxis
+                    dataKey="phase"
+                    tickLine={false}
+                    axisLine={{ stroke: "var(--hairline)" }}
+                    tick={{ fontSize: 10, fill: "var(--ink-subtle)" }}
+                    dy={4}
+                  />
+                  <YAxis domain={[0, 100]} width={0} />
+                  <ChartTooltip content={<ChartTooltipContent />} cursor={false} />
+                  <Bar
+                    dataKey="percent"
+                    radius={[2, 2, 0, 0]}
+                    maxBarSize={44}
+                    isAnimationActive={false}
+                  >
+                    {phaseBars.map((bar) => (
+                      <Cell key={bar.phase} fill={bar.fill} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ChartContainer>
+            ) : (
+              <div className="flex h-44 flex-col items-center justify-center gap-2 px-4 text-center">
+                <p className="font-display text-title-sm font-semibold tracking-[-0.02em] text-ink">
+                  No progress logged yet.
+                </p>
+                <p className="max-w-[28ch] font-sans text-caption leading-relaxed text-ink-muted">
+                  Check a subtopic in the roadmap to start the phase bars.
+                </p>
+              </div>
+            )}
           </div>
         </div>
 

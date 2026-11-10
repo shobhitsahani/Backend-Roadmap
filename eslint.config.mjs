@@ -24,6 +24,10 @@ const eslintConfig = defineConfig([
     "tmp-app/**",
     "screenshots/**",
     "lighthouse-report/**",
+    ".agents/**",
+    ".codex/**",
+    ".github/agents/**",
+    ".github/skills/**",
   ]),
 ]);
 

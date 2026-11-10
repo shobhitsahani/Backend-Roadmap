@@ -42,37 +42,39 @@ export function RoadmapScreen() {
         onOpenTopic={openTopic}
       />
 
-      <div className="flex flex-col gap-4 border-b border-hairline py-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 border-b border-hairline py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
         <p className="font-mono text-micro tracking-[0.1em] text-ink-subtle uppercase">
           The plan / {progress.completedTopics} of {progress.totalTopics} topics /{" "}
           {formatWeeks(progress.completedWeeks)} weeks logged
         </p>
-        <ToggleGroup
-          value={[roadmapView] as string[]}
-          onValueChange={(next) => {
-            const view = next[0];
-            if (view === "list" || view === "graph") setRoadmapView(view);
-          }}
-          aria-label="Roadmap view"
-        >
-          <ToggleGroupItem value="list">
-            <span className="sr-only">List view</span>
-            <span className="hidden md:inline">List</span>
-          </ToggleGroupItem>
-          <ToggleGroupItem value="graph">
-            <span className="sr-only">Map view</span>
-            <span className="hidden md:inline">Map</span>
-          </ToggleGroupItem>
-        </ToggleGroup>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={() => setStartDateOpen(true)}
-        >
-          <CalendarIcon data-icon="inline-start" aria-hidden="true" />
-          {startDate ? `Start ${formatDate(startDate)}` : "Set start date"}
-        </Button>
+        <div className="flex flex-wrap items-center gap-2 sm:justify-end">
+          <ToggleGroup
+            value={[roadmapView] as string[]}
+            onValueChange={(next) => {
+              const view = next[0];
+              if (view === "list" || view === "graph") setRoadmapView(view);
+            }}
+            aria-label="Roadmap view"
+          >
+            <ToggleGroupItem value="list">
+              <span className="sr-only">List view</span>
+              <span aria-hidden="true">List</span>
+            </ToggleGroupItem>
+            <ToggleGroupItem value="graph">
+              <span className="sr-only">Map view</span>
+              <span aria-hidden="true">Map</span>
+            </ToggleGroupItem>
+          </ToggleGroup>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => setStartDateOpen(true)}
+          >
+            <CalendarIcon data-icon="inline-start" aria-hidden="true" />
+            {startDate ? `Start ${formatDate(startDate)}` : "Set start date"}
+          </Button>
+        </div>
       </div>
 
       <AnimatePresence mode="wait" initial={false}>

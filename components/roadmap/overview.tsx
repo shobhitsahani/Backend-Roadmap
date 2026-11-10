@@ -32,13 +32,13 @@ export function RoadmapOverview({
   return (
     <section className="grid gap-10 border-b border-hairline pb-12 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-end">
       <div>
-        <p className="font-mono text-micro tracking-[0.16em] text-phase-1 uppercase">
-          Field manual / 36 weeks / Four phases
-        </p>
-        <h1 className="mt-5 max-w-3xl font-display text-display-sm leading-[0.98] font-semibold tracking-[-0.045em] text-balance md:text-display">
+        <h1 className="max-w-3xl font-display text-display-sm leading-[0.98] font-semibold tracking-[-0.045em] text-balance md:text-display">
           Backend roadmap<span className="text-phase-1">.</span>
         </h1>
-        <p className="mt-6 max-w-xl font-sans text-body-lg leading-relaxed text-ink-muted">
+        <p className="mt-4 font-mono text-micro tracking-[0.16em] text-phase-1 uppercase">
+          Field manual / 36 weeks / Four phases
+        </p>
+        <p className="mt-5 max-w-xl font-sans text-body-lg leading-relaxed text-ink-muted">
           A field plan for moving from language fundamentals to systems that hold up in
           production.
         </p>
@@ -134,7 +134,7 @@ export function RoadmapOverview({
         </div>
 
         {expectedWeek === null ? (
-          <p className="mt-3 font-mono text-micro leading-relaxed text-ink-subtle">
+          <p className="mt-3 font-sans text-caption leading-relaxed text-ink-subtle">
             Set a start date to plot expected progress.
           </p>
         ) : null}
