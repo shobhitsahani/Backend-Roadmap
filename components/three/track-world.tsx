@@ -5,7 +5,8 @@ import { useSyncExternalStore } from "react";
 import Link from "next/link";
 import React from "react";
 
-import { shouldSkip3D, webglAvailable } from "@/lib/three-fallback";
+import { shouldSkip3D, shouldRenderStatic, webglAvailable } from "@/lib/three-fallback";
+import { useThreeStore } from "@/store/three-store";
 import { TrackWorldPoster } from "./poster";
 import { requestTrackWorldDolly } from "./track-world-events";
 
@@ -16,47 +17,97 @@ const TrackWorldCanvas = nextDynamic(() => import("./track-world-canvas"), {
 const ENABLE_3D = process.env.NEXT_PUBLIC_ENABLE_3D;
 
 /** Cached once at module load on the client; never changes after that. */
-let cachedSkip: boolean | null = null;
+let cachedEnv: {
+  prefersReducedMotion: boolean;
+  saveData: boolean;
+  hardwareConcurrency: number | undefined;
+  webgl: boolean;
+} | null = null;
 
-function getSkipValue(): boolean {
-  if (cachedSkip !== null) return cachedSkip;
-  const connection = (
-    navigator as Navigator & {
-      connection?: { saveData?: boolean };
-    }
-  ).connection;
-  cachedSkip =
+function getEnv() {
+  if (cachedEnv !== null) return cachedEnv;
+  const connection = (navigator as Navigator & { connection?: { saveData?: boolean } })
+    .connection;
+  cachedEnv = {
+    prefersReducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    saveData: connection?.saveData ?? false,
+    hardwareConcurrency: navigator.hardwareConcurrency ?? undefined,
+    webgl: webglAvailable(),
+  };
+  return cachedEnv;
+}
+
+function computeSkip(preference: "on" | "reduced" | "off"): boolean {
+  const env = getEnv();
+  return (
     shouldSkip3D({
       enable3D: ENABLE_3D,
-      prefersReducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-      saveData: connection?.saveData ?? false,
-      hardwareConcurrency: navigator.hardwareConcurrency ?? undefined,
-    }) || !webglAvailable();
-  return cachedSkip;
+      prefersReducedMotion: env.prefersReducedMotion,
+      saveData: env.saveData,
+      hardwareConcurrency: env.hardwareConcurrency,
+      userPreference: preference,
+    }) || !env.webgl
+  );
+}
+
+function skipReason(preference: "on" | "reduced" | "off"): string {
+  if (typeof window === "undefined") return "ssr";
+  const env = getEnv();
+  if (ENABLE_3D === "false") return "env-disabled";
+  if (preference === "off") return "user-off";
+  if (env.saveData) return "save-data";
+  if (!env.webgl) return "webgl-unavailable";
+  return "unknown";
 }
 
 const subscribe = () => () => {};
-const getSkipSnapshot = () => getSkipValue();
 const getServerSkipSnapshot = () => true;
 
 /** Full-width brand band for the landing page; degrades to static SVG. */
 export function TrackWorldSection() {
+  const preference = useThreeStore((state) => state.preference);
+  const preferenceRef = React.useRef(preference);
+  React.useEffect(() => {
+    preferenceRef.current = preference;
+  }, [preference]);
+
+  const getSkipSnapshot = React.useCallback(() => computeSkip(preferenceRef.current), []);
   const skip = useSyncExternalStore(subscribe, getSkipSnapshot, getServerSkipSnapshot);
 
-  // frameloop="demand" means the canvas never animates after its first
-  // frames, so there is nothing to pause when the band is off screen.
+  const env = typeof window === "undefined" ? null : getEnv();
+  const staticFrame =
+    !skip &&
+    shouldRenderStatic({
+      enable3D: ENABLE_3D,
+      prefersReducedMotion: env?.prefersReducedMotion ?? false,
+      saveData: env?.saveData ?? false,
+      hardwareConcurrency: env?.hardwareConcurrency,
+      userPreference: preference,
+    });
+
   const canvasLive = !skip;
+
+  React.useEffect(() => {
+    if (skip) {
+      console.info("3d_fallback_used", skipReason(preference));
+    }
+  }, [skip, preference]);
+
+  const state = skip ? "fallback" : staticFrame ? "static" : "ready";
 
   return (
     <section
       aria-label="Track world"
+      data-testid="track-world"
+      data-state={state}
+      data-fallback-reason={skip ? skipReason(preference) : undefined}
       className="relative my-8 w-full border border-hairline bg-panel"
       data-track-world={canvasLive ? "on" : "off"}
     >
       {canvasLive ? (
         <div className="h-[300px] w-full">
           <TrackWorldErrorBoundary>
-            <TrackWorldCanvas />
+            <TrackWorldCanvas staticFrame={staticFrame} />
           </TrackWorldErrorBoundary>
         </div>
       ) : (

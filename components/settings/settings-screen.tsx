@@ -20,6 +20,7 @@ import { formatDate, formatWeeks } from "@/lib/format";
 import { roadmapProgress } from "@/lib/progress";
 import { cn } from "@/lib/utils";
 import { useRoadmapStore } from "@/store/roadmap-store";
+import { useThreeStore } from "@/store/three-store";
 import { useUiStore } from "@/store/ui-store";
 
 export function SettingsScreen() {
@@ -27,6 +28,8 @@ export function SettingsScreen() {
   const replaceSnapshot = useRoadmapStore((state) => state.replaceSnapshot);
   const pending = useRoadmapStore((state) => state.pending);
   const setStartDateOpen = useUiStore((state) => state.setStartDateOpen);
+  const threePreference = useThreeStore((state) => state.preference);
+  const setThreePreference = useThreeStore((state) => state.setPreference);
   const { resolvedTheme, setTheme } = useTheme();
   const mounted = useSyncExternalStore(
     () => () => {},
@@ -123,12 +126,49 @@ export function SettingsScreen() {
       </section>
 
       <section
+        aria-labelledby="three-d-settings"
+        className="grid gap-6 border-b border-hairline py-8 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-10"
+      >
+        <div>
+          <p className="font-mono text-micro tracking-[0.12em] text-ink-subtle uppercase">
+            02 / 3D effects
+          </p>
+          <h2
+            id="three-d-settings"
+            className="mt-2 font-display text-title-sm font-semibold tracking-[-0.02em]"
+          >
+            3D effects
+          </h2>
+        </div>
+        <div className="flex flex-col gap-4">
+          <p className="max-w-xl font-sans text-body text-ink-muted">
+            3D is on by default. Choose reduced motion or off if your device struggles or
+            you prefer a static view.
+          </p>
+          <div role="group" aria-label="3D effects" className="flex flex-wrap gap-2">
+            {(["on", "reduced", "off"] as const).map((value) => (
+              <Button
+                key={value}
+                type="button"
+                size="sm"
+                variant={threePreference === value ? "default" : "outline"}
+                aria-pressed={threePreference === value}
+                onClick={() => setThreePreference(value)}
+              >
+                {value === "on" ? "On" : value === "reduced" ? "Reduced" : "Off"}
+              </Button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section
         aria-labelledby="appearance-settings"
         className="grid gap-6 border-b border-hairline py-8 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-10"
       >
         <div>
           <p className="font-mono text-micro tracking-[0.12em] text-ink-subtle uppercase">
-            02 / Appearance
+            03 / Appearance
           </p>
           <h2
             id="appearance-settings"
@@ -172,7 +212,7 @@ export function SettingsScreen() {
       >
         <div>
           <p className="font-mono text-micro tracking-[0.12em] text-ink-subtle uppercase">
-            03 / Data
+            04 / Data
           </p>
           <h2
             id="data-settings"
@@ -236,7 +276,7 @@ export function SettingsScreen() {
       >
         <div>
           <p className="font-mono text-micro tracking-[0.12em] text-ink-subtle uppercase">
-            04 / Keyboard
+            05 / Keyboard
           </p>
           <h2
             id="keyboard-settings"
