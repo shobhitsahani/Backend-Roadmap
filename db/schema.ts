@@ -74,6 +74,7 @@ export const topics = pgTable(
     linkedTopicId: text("linked_topic_id").references((): AnyPgColumn => topics.id, {
       onDelete: "set null",
     }),
+    honestyNote: text("honesty_note"),
     /**
      * @deprecated Content/state split: read from `user_topic_state`.
      * Kept for one release as a rollback path.

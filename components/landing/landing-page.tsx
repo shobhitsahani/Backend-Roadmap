@@ -65,6 +65,11 @@ function TrackPanel({
         className="mt-3 font-display text-title leading-[1.15] font-semibold tracking-[-0.025em] text-ink"
       >
         {track.title}
+        {track.slug === "ai-engineer" ? (
+          <span className="ml-2 align-middle font-mono text-micro tracking-[0.14em] text-ink-subtle uppercase">
+            TypeScript
+          </span>
+        ) : null}
       </h2>
       <p className="mt-2 font-sans text-caption leading-relaxed text-ink-muted">
         {track.subtitle}
@@ -176,9 +181,9 @@ export function LandingPage({ mode, tracks, snapshots }: LandingPageProps) {
             </h1>
             <p className="mt-6 max-w-xl font-sans text-body-lg leading-relaxed text-ink-muted">
               Backend Engineer is the fixed curriculum: language, APIs, data, production.
-              AI Engineer starts where that foundation ends — Python, retrieval, agents,
-              and the systems you will actually be asked to ship. Take them in order, or
-              jump in where you already stand.
+              AI Engineer starts where that foundation ends — TypeScript, retrieval,
+              agents, and the systems you will actually be asked to ship. Take them in
+              order, or jump in where you already stand.
             </p>
             <p className="mt-5 font-mono text-micro tracking-[0.16em] text-ink-subtle uppercase">
               Backend, then AI — the recommended path

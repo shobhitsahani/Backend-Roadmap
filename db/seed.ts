@@ -64,6 +64,7 @@ async function seed() {
             outcome: topic.outcome,
             flow: topic.flow,
             estimated: topic.estimated,
+            honestyNote: topic.honestyNote,
           },
         });
     }

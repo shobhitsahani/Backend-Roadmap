@@ -53,6 +53,7 @@ function topic({
     flow: null,
     estimated: false,
     linkedTopicId: null,
+    honestyNote: null,
     status,
     notes: "",
     mirrored: false,

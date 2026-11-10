@@ -23,9 +23,9 @@ describe("trackStats", () => {
   it("derives AI totals from content, never constants", () => {
     expect(trackStats(ai)).toEqual({
       phases: 5,
-      topics: 19,
-      subtopics: 54,
-      totalWeeks: 30,
+      topics: 28,
+      subtopics: 98,
+      totalWeeks: 28,
     });
   });
 
@@ -36,7 +36,7 @@ describe("trackStats", () => {
     const weeks = ai.phases
       .flatMap((phase) => phase.topics)
       .reduce((sum, topic) => sum + topic.durationWeeks, 0);
-    expect(weeks).toBe(30);
+    expect(weeks).toBe(28);
   });
 });
 
