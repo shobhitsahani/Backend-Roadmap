@@ -18,7 +18,22 @@ export default defineConfig({
     screenshot: "only-on-failure",
   },
   expect: { timeout: 15_000 },
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  projects: [
+    {
+      name: "chromium",
+      use: {
+        ...devices["Desktop Chrome"],
+        launchOptions: {
+          args: [
+            "--use-gl=angle",
+            "--use-angle=swiftshader",
+            "--enable-unsafe-swiftshader",
+            "--ignore-gpu-blocklist",
+          ],
+        },
+      },
+    },
+  ],
   webServer: {
     command: `npm run dev -- -p ${PORT}`,
     url: baseURL,
