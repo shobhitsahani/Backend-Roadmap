@@ -8,54 +8,81 @@ web
 
 ## Users
 
-One self-directed developer working through a 36-week backend engineering syllabus on their own. They use the app across desktop and mobile, often in short sessions between study blocks, to decide what to work on next and to record what they finished. The job: answer “where am I, what is next, and what have I finished?” without leaving the plan.
+Self-directed developers choosing a direction and then working through a fixed curriculum on their own. Two audiences share one app:
+
+- **Backend Engineer** — the existing 36-week backend syllabus. 4 phases, 11 topics, 52 subtopics.
+- **AI Engineer** — developers moving from software engineering into applied AI: support chatbots, RAG pipelines, agent systems. The track assumes the Backend foundation and says so.
+
+They use the app across desktop and mobile, often in short sessions between study blocks, to decide what to work on next and to record what they finished. The job is unchanged: **where am I, what is next, and what have I finished?** — now asked per track and across both.
+
+The first visit is guest-first: no account, local progress, a picker that explains the recommended path (Backend, then AI). Accounts arrive later and adopt local progress; nothing is lost by starting without one.
 
 ## Product Purpose
 
-Backend Roadmap Tracker is an interactive field manual for a fixed 36-week backend curriculum. It turns the syllabus into a trackable working document: 4 phases, 11 topics, 52 subtopics, each with durations, checklists, notes, and per-phase progress. Success means the developer always knows their true position against the plan and can act on the next subtopic in one click.
+Backend Roadmap Tracker is an interactive field manual for real, fixed curricula. It turns a syllabus into a working document: phases, topics, subtopics, durations, checklists, notes, and derived progress. A second track does not fork the app — it adds content and swaps the signal colour.
+
+Success means the developer always knows their true position against the plan, in either track, and can act on the next subtopic in one click.
 
 ## Positioning
 
-The roadmap itself is the product, not a generic task manager. Progress, timeline projection, streaks, and the graph are all derived from one seeded syllabus snapshot, so the app can show expected vs actual position rather than asking the user to maintain a plan by hand. It is local-first, single-user, and ships with real curriculum content rather than empty boards.
+The roadmap itself is the product, not a generic task manager. Progress, timeline projection, streaks, graph layout and the journey path are all derived from one seeded content snapshot, so the app can show expected vs actual position rather than asking the user to maintain a plan by hand.
+
+Two properties make the multi-track model credible:
+
+1. **Prerequisites are real links, not copy.** AI Phase 1 topics point at the matching Backend topics and mirror their status read-only, with an explicit "I already know this" override.
+2. **Adding a track is a content file.** Content is typed and validated; the seed upserts by stable slug, so re-seeding never wipes progress.
 
 ## Operating Context
 
-- Study happens in short, repeated sessions over 36 weeks; the app is opened to check position and tick subtopics.
-- Users record completion at subtopic level; topic completion follows from subtopics.
-- A start date anchors the timeline: expected week, on-track/behind status, and milestone targets.
-- Progress is stored in PostgreSQL through typed API routes; a JSON progress file (v1) can be exported, imported, and reset with a 10-second undo.
-- Keyboard-first use is expected: Ctrl/Cmd+K palette, 1/2/3 view switching, `?` shortcuts, arrows/Space/Esc.
-- The app is used in both dark (default) and light themes and at 375, 768, and 1440 px widths.
+- Study happens in short, repeated sessions over weeks; the app is opened to check position and tick subtopics.
+- Completion is recorded at subtopic level; topic completion follows from subtopics.
+- A start date anchors each track's timeline: expected week, on-track/behind status, and milestone targets.
+- Track is the URL's source of truth: `/backend`, `/ai-engineer`, `/journey`, `/settings`; `/` is the landing and picker. `?view=list|graph|journey` selects the view.
+- The last track is stored in a cookie so the server renders the right accent and links with no flash.
+- Keyboard-first: Alt+1 / Alt+2 switch tracks outside inputs, Ctrl/Cmd+K opens the palette, `1/2/3` switch views, `?` shows shortcuts.
+- Both themes and 375, 768, 1440 px widths are first-class.
 
 ## Capabilities and Constraints
 
-- Views: roadmap list (per-topic checklists), roadmap map (phase-linked graph), field log (dashboard: streak, heatmap, phase bars, recent activity), and timeline (36-week ruler, expected vs calendar week, milestones).
-- Topic drawer: subtopic checklist, notes, duration, progress path, optimistic updates with rollback on API failure.
-- Data actions: export, import, reset, all via the `backend-roadmap-progress` v1 format.
-- Single user, no auth. Local-first posture. Backend logic, APIs, and database schema are out of scope for UI work.
-- Stack: Next.js App Router, TypeScript strict, Tailwind v4, shadcn/ui on Base UI, Drizzle/PostgreSQL, Zustand, Motion, React Flow, Recharts, Sonner, next-themes, Lucide, Vitest, Playwright.
-- Must keep lint, typecheck, tests, and production build passing; WCAG AA in both themes; 44px mobile targets; no horizontal overflow at 375/768/1440.
+- **Tracks:** Backend Engineer (existing data unchanged) and AI Engineer (5 phases; Phase 1 is a zero-week prerequisite linked to Backend).
+- **Views per track:** List, Graph, and Journey 3D. Journey falls back to Graph when 3D is unavailable.
+- **Journey:** both tracks as one connected path, showing prerequisites and what each Backend phase unlocks.
+- **Topic drawer:** subtopic checklist, notes, duration, progress path, optimistic updates with rollback. One shared drawer across views.
+- **Estimated content:** every AI duration is an estimate, marked with an "Estimated" badge and tooltip, editable in the content file.
+- **Data actions:** export, import, reset; the format is versioned and scoped by track.
+- **3D is optional:** `NEXT_PUBLIC_ENABLE_3D=false` removes it; reduced motion, Save-Data, low-end devices, and no-WebGL get a static poster or the graph.
+- **Accessibility:** WCAG AA in both themes, visible focus, full keyboard operation, aria-live progress announcements.
+- **Stack:** Next.js App Router, TypeScript strict, Tailwind v4, shadcn/ui on Base UI, Drizzle/PostgreSQL, Zustand, Motion, React Flow, Recharts, Sonner, next-themes, Lucide, Vitest, Playwright.
 
 ## Brand Commitments
 
-The existing DESIGN.md and GOAL.md are binding: a graphite “engineer's field notebook” aesthetic, dark-first with a drafting-paper light theme, the 36-week measure as signature motif, one flat phase colour per phase, hairline structure, and mono data type. Do not replace this visual world as part of refinement work.
+The existing DESIGN.md and GOAL.md are binding: a graphite "engineer's field notebook" aesthetic, dark-first with a drafting-paper light theme, the week measure as signature motif, one flat phase colour per phase, hairline structure, and mono data type.
+
+Two surfaces, one world:
+
+- **Brand** — the landing page and track picker. Editorial and confident, with real roadmap data on screen instead of feature cards.
+- **Product** — the tracker. Dense, fast, and quiet, optimised for repeated use.
+
+The AI track gets a warm signal (amber/copper on graphite) and its own phase accents. No purple-blue gradients: that is the AI-site cliché. Never replace the field-notebook world.
 
 ## Evidence on Hand
 
-- `DESIGN.md`: committed design direction, tokens, type scale, motion rules, component treatment.
+- `DESIGN.md`: committed design direction, tokens, type scale, motion rules, component treatment, per-track tokens.
 - `GOAL.md`: product objective, verification gates, constraints, checkpoints.
 - `README.md`: features, stack, scripts, architecture, release convention.
-- Seeded curriculum content in `db/seed.ts` (4 phases / 11 topics / 52 subtopics) is real content, not placeholder.
+- Seeded Backend curriculum (4 phases / 11 topics / 52 subtopics) is real content, not placeholder.
+- AI Engineer curriculum from the brief, with source credit ("AI Engineer Roadmap 2027", https://www.youtube.com/watch?v=CpI7pd5yGCw).
 - `screenshots/` holds local captures (gitignored). No testimonials, customers, benchmarks, or pricing exist; do not invent them.
 
 ## Product Principles
 
-1. The plan is the source of truth: every number, bar, and status is a derivation over the seeded snapshot.
+1. The plan is the source of truth: every number, bar, and status is a derivation over the seeded content.
 2. Answer position before detail: where am I, what is next, what is done, in that order.
 3. Record work in one action: ticking a subtopic is the primary interaction and must feel immediate.
-4. Quiet tool, legible data: structure from hairlines and type, colour reserved for real phase state.
-5. Local-first and honest: no fake social proof, no invented encouragement, no backend changes to serve UI.
+4. Quiet tool, legible data: structure from hairlines and type, colour reserved for real state.
+5. One model, two tracks: never fork a component or a query to add content.
+6. Honest about estimates: label what is estimated, credit the source, never invent a URL.
 
 ## Accessibility & Inclusion
 
-WCAG AA contrast in dark and light; visible focus at all times; full keyboard operation of palette, views, drawer, and checklists; reduced-motion support that removes orchestration and looping motion; 44px touch targets at 375 px.
+WCAG AA contrast in dark and light; visible focus at all times; full keyboard operation of switcher, palette, views, drawer, checklists, and the 3D camera; reduced-motion support that removes orchestration, camera travel, and looping motion; 44px touch targets at 375 px; every canvas is `aria-hidden` and duplicated in the DOM.
