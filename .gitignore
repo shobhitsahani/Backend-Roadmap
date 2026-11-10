@@ -44,3 +44,6 @@ yarn-error.log*
 
 # local scratch scaffold
 /tmp-app
+
+# agent orchestration state
+/.opencode/

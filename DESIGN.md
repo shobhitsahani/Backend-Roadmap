@@ -1,6 +1,6 @@
 ---
 name: Backend Roadmap Tracker
-description: A graphite field manual for a 36-week backend engineering syllabus.
+description: A graphite field manual for two engineering tracks — Backend and AI Engineer.
 colors:
   surface-0: "oklch(0.166 0.008 145)"
   surface-1: "oklch(0.196 0.009 145)"
@@ -29,6 +29,18 @@ colors:
   phase-2-paper: "oklch(0.470 0.125 250)"
   phase-3-paper: "oklch(0.475 0.150 300)"
   phase-4-paper: "oklch(0.480 0.155 29)"
+  track-ai: "oklch(0.780 0.140 62)"
+  track-ai-paper: "oklch(0.500 0.120 55)"
+  ai-phase-1: "oklch(0.760 0.055 78)"
+  ai-phase-2: "oklch(0.810 0.130 88)"
+  ai-phase-3: "oklch(0.750 0.140 62)"
+  ai-phase-4: "oklch(0.715 0.150 38)"
+  ai-phase-5: "oklch(0.685 0.145 25)"
+  ai-phase-1-paper: "oklch(0.500 0.045 78)"
+  ai-phase-2-paper: "oklch(0.505 0.105 88)"
+  ai-phase-3-paper: "oklch(0.500 0.115 62)"
+  ai-phase-4-paper: "oklch(0.495 0.130 38)"
+  ai-phase-5-paper: "oklch(0.485 0.130 25)"
 typography:
   display:
     fontFamily: "Bricolage Grotesque, ui-sans-serif, sans-serif"
@@ -163,6 +175,27 @@ A near-neutral graphite range carries almost the whole screen; four flat phase h
 
 **The Flat Signal Rule.** Phase colours are flat tints. Never gradients, glows, or tinted glass. Soft fills use `color-mix(in oklch, var(--phase-N) 12%, transparent)`; borders use 34%.
 
+## Track Identities
+
+Two tracks, one world. The field-notebook system does not change; the signal palette does. `data-track` on `<html>` swaps the accent tokens, and every component reads the same `--phase-N` / `--track-accent` names in both tracks.
+
+| Token            | Backend Engineer (default)                | AI Engineer (warm)                                 |
+| ---------------- | ----------------------------------------- | -------------------------------------------------- |
+| `--track-accent` | Foundation Green `oklch(0.775 0.130 150)` | Copper `oklch(0.780 0.140 62)`                     |
+| Phases           | 4                                         | 5 (Phase 1 is a zero-week prerequisite)            |
+| Phase ramp       | green / blue / violet / red               | warm grey-gold / amber / copper / rust / deep rust |
+| Identity use     | focus ring, active nav underline          | focus ring, active nav underline, switcher ring    |
+
+Light-mode values are the `*-paper` tokens above; every pair is AA on its own surface (phase text on `surface-0`/`surface-1`, and `accent-contrast` on phase fills).
+
+### Named Rules
+
+**The Track Swap Rule.** A track changes hue, not structure. Same grid, same type, same radii, same density. If a layout only works for one track, the layout is wrong.
+
+**The No AI Cliché Rule.** No purple-blue gradients, no neon glow, no "neural network" decoration. The AI track is warm metal on graphite: amber, copper, rust. Colour still marks real state only.
+
+**The Estimated Rule.** Estimated durations are labelled, never hidden. An "Estimated" chip uses copper at 12% fill and a tooltip that says the duration is an estimate and where it comes from.
+
 ## Typography
 
 **Display Font:** Bricolage Grotesque (with ui-sans-serif fallback)
@@ -246,6 +279,16 @@ The recurring silhouette is the ruled row: a full-width line with an index numbe
 - **Style:** sticky 64px masthead with a bottom hairline. Desktop items are mono uppercase micro labels with a 2px bottom border; active gets ink text and a phase-1 underline. The wordmark is a ruled mark plus a two-line wordmark.
 - **Mobile:** fixed 64px bottom index, three equal cells, 20px Lucide icon plus micro label; active icon takes phase-1.
 - **Skip link:** appears top-left on focus with panel fill and hairline border.
+
+### Track Switcher (signature)
+
+A segmented control in the masthead, built from real `<Link>`s, never buttons.
+
+- **Shape:** 4px radius track on `surface-1`, 1px hairline, 36px tall desktop / 44px mobile. Two segments, equal width.
+- **Segment:** mono label plus a 16px progress ring. Inactive text is `ink-muted`; active text is `ink` and the ring uses that track's accent.
+- **Indicator:** one sliding fill behind the active segment (Motion `layoutId`), 150ms ease-out, no overshoot. It moves; the segments do not fade.
+- **State:** `aria-current="page"` on the active link, `aria-live="polite"` announces the switch. Alt+1 / Alt+2 work outside inputs.
+- **Mobile:** the switcher sits above the bottom index in a 44px row; never inside the sheet.
 
 ### Topic Row (signature)
 
