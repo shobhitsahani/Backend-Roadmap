@@ -5,6 +5,7 @@ import { BrandMark, Wordmark } from "@/components/brand";
 import { ProgressBar } from "@/components/progress-bar";
 import { formatWeeks, formatPercent } from "@/lib/format";
 import { roadmapProgress } from "@/lib/progress";
+import { TrackWorldSection } from "@/components/three/track-world";
 import type { PhaseLine, TrackStats } from "@/lib/track-stats";
 import type { RoadmapSnapshot } from "@/types/roadmap";
 
@@ -254,6 +255,8 @@ export function LandingPage({ mode, tracks, snapshots }: LandingPageProps) {
             </ol>
           </aside>
         </section>
+
+        <TrackWorldSection />
 
         <section
           id="tracks"
