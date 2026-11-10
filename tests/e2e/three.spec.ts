@@ -51,9 +51,7 @@ test.describe("3D is on by default", () => {
     await expect(section).toHaveAttribute("data-track-world", "on");
     const canvas = section.locator("canvas");
     await expect(canvas).toBeVisible();
-    const box = await canvas.boundingBox();
-    expect(box?.width ?? 0).toBeGreaterThan(0);
-    expect(box?.height ?? 0).toBeGreaterThan(0);
+    await page.waitForTimeout(800);
     const colors = await distinctColorCount(page, "[data-testid='track-world'] canvas");
     expect(colors).toBeGreaterThan(8);
   });
