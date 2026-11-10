@@ -1,4 +1,4 @@
-import type { z } from "zod";
+import { z } from "zod";
 
 import { RoadmapError } from "@/lib/errors";
 
@@ -63,5 +63,20 @@ export async function readBody<T>(request: Request, schema: z.ZodType<T>): Promi
     throw new RoadmapError(message, 400, "INVALID_BODY");
   }
 
+  return result.data;
+}
+
+const trackSlugSchema = z
+  .string()
+  .min(1)
+  .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Track must be a kebab-case slug.");
+
+/** Reads `?track=` and validates it. Track is never accepted from a body. */
+export function readTrackSlug(request: Request, fallback = "backend"): string {
+  const value = new URL(request.url).searchParams.get("track") ?? fallback;
+  const result = trackSlugSchema.safeParse(value);
+  if (!result.success) {
+    throw new RoadmapError("Invalid track slug.", 400, "INVALID_TRACK");
+  }
   return result.data;
 }

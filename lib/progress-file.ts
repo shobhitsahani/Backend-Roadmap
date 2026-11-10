@@ -1,7 +1,7 @@
 import type { ProgressFile, RoadmapSnapshot } from "@/types/roadmap";
 
 export const PROGRESS_FILE_FORMAT = "backend-roadmap-progress";
-export const PROGRESS_FILE_VERSION = 1;
+export const PROGRESS_FILE_VERSION = 2;
 
 export function createProgressFile(
   snapshot: RoadmapSnapshot,
@@ -12,11 +12,14 @@ export function createProgressFile(
     version: PROGRESS_FILE_VERSION,
     exportedAt: exportedAt.toISOString(),
     data: {
+      trackSlug: snapshot.track.slug,
       startDate: snapshot.settings.startDate,
       topics: snapshot.phases.flatMap((phase) =>
         phase.topics.map((topic) => ({
           id: topic.id,
-          status: topic.status,
+          // A mirrored prerequisite has no override of its own. Exporting the
+          // mirrored status would silently create one on import.
+          status: topic.mirrored ? "not_started" : topic.status,
           notes: topic.notes,
         })),
       ),

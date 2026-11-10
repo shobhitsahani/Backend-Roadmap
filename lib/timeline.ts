@@ -28,7 +28,14 @@ export type PhaseTimeline = {
 };
 
 const DAY_MS = 86_400_000;
-const TOTAL_WEEKS = 36;
+
+export function totalPlanWeeks(phases: PhaseWithTopics[]) {
+  return phases.reduce(
+    (total, phase) =>
+      total + phase.topics.reduce((sum, topic) => sum + topic.durationWeeks, 0),
+    0,
+  );
+}
 
 export function parseLocalDate(value: string) {
   const [year = 1970, month = 1, day = 1] = value.split("-").map(Number);
@@ -42,16 +49,24 @@ export function getElapsedWeeks(startDate: string | null, now = new Date()) {
   return (end.getTime() - start.getTime()) / (DAY_MS * 7);
 }
 
-export function getExpectedWeek(startDate: string | null, now = new Date()) {
+export function getExpectedWeek(
+  startDate: string | null,
+  now = new Date(),
+  totalWeeks = Number.POSITIVE_INFINITY,
+) {
   const elapsed = getElapsedWeeks(startDate, now);
   if (elapsed === null) return null;
-  return Math.min(TOTAL_WEEKS, Math.max(0, elapsed));
+  return Math.min(totalWeeks, Math.max(0, elapsed));
 }
 
-export function getCurrentWeek(startDate: string | null, now = new Date()) {
+export function getCurrentWeek(
+  startDate: string | null,
+  now = new Date(),
+  totalWeeks = Number.POSITIVE_INFINITY,
+) {
   const elapsed = getElapsedWeeks(startDate, now);
   if (elapsed === null || elapsed < 0) return null;
-  return Math.min(TOTAL_WEEKS, Math.floor(elapsed) + 1);
+  return Math.min(totalWeeks, Math.floor(elapsed) + 1);
 }
 
 export function buildTimeline(
@@ -59,12 +74,20 @@ export function buildTimeline(
   startDate: string | null,
   now = new Date(),
 ) {
+  const totalWeeks = totalPlanWeeks(phases);
   const elapsed = getElapsedWeeks(startDate, now);
-  const expectedWeek = getExpectedWeek(startDate, now);
-  const currentWeek = getCurrentWeek(startDate, now);
+  const expectedWeek = getExpectedWeek(startDate, now, totalWeeks);
+  const currentWeek = getCurrentWeek(startDate, now, totalWeeks);
   const overall = roadmapProgress(phases);
   const complete = isComplete(phases);
-  const flatTopics = flattenTopics(phases);
+  // Zero-week phases are prerequisites, not calendar time. They stay in
+  // progress totals but never occupy a week on the ruler.
+  const timedPhases = phases.filter((phase) =>
+    phase.topics.some((topic) => topic.durationWeeks > 0),
+  );
+  const flatTopics = flattenTopics(timedPhases).filter(
+    (entry) => entry.durationWeeks > 0,
+  );
   const currentIndex = flatTopics.findIndex((entry) => entry.status !== "done");
 
   let planStatus: PlanStatus;
@@ -85,9 +108,10 @@ export function buildTimeline(
   let weekCursor = 1;
   let flatIndex = 0;
 
-  for (const phase of phases) {
+  for (const phase of timedPhases) {
     const phaseStart = weekCursor;
     for (const topic of phase.topics) {
+      if (topic.durationWeeks === 0) continue;
       const startWeek = weekCursor;
       const endWeek = weekCursor + topic.durationWeeks - 1;
       let status: TopicTimelineStatus;
@@ -134,6 +158,7 @@ export function buildTimeline(
     expectedWeek,
     currentWeek,
     elapsedWeeks: elapsed,
+    totalWeeks,
     overall,
     planStatus,
   };

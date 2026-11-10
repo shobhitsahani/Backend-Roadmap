@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     template: "%s — Backend Roadmap",
   },
   description:
-    "A 36-week field plan for becoming a backend engineer, from fundamentals to production systems.",
+    "A field plan for becoming a backend engineer, from fundamentals to production systems.",
   applicationName: "Backend Roadmap Tracker",
   keywords: ["backend", "roadmap", "engineering", "career", "syllabus"],
 };

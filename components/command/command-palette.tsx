@@ -174,7 +174,7 @@ export function CommandPalette() {
           <CommandGroup heading="Data & system">
             <CommandItem
               value="Export progress JSON"
-              onSelect={() => runCommand(exportSnapshot)}
+              onSelect={() => runCommand(() => exportSnapshot(snapshot.track.slug))}
             >
               <DownloadIcon aria-hidden="true" />
               Export progress JSON

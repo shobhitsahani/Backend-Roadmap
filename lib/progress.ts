@@ -68,10 +68,16 @@ export function phaseProgress(phase: PhaseWithTopics): ProgressStats {
     },
   );
 
+  const percent =
+    totals.totalWeeks > 0
+      ? (totals.completedWeeks / totals.totalWeeks) * 100
+      : totals.totalTopics > 0
+        ? (totals.completedTopics / totals.totalTopics) * 100
+        : 0;
+
   return {
     ...totals,
-    percent:
-      totals.totalWeeks === 0 ? 0 : (totals.completedWeeks / totals.totalWeeks) * 100,
+    percent,
   };
 }
 
@@ -101,7 +107,11 @@ export function roadmapProgress(phases: PhaseWithTopics[]): ProgressStats {
   return {
     ...totals,
     percent:
-      totals.totalWeeks === 0 ? 0 : (totals.completedWeeks / totals.totalWeeks) * 100,
+      totals.totalWeeks > 0
+        ? (totals.completedWeeks / totals.totalWeeks) * 100
+        : totals.totalTopics > 0
+          ? (totals.completedTopics / totals.totalTopics) * 100
+          : 0,
   };
 }
 

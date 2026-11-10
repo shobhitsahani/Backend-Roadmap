@@ -3,6 +3,7 @@
 import { BrandMark, Wordmark } from "@/components/brand";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
+import { useRoadmapStore } from "@/store/roadmap-store";
 import { useUiStore } from "@/store/ui-store";
 import type { AppView } from "@/types/roadmap";
 
@@ -16,6 +17,7 @@ export function Masthead() {
   const view = useUiStore((state) => state.view);
   const setView = useUiStore((state) => state.setView);
   const setCommandOpen = useUiStore((state) => state.setCommandOpen);
+  const trackSubtitle = useRoadmapStore((state) => state.snapshot.track.subtitle);
 
   return (
     <header className="sticky top-0 z-30 border-b border-hairline bg-canvas">
@@ -53,7 +55,7 @@ export function Masthead() {
 
         <div className="ml-auto flex items-center gap-2">
           <span className="hidden font-mono text-micro tracking-[0.12em] text-ink-subtle uppercase lg:inline">
-            36 weeks / 4 phases
+            {trackSubtitle}
           </span>
           <Button
             type="button"

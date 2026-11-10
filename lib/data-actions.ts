@@ -8,7 +8,7 @@ import type { RoadmapSnapshot } from "@/types/roadmap";
 
 const UNDO_DURATION = 10_000;
 const IMPORT_HINT =
-  "Use a file exported from this app (format backend-roadmap-progress, version 1).";
+  "Use a file exported from this app (format backend-roadmap-progress, version 1 or 2).";
 
 async function postProgressFile(body: string) {
   return apiRequest<RoadmapSnapshot>("/api/import", {
@@ -28,12 +28,12 @@ function reportUndoFailure(error: unknown) {
 }
 
 /** Triggers the browser download of the current state as a JSON progress file. */
-export function exportSnapshot() {
+export function exportSnapshot(trackSlug: string) {
   // Intentional: /api/export is a download endpoint, not app navigation.
   // eslint-disable-next-line @next/next/no-location-assign-relative-destination
-  window.location.assign("/api/export");
+  window.location.assign(`/api/export?track=${encodeURIComponent(trackSlug)}`);
   toast.success("Progress file saved.", {
-    description: "Format backend-roadmap-progress, version 1.",
+    description: "Format backend-roadmap-progress, version 2.",
   });
 }
 
@@ -98,9 +98,12 @@ export async function resetAllProgress(
   replaceSnapshot: (snapshot: RoadmapSnapshot) => void,
 ) {
   try {
-    const next = await apiRequest<RoadmapSnapshot>("/api/reset", {
-      method: "POST",
-    });
+    const next = await apiRequest<RoadmapSnapshot>(
+      `/api/reset?track=${encodeURIComponent(previous.track.slug)}`,
+      {
+        method: "POST",
+      },
+    );
     replaceSnapshot(next);
     toast.success("Progress reset.", {
       duration: UNDO_DURATION,

@@ -51,8 +51,11 @@ function topic({
     tip: "",
     outcome: null,
     flow: null,
+    estimated: false,
+    linkedTopicId: null,
     status,
     notes: "",
+    mirrored: false,
     subtopics: Array.from({ length: total }, (_, index) =>
       subtopic(`${id}-${index + 1}`, id, index < done, index + 1),
     ),
@@ -63,8 +66,10 @@ function topic({
 function phase(id: string, order: number, topics: Topic[]): PhaseWithTopics {
   return {
     id,
+    trackId: "backend",
     title: `Phase ${order}`,
     subtitle: "",
+    tip: "",
     order,
     topics,
   };
@@ -136,6 +141,32 @@ describe("progress", () => {
     expect(progress.percent).toBe(50);
     expect(progress.completedTopics).toBe(1);
     expect(progress.totalTopics).toBe(3);
+  });
+
+  it("falls back to topic completion for zero-week prerequisite phases", () => {
+    const prerequisite = phase("prerequisite", 1, [
+      topic({
+        id: "apis-prereq",
+        phaseId: "prerequisite",
+        order: 1,
+        durationWeeks: 0,
+        status: "done",
+        total: 0,
+      }),
+      topic({
+        id: "db-prereq",
+        phaseId: "prerequisite",
+        order: 2,
+        durationWeeks: 0,
+        status: "not_started",
+        total: 0,
+      }),
+    ]);
+    const progress = phaseProgress(prerequisite);
+    expect(progress.totalWeeks).toBe(0);
+    expect(progress.percent).toBe(50);
+    expect(progress.completedTopics).toBe(1);
+    expect(progress.totalTopics).toBe(2);
   });
 
   it("finds the next unfinished topic in order", () => {
@@ -220,6 +251,29 @@ describe("timeline", () => {
     expect(timeline.entries[0]!.startWeek).toBe(1);
     expect(timeline.entries[0]!.endWeek).toBe(4);
     expect(timeline.entries[1]!.startWeek).toBe(5);
+    expect(timeline.totalWeeks).toBe(10);
+  });
+
+  it("skips zero-week prerequisite phases on the week ruler", () => {
+    const prerequisite = phase("prerequisite", 1, [
+      topic({
+        id: "prereq",
+        phaseId: "prerequisite",
+        order: 1,
+        durationWeeks: 0,
+        status: "done",
+        total: 0,
+      }),
+    ]);
+    const timeline = buildTimeline(
+      [prerequisite, foundation],
+      null,
+      new Date(2026, 0, 15),
+    );
+    expect(timeline.totalWeeks).toBe(7);
+    expect(timeline.entries.map((entry) => entry.topic.id)).toEqual(["language", "web"]);
+    expect(timeline.phases.map((entry) => entry.phase.id)).toEqual(["foundation"]);
+    expect(timeline.entries[0]!.startWeek).toBe(1);
   });
 
   it("marks the plan behind when elapsed weeks exceed completed weeks", () => {
@@ -280,9 +334,22 @@ describe("timeline", () => {
 describe("progress file", () => {
   it("round-trips the editable state through the import schema", () => {
     const snapshot = {
+      track: {
+        id: "backend",
+        slug: "backend",
+        title: "Backend Engineer",
+        subtitle: "36 weeks",
+        summary: "",
+        footer: null,
+        order: 1,
+        identityHue: 150,
+        sourceTitle: null,
+        sourceUrl: null,
+      },
+      tracks: [],
       phases: [foundation, core],
       settings: {
-        id: "singleton" as const,
+        trackId: "backend",
         startDate: "2026-01-01",
         updatedAt: "2026-01-01T00:00:00.000Z",
       },
@@ -290,9 +357,53 @@ describe("progress file", () => {
     };
     const file = createProgressFile(snapshot, new Date("2026-11-05T00:00:00.000Z"));
     expect(progressFileSchema.safeParse(file).success).toBe(true);
+    expect(file.version).toBe(2);
+    expect(file.data.trackSlug).toBe("backend");
     expect(file.data.topics).toHaveLength(3);
     expect(file.data.subtopics).toHaveLength(5);
     expect(file.data.activity).toHaveLength(1);
     expect(file.data.topics[0]!.notes).toBe("");
+  });
+
+  it("does not export a mirrored prerequisite status as an override", () => {
+    const mirroredPhase = phase("prereq", 1, [
+      {
+        ...topic({
+          id: "ai-apis",
+          phaseId: "prereq",
+          order: 1,
+          durationWeeks: 0,
+          status: "done",
+          total: 0,
+        }),
+        linkedTopicId: "apis",
+        mirrored: true,
+      },
+    ]);
+    const snapshot = {
+      track: {
+        id: "ai-engineer",
+        slug: "ai-engineer",
+        title: "AI Engineer",
+        subtitle: "28 weeks",
+        summary: "",
+        footer: null,
+        order: 2,
+        identityHue: 62,
+        sourceTitle: null,
+        sourceUrl: null,
+      },
+      tracks: [],
+      phases: [mirroredPhase],
+      settings: {
+        trackId: "ai-engineer",
+        startDate: null,
+        updatedAt: "2026-01-01T00:00:00.000Z",
+      },
+      activity: [],
+    };
+    const file = createProgressFile(snapshot, new Date("2026-11-05T00:00:00.000Z"));
+    expect(file.data.trackSlug).toBe("ai-engineer");
+    expect(file.data.topics[0]!.status).toBe("not_started");
   });
 });
