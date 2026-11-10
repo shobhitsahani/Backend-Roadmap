@@ -46,22 +46,26 @@ describe("track routes", () => {
     expect(trackSwitchHref("/backend", "?view=graph", "ai-engineer", slugs)).toBe(
       "/ai-engineer?view=graph",
     );
+    expect(trackSwitchHref("/backend", "?view=journey", "ai-engineer", slugs)).toBe(
+      "/ai-engineer?view=journey",
+    );
     expect(trackSwitchHref("/backend", "", "ai-engineer", slugs)).toBe("/ai-engineer");
     expect(trackSwitchHref("/journey", "", "ai-engineer", slugs)).toBe("/ai-engineer");
     expect(trackSwitchHref("/settings", "", "backend", slugs)).toBe("/backend");
   });
 
-  it("falls back to the map for the reserved journey view", () => {
+  it("resolves the journey view", () => {
     expect(parseRoadmapView(null)).toBe("list");
     expect(parseRoadmapView("list")).toBe("list");
     expect(parseRoadmapView("graph")).toBe("graph");
-    expect(parseRoadmapView("journey")).toBe("graph");
+    expect(parseRoadmapView("journey")).toBe("journey");
     expect(parseRoadmapView("unknown")).toBe("list");
   });
 
   it("builds URL state for the view toggle", () => {
     expect(roadmapViewHref("/backend", "list")).toBe("/backend");
     expect(roadmapViewHref("/backend", "graph")).toBe("/backend?view=graph");
+    expect(roadmapViewHref("/backend", "journey")).toBe("/backend?view=journey");
     expect(isRoadmapView("journey")).toBe(true);
     expect(isRoadmapView("nope")).toBe(false);
   });
