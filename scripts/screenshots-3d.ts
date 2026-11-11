@@ -24,12 +24,13 @@ const VIEWPORTS = [
 const THEMES = ["dark", "light"] as const;
 
 function slugify(route: string) {
-  return (
+  const view = route.includes("view=journey") ? "-journey" : "";
+  const base =
     route
       .replace(/\?.*/, "")
       .replace(/^\/|\/$/g, "")
-      .replaceAll("/", "-") || "home"
-  );
+      .replaceAll("/", "-") || "home";
+  return `${base}${view}`;
 }
 
 async function openPage(browser: Browser, width: number, height: number, theme: string) {
