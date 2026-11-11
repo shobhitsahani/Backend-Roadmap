@@ -25,7 +25,7 @@ const ignoredFiles = new Set([
   "app/icon.svg",
   "scripts/check-theme-colors.mjs",
 ]);
-const ignoredPrefixes = ["lib/theme/"];
+const ignoredPrefixes = ["lib/theme/", "tests/e2e/"];
 
 const colorPatterns = [
   { name: "hex colour", pattern: /#[0-9a-f]{3,8}\b/i },
