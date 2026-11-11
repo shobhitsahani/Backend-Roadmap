@@ -92,15 +92,13 @@ describe("track content", () => {
     ).toBe(true);
   });
 
-  it("marks every AI duration as estimated and credits the source", () => {
+  it("marks every AI duration as estimated", () => {
     const ai = getTrackContent("ai-engineer");
     expect(ai).not.toBeNull();
     if (!ai) return;
 
     const topics = ai.phases.flatMap((phase) => phase.topics);
     expect(topics.every((topic) => topic.estimated)).toBe(true);
-    expect(ai.sourceTitle).toBe("AI Engineer Roadmap 2027");
-    expect(ai.sourceUrl).toBe("https://www.youtube.com/watch?v=CpI7pd5yGCw");
   });
 
   it("derives the AI plan length from topic durations instead of a constant", () => {

@@ -7,12 +7,11 @@ export const aiEngineerTrack = trackContentSchema.parse({
   subtitle: "From retrieval to agents in production",
   summary:
     "Applied AI for engineers who already ship software: models, retrieval, agents, and the production systems around them. Every topic, tool, library and code sample is JavaScript/TypeScript: AI products need a UI, the UI is TypeScript, and one language end to end means shared types and code between the frontend and the AI backend.",
-  footer:
-    'Durations are estimates. Curriculum adapted from Coder\'s Gyan, "Fastest AI Engineers Roadmap for 2027".',
+  footer: "Durations are estimates. “Talk is cheap. Show me the code.” — Linus Torvalds",
   order: 2,
   identityHue: 62,
-  sourceTitle: "AI Engineer Roadmap 2027",
-  sourceUrl: "https://www.youtube.com/watch?v=CpI7pd5yGCw",
+  sourceTitle: null,
+  sourceUrl: null,
   phases: [
     {
       id: "ai-prerequisites",
