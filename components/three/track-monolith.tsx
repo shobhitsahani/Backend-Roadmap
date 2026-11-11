@@ -9,6 +9,7 @@ import {
   ContactShadows,
 } from "@react-three/drei";
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { threeColorFromCssVar } from "@/components/three/track-world-colors";
 
@@ -17,12 +18,11 @@ type Face = "backend" | "ai";
 export function TrackMonolith({
   backendPercent,
   aiPercent,
-  onNavigate,
 }: {
   backendPercent: number;
   aiPercent: number;
-  onNavigate: (face: Face) => void;
 }) {
+  const router = useRouter();
   const [hovered, setHovered] = useState<Face | null>(null);
   const [hintDismissed, setHintDismissed] = useState(false);
 
@@ -73,11 +73,11 @@ export function TrackMonolith({
               onPointerDown={(e) => {
                 e.stopPropagation();
               }}
-              onPointerUp={() => setPressed(null)}
+              onPointerUp={() => {}}
               onDoubleClick={(e) => {
                 e.stopPropagation();
                 const face: Face = e.point.z > 0 ? "backend" : "ai";
-                onNavigate(face);
+                router.push(face === "backend" ? "/backend" : "/ai-engineer");
               }}
             >
               <meshStandardMaterial color="#1f2937" roughness={0.6} metalness={0.15} />
@@ -158,14 +158,14 @@ export function TrackMonolith({
         <button
           type="button"
           className="border border-hairline bg-panel px-3 py-1.5 font-mono text-micro text-ink uppercase"
-          onClick={() => onNavigate("backend")}
+          onClick={() => router.push("/backend")}
         >
           Open Backend
         </button>
         <button
           type="button"
           className="border border-hairline bg-panel px-3 py-1.5 font-mono text-micro text-ink uppercase"
-          onClick={() => onNavigate("ai")}
+          onClick={() => router.push("/ai-engineer")}
         >
           Open AI Engineer
         </button>

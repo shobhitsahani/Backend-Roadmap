@@ -201,9 +201,6 @@ export function LandingPage({ mode, tracks, snapshots }: LandingPageProps) {
                       ).percent
                     : 0,
                 )}
-                onNavigate={(face) => {
-                  window.location.href = face === "backend" ? "/backend" : "/ai-engineer";
-                }}
               />
               Backend, then AI — the recommended path
             </p>
