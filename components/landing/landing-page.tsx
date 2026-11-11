@@ -5,7 +5,6 @@ import { BrandMark, Wordmark } from "@/components/brand";
 import { ProgressBar } from "@/components/progress-bar";
 import { formatWeeks, formatPercent } from "@/lib/format";
 import { roadmapProgress } from "@/lib/progress";
-import { TrackMonolith } from "@/components/three/track-monolith";
 import type { PhaseLine, TrackStats } from "@/lib/track-stats";
 import type { RoadmapSnapshot } from "@/types/roadmap";
 
@@ -186,22 +185,6 @@ export function LandingPage({ mode, tracks, snapshots }: LandingPageProps) {
               order, or jump in where you already stand.
             </p>
             <p className="mt-5 font-mono text-micro tracking-[0.16em] text-ink-subtle uppercase">
-              <TrackMonolith
-                backendPercent={Math.round(
-                  snapshots.find((s) => s.track.slug === "backend")
-                    ? roadmapProgress(
-                        snapshots.find((s) => s.track.slug === "backend")!.phases,
-                      ).percent
-                    : 0,
-                )}
-                aiPercent={Math.round(
-                  snapshots.find((s) => s.track.slug === "ai-engineer")
-                    ? roadmapProgress(
-                        snapshots.find((s) => s.track.slug === "ai-engineer")!.phases,
-                      ).percent
-                    : 0,
-                )}
-              />
               Backend, then AI — the recommended path
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
