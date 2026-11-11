@@ -8,7 +8,6 @@ import { motion } from "motion/react";
 import { revealContainer, revealItem } from "@/lib/motion";
 
 import { DataSection } from "@/components/data/data-section";
-import { ProgressCore } from "@/components/three/progress-core";
 import { RulerMark } from "@/components/empty-states/line-art";
 import { TickingNumber } from "@/components/ticking-number";
 import { buttonVariants } from "@/components/ui/button";
@@ -306,15 +305,6 @@ export function DashboardScreen() {
               <span>More</span>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section className="py-8">
-        <h2 className="font-mono text-caption tracking-[0.14em] text-ink uppercase">
-          Progress core
-        </h2>
-        <div className="mt-5">
-          <ProgressCore phases={phases} trackSlug={snapshot.track.slug} />
         </div>
       </section>
 

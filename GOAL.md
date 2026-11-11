@@ -1,58 +1,44 @@
-# Goal — Impeccable UI/Design Pass
+# Goal: Interactive 3D UI (Correction #2)
+
+Status: pursuing
 
 ## Objective
-Improve the UI/design of Backend Roadmap Tracker with Impeccable, entirely inside the
-`Backend-Roadmap-impeccable` worktree on branch `impeccable-enhance`. Run critique/audit,
-fix P0/P1 first, then typeset/layout/polish and harden the main screens (Roadmap list +
-map, Field log, Timeline, shared shell, topic drawer), run `impeccable detect`, and leave
-the branch building and tested. Do not merge into `main`.
+Replace the current decorative 3D (ambient particle fields, header strip, old ProgressCore ring, old Journey3D flythrough) with INTERACTIVE 3D UI that users can grab, rotate, click and operate. Every 3D object must either encode data (progress, status, time) or be a control. New art direction: physical architectural desk model (matte graphite blocks on dark blueprint grid, soft studio light, thin accent edges, mono micro-labels).
+
+Deliverables (8 branches):
+1. chore/3d-audit-and-art-direction — before screenshots, ADR 0004, DESIGN-3D.md, remove old decorative scenes
+2. feat/3d-track-monolith — landing hero two-sided slab
+3. feat/3d-roadmap-explorer — tabletop model: platforms, blocks, path tube, camera, hover/select
+4. feat/3d-explorer-exploded-view — tiles, two-way sync, completion effects, keyboard/touch
+5. feat/3d-progress-dial — dashboard dial with planned vs actual + scrub
+6. feat/css-3d-interactions — 3D card tilt + switcher flip
+7. test/3d-interaction-e2e — tests, screenshots, recordings
+8. chore/3d-polish — impeccable passes; tag next version
 
 ## Verification
-1. `npm run lint` passes.
-2. `npm run typecheck` passes.
-3. `npm test` passes.
-4. `npm run build` passes.
-5. `npx impeccable detect app/ components/` reports no unresolved findings (repo has no `src/`).
-6. Playwright screenshots at 375 and 1440 in dark and light show: map edges render,
-   no clipped graph titles, mobile toolbar labels visible, timeline bars full-width on
-   mobile, dashboard zero-state chart and square heatmap cells, readable mobile map zoom.
-7. `git log` shows small focused commits on `impeccable-enhance`; main worktree untouched.
+- npm run lint / typecheck / test (72+) / build all green
+- Playwright (WebGL-enabled) interaction tests pass with no skip guards
+- data-state, data-active-face, data-camera-state, data-focused-topic, data-camera-distance, data-camera-azimuth, data-segments-done, data-scrub-week attributes exercised
+- Two-way sync: drawer <-> 3D both directions
+- Fallback + reduced-motion tests still pass
+- No console errors / WebGL warnings
+- Screenshots + short videos saved to docs/screenshots/3d/ and docs/media/
+- ADR 0004 + DESIGN-3D.md committed
 
 ## Constraints
-- Do not change backend logic, APIs, or the database.
-- No live-mode runs against deployed sites.
-- Preserve the existing "engineer's field notebook" visual direction and DESIGN.md tokens.
-- Keep changes small and focused, one target at a time.
-- Do not commit `.env`, `node_modules`, `.next`, or scratch screenshots.
+- Keep infrastructure: lazy loading, fallback logic, 3D settings, data-* attributes, WebGL Playwright harness, git workflow (--no-ff, Conventional Commits, never force-push main).
+- Stack: R3F, drei, three, maath. Add @use-gesture/react only if custom drag needed. Dev-only: leva (stripped in prod), r3f-perf. No physics engine.
+- Max 2 canvases per page; one where possible. Canvas aria-hidden; DOM mirrors with focus rings.
+- No bounce/overshoot; critically damped springs. Hover 120ms, selection/camera 600-900ms ease-out.
+- Colors only from CSS tokens read at runtime; light theme gets tuned values.
+- frameloop demand + invalidate on interaction/spring/camera move.
 
 ## Boundaries
-In scope: `app/`, `components/`, `lib/` presentation utilities, `DESIGN.md`, `PRODUCT.md`,
-`.impeccable/`, and UI tooling config in the worktree.
-Out of scope: `db/`, API route behavior, data model, deployment, and the main worktree.
-
-## Checkpoints
-- [x] 01 Worktree + branch created; dependencies installed; baseline tests green
-- [x] 02 Impeccable installed; PRODUCT.md and DESIGN.md written and committed
-- [x] 03 Critique + audit captured (screenshots, axe, responsive checks); findings ranked P0–P3
-- [x] 04 P0: graph edges/handles and edge data
-- [x] 05 P1: mobile roadmap toolbar, graph node typography, mobile timeline, dashboard zero-state + heatmap, mobile map zoom
-- [x] 06 P2/P3: phase labels, dynamic phase colors, graph phase headers, command palette header, metadata casing
-- [x] 07 Typeset / layout / polish / harden pass
-- [x] 08 `impeccable detect`, lint, typecheck, tests, build, screenshots, commits
-
-## Verification evidence
-- `npm run lint` — pass.
-- `npm run typecheck` — pass.
-- `npm test` — 2 files, 18 tests pass.
-- `npm run build` — pass (Next.js 16.4.5, 8 routes).
-- `npx impeccable detect app/ components/` — 0 anti-patterns.
-- `npx impeccable detect http://localhost:3001` — 0 anti-patterns; 4 advisory
-  `numbered-section-labels` notes are intentional phase indices in the field-manual
-  structure, not decorative scaffolding.
-- Playwright screenshots at 375/1440, dark/light: graph renders 10 edges and 14 nodes,
-  node titles wrap, mobile toolbar labels visible, timeline rows stack with a full-width
-  ruler, dashboard zero-state and 24px square heatmap cells, mobile map starts at phase 1.
-- Axe: 0 violations on dashboard, timeline, and topic panel at both widths and themes.
+- In scope: components/three/, components that host 3D, docs (ADR, DESIGN-3D, PRODUCT/DESIGN updates), tests/e2e, scripts.
+- Out of scope: backend data, auth/SEO/i18n (prior C-series), backend track content.
 
 ## Status
-achieved
+pursuing
+
+## Checkpoints
+(none yet)

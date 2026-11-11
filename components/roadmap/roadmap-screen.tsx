@@ -7,8 +7,6 @@ import { AnimatePresence, motion } from "motion/react";
 import { RoadmapOverview } from "@/components/roadmap/overview";
 import { PhaseSection } from "@/components/roadmap/phase-section";
 import { GraphScreen } from "@/components/graph/graph-screen";
-import { Journey3D } from "@/components/three/journey-3d";
-import { TrackHeaderScene } from "@/components/three/track-world";
 import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { duration, ease } from "@/lib/motion";
@@ -39,9 +37,6 @@ export function RoadmapScreen() {
 
   return (
     <div className="pt-8 md:pt-12">
-      <TrackHeaderScene
-        activeTrack={track.slug === "ai-engineer" ? "ai-engineer" : "backend"}
-      />
       <RoadmapOverview
         phases={phases}
         progress={progress}
@@ -94,23 +89,7 @@ export function RoadmapScreen() {
       </div>
 
       <AnimatePresence mode="wait" initial={false}>
-        {roadmapView === "journey" ? (
-          <motion.div
-            key="journey"
-            initial={{ opacity: 0, y: 8 }}
-            animate={{
-              opacity: 1,
-              y: 0,
-              transition: { duration: duration.base, ease: ease.out },
-            }}
-            exit={{
-              opacity: 0,
-              transition: { duration: duration.fast, ease: ease.inOut },
-            }}
-          >
-            <Journey3D phases={phases} onOpenTopic={openTopic} />
-          </motion.div>
-        ) : roadmapView === "graph" ? (
+        {roadmapView === "graph" ? (
           <motion.div
             key="graph"
             initial={{ opacity: 0, y: 8 }}
