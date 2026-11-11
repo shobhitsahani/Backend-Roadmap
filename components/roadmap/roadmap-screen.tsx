@@ -13,6 +13,7 @@ import { duration, ease } from "@/lib/motion";
 import { formatDate, formatWeeks } from "@/lib/format";
 import { currentTopic, phaseProgress, roadmapProgress } from "@/lib/progress";
 import { parseRoadmapView, roadmapViewHref } from "@/lib/routes";
+import { cn } from "@/lib/utils";
 import { buildTimeline } from "@/lib/timeline";
 import { useRoadmapStore } from "@/store/roadmap-store";
 import { useUiStore } from "@/store/ui-store";
@@ -57,23 +58,37 @@ export function RoadmapScreen() {
             value={[roadmapView] as string[]}
             onValueChange={(next) => {
               const view = next[0];
-              if (view === "list" || view === "graph" || view === "journey") {
+              if (view === "list" || view === "graph") {
                 router.replace(roadmapViewHref(pathname, view), { scroll: false });
               }
             }}
             aria-label="Roadmap view"
           >
-            <ToggleGroupItem value="list">
+            <ToggleGroupItem
+              value="list"
+              variant="outline"
+              size="sm"
+              className={cn(
+                roadmapView === "list"
+                  ? "border-hairline-strong bg-raised text-ink"
+                  : "border-hairline",
+              )}
+            >
               <span className="sr-only">List view</span>
               <span aria-hidden="true">List</span>
             </ToggleGroupItem>
-            <ToggleGroupItem value="graph">
+            <ToggleGroupItem
+              value="graph"
+              variant="outline"
+              size="sm"
+              className={cn(
+                roadmapView === "graph"
+                  ? "border-hairline-strong bg-raised text-ink"
+                  : "border-hairline",
+              )}
+            >
               <span className="sr-only">Map view</span>
               <span aria-hidden="true">Map</span>
-            </ToggleGroupItem>
-            <ToggleGroupItem value="journey">
-              <span className="sr-only">3D Journey view</span>
-              <span aria-hidden="true">3D</span>
             </ToggleGroupItem>
           </ToggleGroup>
           <Button

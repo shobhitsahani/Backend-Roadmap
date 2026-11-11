@@ -48,7 +48,7 @@ export function MobileNav() {
               >
                 <Icon
                   aria-hidden="true"
-                  className={`size-5 ${active ? "text-phase-1" : "text-ink-subtle"}`}
+                  className={`size-5 ${active ? "text-focus-ring" : "text-ink-subtle"}`}
                 />
                 {item.label}
               </Link>

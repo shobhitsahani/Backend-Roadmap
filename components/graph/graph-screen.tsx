@@ -8,6 +8,8 @@ import { buildGraph, type GraphEdge, type GraphNode } from "./layout";
 import { TopicNode } from "./topic-node";
 import { PhaseHeaderNode } from "./phase-header-node";
 import { PhaseFlowEdge } from "./phase-flow-edge";
+import { useTheme } from "@/components/theme/theme-provider";
+import { isDarkTheme } from "@/lib/theme/config";
 import { useRoadmapStore } from "@/store/roadmap-store";
 
 const nodeTypes = { topic: TopicNode, "phase-header": PhaseHeaderNode };
@@ -16,6 +18,7 @@ const edgeTypes = { "phase-flow": PhaseFlowEdge };
 export function GraphScreen() {
   const phases = useRoadmapStore((state) => state.snapshot.phases);
   const { nodes, edges } = React.useMemo(() => buildGraph(phases), [phases]);
+  const { resolvedTheme } = useTheme();
 
   const handleInit = React.useCallback(
     (instance: ReactFlowInstance<GraphNode, GraphEdge>) => {
@@ -41,6 +44,7 @@ export function GraphScreen() {
           maxZoom={2}
           nodesDraggable={false}
           nodesConnectable={false}
+          colorMode={isDarkTheme(resolvedTheme) ? "dark" : "light"}
           onInit={handleInit}
           proOptions={{ hideAttribution: true }}
         >

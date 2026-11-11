@@ -3,6 +3,8 @@ import { Bricolage_Grotesque, Instrument_Sans, JetBrains_Mono } from "next/font/
 
 import { trackSlugs } from "@/content/tracks";
 import { TrackAttribute } from "@/components/app/track-attribute";
+import { themeColors } from "@/lib/theme/config";
+import { themeInitScript } from "@/lib/theme/theme-script";
 import { getRequestTrackSlug } from "@/lib/track-context";
 
 import { Providers } from "./providers";
@@ -27,6 +29,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: {
     default: "Roadmap Tracker",
     template: "%s — Roadmap Tracker",
@@ -39,10 +42,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   colorScheme: "dark light",
-  themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#141813" },
-    { media: "(prefers-color-scheme: light)", color: "#f4f6f1" },
-  ],
+  themeColor: themeColors.black,
 };
 
 export default async function RootLayout({
@@ -57,6 +57,14 @@ export default async function RootLayout({
       suppressHydrationWarning
       className={`${bricolage.variable} ${instrument.variable} ${jetbrains.variable}`}
     >
+      <head>
+        {/*
+         * Parser-blocking inline script in the head: it runs before the body
+         * paints, so a stored theme never flashes the default palette. It also
+         * keeps the metadata API's <head> tags intact. Kept dependency-free.
+         */}
+        <script id="theme-init" dangerouslySetInnerHTML={{ __html: themeInitScript() }} />
+      </head>
       <body className="min-h-dvh bg-canvas text-ink antialiased">
         <Providers>
           <TrackAttribute initialSlug={trackSlug} trackSlugs={trackSlugs} />

@@ -2,8 +2,13 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "./themes.css";
 
-@custom-variant dark (&:is(.dark *));
+/*
+ * Both dark themes share the `dark:` utilities. The attribute is set on <html>
+ * by the blocking theme script and kept in sync by the theme provider.
+ */
+@custom-variant dark (&:where([data-theme="black"], [data-theme="purple"], [data-theme="black"] *, [data-theme="purple"] *));
 
 @theme inline {
   --font-sans: var(--font-instrument);
@@ -33,25 +38,25 @@
   --color-chart-2: var(--phase-2);
   --color-chart-3: var(--phase-3);
   --color-chart-4: var(--phase-4);
-  --color-chart-5: var(--ink-muted);
+  --color-chart-5: var(--fg-muted);
   --color-sidebar: var(--surface-0);
   --color-sidebar-foreground: var(--ink);
-  --color-sidebar-primary: var(--ink);
-  --color-sidebar-primary-foreground: var(--surface-0);
+  --color-sidebar-primary: var(--brand);
+  --color-sidebar-primary-foreground: var(--on-brand);
   --color-sidebar-accent: var(--surface-2);
   --color-sidebar-accent-foreground: var(--ink);
-  --color-sidebar-border: var(--hairline);
-  --color-sidebar-ring: var(--phase-1);
+  --color-sidebar-border: var(--border);
+  --color-sidebar-ring: var(--focus-ring);
 
   --color-canvas: var(--surface-0);
   --color-panel: var(--surface-1);
   --color-raised: var(--surface-2);
   --color-field: var(--surface-3);
-  --color-ink: var(--ink);
-  --color-ink-muted: var(--ink-muted);
-  --color-ink-subtle: var(--ink-subtle);
-  --color-hairline: var(--hairline);
-  --color-hairline-strong: var(--hairline-strong);
+  --color-ink: var(--fg);
+  --color-ink-muted: var(--fg-muted);
+  --color-ink-subtle: var(--fg-faint);
+  --color-hairline: var(--border);
+  --color-hairline-strong: var(--border-strong);
   --color-phase-1: var(--phase-1);
   --color-phase-2: var(--phase-2);
   --color-phase-3: var(--phase-3);
@@ -59,6 +64,24 @@
   --color-phase-5: var(--phase-5);
   --color-phase-contrast: var(--phase-contrast);
   --color-track-accent: var(--track-accent);
+
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-on-brand: var(--on-brand);
+  --color-highlight: var(--highlight);
+  --color-focus-ring: var(--focus-ring);
+  --color-chrome-highlight: var(--chrome-highlight);
+  --color-chrome-indicator: var(--chrome-indicator);
+  --color-grid: var(--grid);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-scene-ground: var(--scene-ground);
+  --color-scene-block: var(--scene-block);
+  --color-scene-edge: var(--scene-edge);
+  --color-scene-key-light: var(--scene-key-light);
+  --color-scene-rim-light: var(--scene-rim-light);
+  --color-scene-fog: var(--scene-fog);
 
   --radius-xs: 2px;
   --radius-sm: 4px;
@@ -103,96 +126,8 @@
   --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out-expo: cubic-bezier(0.65, 0, 0.35, 1);
 
-  --shadow-panel: 0 24px 64px -32px rgb(0 0 0 / 0.65);
-  --shadow-lift: 0 2px 0 0 rgb(0 0 0 / 0.2);
-}
-
-:root {
-  color-scheme: light;
-  --surface-0: oklch(0.968 0.005 120);
-  --surface-1: oklch(0.992 0.002 120);
-  --surface-2: oklch(0.946 0.006 120);
-  --surface-3: oklch(0.92 0.008 120);
-  --ink: oklch(0.22 0.012 140);
-  --ink-muted: oklch(0.43 0.012 140);
-  --ink-subtle: oklch(0.47 0.012 140);
-  --hairline: oklch(0.22 0.012 140 / 0.16);
-  --hairline-strong: oklch(0.22 0.012 140 / 0.3);
-  --phase-1: oklch(0.465 0.105 150);
-  --phase-2: oklch(0.47 0.125 250);
-  --phase-3: oklch(0.475 0.15 300);
-  --phase-4: oklch(0.48 0.155 29);
-  --phase-5: oklch(0.42 0.11 40);
-  --phase-contrast: oklch(0.968 0.005 120);
-  --dot: oklch(0.22 0.012 140 / 0.16);
-
-  /* Track identities. Components read the stable names, never a raw hue. */
-  --track-backend: oklch(0.465 0.105 150);
-  --track-ai-engineer: oklch(0.52 0.12 62);
-  --track-accent: var(--track-backend);
-
-  --background: var(--surface-0);
-  --foreground: var(--ink);
-  --card: var(--surface-1);
-  --card-foreground: var(--ink);
-  --popover: var(--surface-1);
-  --popover-foreground: var(--ink);
-  --primary: var(--ink);
-  --primary-foreground: var(--surface-0);
-  --secondary: var(--surface-2);
-  --secondary-foreground: var(--ink);
-  --muted: var(--surface-2);
-  --muted-foreground: var(--ink-muted);
-  --accent: var(--surface-2);
-  --accent-foreground: var(--ink);
-  --destructive: var(--phase-4);
-  --border: var(--hairline);
-  --input: var(--hairline-strong);
-  --ring: var(--track-accent);
-}
-
-.dark {
-  color-scheme: dark;
-  --surface-0: oklch(0.166 0.008 145);
-  --surface-1: oklch(0.196 0.009 145);
-  --surface-2: oklch(0.226 0.01 145);
-  --surface-3: oklch(0.266 0.011 145);
-  --ink: oklch(0.93 0.011 110);
-  --ink-muted: oklch(0.71 0.012 135);
-  --ink-subtle: oklch(0.65 0.012 135);
-  --hairline: oklch(0.93 0.02 120 / 0.14);
-  --hairline-strong: oklch(0.93 0.02 120 / 0.26);
-  --phase-1: oklch(0.775 0.13 150);
-  --phase-2: oklch(0.75 0.115 246);
-  --phase-3: oklch(0.76 0.12 300);
-  --phase-4: oklch(0.735 0.15 28);
-  --phase-5: oklch(0.68 0.12 40);
-  --phase-contrast: oklch(0.166 0.008 145);
-  --dot: oklch(0.93 0.02 120 / 0.13);
-  --track-backend: oklch(0.775 0.13 150);
-  --track-ai-engineer: oklch(0.78 0.14 62);
-}
-
-/*
- * AI Engineer: warm grey-gold, amber, copper, rust, deep rust. The ramp is
- * deliberately not blue-violet; both themes keep text-sized phase tokens at
- * AA contrast against their own surface.
- */
-html[data-track="ai-engineer"] {
-  --track-accent: var(--track-ai-engineer);
-  --phase-1: oklch(0.54 0.045 85);
-  --phase-2: oklch(0.52 0.1 75);
-  --phase-3: oklch(0.5 0.12 55);
-  --phase-4: oklch(0.47 0.14 35);
-  --phase-5: oklch(0.4 0.1 25);
-}
-
-html.dark[data-track="ai-engineer"] {
-  --phase-1: oklch(0.78 0.05 85);
-  --phase-2: oklch(0.8 0.12 75);
-  --phase-3: oklch(0.78 0.14 55);
-  --phase-4: oklch(0.72 0.15 35);
-  --phase-5: oklch(0.65 0.12 25);
+  --shadow-panel: var(--panel-shadow);
+  --shadow-lift: var(--lift-shadow);
 }
 
 @keyframes current-pulse {
@@ -264,7 +199,7 @@ html.dark[data-track="ai-engineer"] {
     inset: auto 0 0;
     height: 92dvh;
     max-width: none;
-    border-top: 1px solid var(--hairline);
+    border-top: 1px solid var(--border);
     border-left: 0;
     border-radius: var(--radius-md) var(--radius-md) 0 0;
   }
@@ -288,12 +223,12 @@ html.dark[data-track="ai-engineer"] {
 }
 
 @utility dot-grid {
-  background-image: radial-gradient(circle at 1px 1px, var(--dot) 1px, transparent 0);
+  background-image: radial-gradient(circle at 1px 1px, var(--grid) 1px, transparent 0);
   background-size: 20px 20px;
 }
 
 @utility dot-grid-sm {
-  background-image: radial-gradient(circle at 1px 1px, var(--dot) 1px, transparent 0);
+  background-image: radial-gradient(circle at 1px 1px, var(--grid) 1px, transparent 0);
   background-size: 14px 14px;
 }
 
@@ -311,7 +246,8 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   opacity: 1;
 }
 
-.dark input[type="date"]::-webkit-calendar-picker-indicator {
+html:is([data-theme="black"], [data-theme="purple"])
+  input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
 }
 
@@ -328,7 +264,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 }
 
 @utility hairline-b {
-  border-bottom: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--border);
 }
 
 @layer base {
@@ -343,8 +279,8 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   }
 
   body {
-    background-color: var(--surface-0);
-    color: var(--ink);
+    background-color: var(--bg);
+    color: var(--fg);
     font-family: var(--font-instrument);
     font-size: 0.9375rem;
     line-height: 1.55;
@@ -368,18 +304,18 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   }
 
   ::selection {
-    background: color-mix(in oklch, var(--phase-1) 26%, transparent);
-    color: var(--ink);
+    background: var(--selection);
+    color: var(--fg);
   }
 
   :focus-visible {
-    outline: 2px solid var(--ring);
+    outline: 2px solid var(--focus-ring);
     outline-offset: 2px;
   }
 
   * {
     scrollbar-width: thin;
-    scrollbar-color: var(--hairline-strong) transparent;
+    scrollbar-color: var(--border-strong) transparent;
   }
 
   ::-webkit-scrollbar {
@@ -388,7 +324,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   }
 
   ::-webkit-scrollbar-thumb {
-    background: var(--hairline-strong);
+    background: var(--border-strong);
     border: 3px solid transparent;
     background-clip: content-box;
     border-radius: var(--radius-4xl);
@@ -398,16 +334,71 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     opacity: 0.65;
   }
 
-  .dark input[type="date"]::-webkit-calendar-picker-indicator {
+  html:is([data-theme="black"], [data-theme="purple"])
+    input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(1);
     opacity: 0.55;
   }
 }
 
-/* react-flow pane uses a white default background; make it transparent so
-   the wrapper's bg-panel (dark in dark theme) shows through. */
+/* React Flow: nodes/edges keep phase tokens; chrome follows the theme. */
+.react-flow {
+  --xy-background-color-default: transparent;
+  --xy-background-pattern-dots-color-default: var(--grid);
+  --xy-background-pattern-lines-color-default: var(--grid);
+  --xy-edge-stroke-default: var(--border-strong);
+  --xy-edge-stroke-selected-default: var(--focus-ring);
+  --xy-handle-background-color-default: var(--surface-2);
+  --xy-handle-border-color-default: var(--border-strong);
+  --xy-minimap-background-color-default: var(--surface-1);
+  --xy-minimap-mask-background-color-default: color-mix(
+    in oklch,
+    var(--bg) 62%,
+    transparent
+  );
+  --xy-minimap-node-background-color-default: var(--surface-3);
+  --xy-controls-button-background-color-default: var(--surface-1);
+  --xy-controls-button-background-color-hover-default: var(--surface-2);
+  --xy-controls-button-color-default: var(--fg);
+  --xy-controls-button-color-hover-default: var(--fg);
+  --xy-controls-button-border-color-default: var(--border);
+  --xy-controls-box-shadow-default: 0 0 0 1px var(--border);
+}
+
 .react-flow__pane {
   background-color: transparent !important;
+}
+
+.react-flow__minimap {
+  border: 1px solid var(--border);
+}
+
+/* Theme changes crossfade with View Transitions; the provider falls back to a
+   Motion overlay when the API is unavailable. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 220ms;
+  animation-timing-function: var(--ease-out-expo);
+}
+
+::view-transition-old(root) {
+  animation-name: theme-fade-out;
+}
+
+::view-transition-new(root) {
+  animation-name: theme-fade-in;
+}
+
+@keyframes theme-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes theme-fade-in {
+  from {
+    opacity: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -418,5 +409,10 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
   }
 }

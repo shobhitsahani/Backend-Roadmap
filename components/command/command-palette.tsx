@@ -2,6 +2,7 @@
 
 import {
   CalendarPlusIcon,
+  CheckIcon,
   CompassIcon,
   ContrastIcon,
   DownloadIcon,
@@ -12,11 +13,11 @@ import {
   SettingsIcon,
   TriangleAlertIcon,
 } from "lucide-react";
-import { useTheme } from "next-themes";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
 import { ShortcutsDialog } from "@/components/command/shortcuts-dialog";
+import { useTheme } from "@/components/theme/theme-provider";
 import {
   CommandDialog,
   CommandEmpty,
@@ -29,6 +30,7 @@ import {
 } from "@/components/ui/command";
 import { resetAllProgress, exportSnapshot } from "@/lib/data-actions";
 import { sectionHref, trackSwitchHref } from "@/lib/routes";
+import { themeOptionLabels, themeSettings } from "@/lib/theme/config";
 import { useRoadmapStore } from "@/store/roadmap-store";
 import { useUiStore } from "@/store/ui-store";
 import type { TrackSection } from "@/types/roadmap";
@@ -75,7 +77,7 @@ export function CommandPalette() {
   const tracks = snapshot.tracks;
   const slug = snapshot.track.slug;
   const replaceSnapshot = useRoadmapStore((state) => state.replaceSnapshot);
-  const { resolvedTheme, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
   const close = useCallback(() => setOpen(false), [setOpen]);
 
@@ -126,8 +128,6 @@ export function CommandPalette() {
     },
     [close],
   );
-
-  const nextTheme = resolvedTheme === "light" ? "dark" : "light";
 
   return (
     <>
@@ -232,6 +232,24 @@ export function CommandPalette() {
 
           <CommandSeparator />
 
+          <CommandGroup heading="Theme">
+            {themeSettings.map((setting) => (
+              <CommandItem
+                key={setting}
+                value={`Theme: ${themeOptionLabels[setting]}`}
+                onSelect={() => runCommand(() => setTheme(setting))}
+              >
+                <ContrastIcon aria-hidden="true" />
+                Theme: {themeOptionLabels[setting]}
+                {theme === setting ? (
+                  <CheckIcon aria-hidden="true" className="ml-auto text-track-accent" />
+                ) : null}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+
+          <CommandSeparator />
+
           <CommandGroup heading="Data & system">
             <CommandItem
               value="Export progress JSON"
@@ -246,13 +264,6 @@ export function CommandPalette() {
             >
               <CalendarPlusIcon aria-hidden="true" />
               Set start date
-            </CommandItem>
-            <CommandItem
-              value={`Switch theme ${nextTheme}`}
-              onSelect={() => runCommand(() => setTheme(nextTheme))}
-            >
-              <ContrastIcon aria-hidden="true" />
-              Switch to {nextTheme} theme
             </CommandItem>
             <CommandItem
               value="Reset progress"

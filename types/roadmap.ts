@@ -119,7 +119,7 @@ export type ActivityKind = z.infer<typeof activityKindSchema>;
 export type RoadmapSnapshot = z.infer<typeof roadmapSnapshotSchema>;
 
 export type TrackSection = "roadmap" | "log" | "timeline";
-export type RoadmapView = "list" | "graph" | "journey";
+export type RoadmapView = "list" | "graph";
 
 export type TopicWithPhase = Topic & {
   phase: Phase;

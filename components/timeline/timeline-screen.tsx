@@ -292,10 +292,12 @@ export function TimelineScreen() {
                     {statusMeta.label || entry.progress.percent > 0 ? (
                       <span
                         className={cn(
-                          "relative z-10 pl-1.5 font-mono text-micro tracking-[0.08em] tabular-nums",
+                          "relative z-10 font-mono text-micro tracking-[0.08em] tabular-nums",
                           entry.status === "complete"
-                            ? "text-phase-contrast"
-                            : "text-ink-subtle",
+                            ? "pl-1.5 text-phase-contrast"
+                            : // Incomplete rows cross the fill boundary; an opaque
+                              // chip keeps the 11px label readable on both sides.
+                              "ml-1 rounded-[2px] bg-canvas py-0.5 pr-1 pl-1 text-ink-muted",
                         )}
                       >
                         {Math.round(entry.progress.percent)}%
