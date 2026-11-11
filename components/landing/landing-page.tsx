@@ -5,7 +5,6 @@ import { BrandMark, Wordmark } from "@/components/brand";
 import { ProgressBar } from "@/components/progress-bar";
 import { formatWeeks, formatPercent } from "@/lib/format";
 import { roadmapProgress } from "@/lib/progress";
-import { TrackWorldSection } from "@/components/three/track-world";
 import type { PhaseLine, TrackStats } from "@/lib/track-stats";
 import type { RoadmapSnapshot } from "@/types/roadmap";
 
@@ -214,7 +213,6 @@ export function LandingPage({ mode, tracks, snapshots }: LandingPageProps) {
             aria-label="The recommended path"
             className="self-start border border-hairline bg-panel p-6 lg:col-span-5"
           >
-            <TrackWorldSection tilt dollyThenNavigate activeTrack="both" height={240} />
             <p className="mt-5 font-mono text-micro tracking-[0.2em] text-ink-subtle uppercase">
               Recommended path
             </p>
