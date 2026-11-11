@@ -109,6 +109,7 @@ test.describe("3D fallback reasons", () => {
     await page.addInitScript(() => {
       const orig = HTMLCanvasElement.prototype.getContext;
       HTMLCanvasElement.prototype.getContext = function (
+        this: HTMLCanvasElement,
         type: string,
         ...rest: unknown[]
       ) {
