@@ -70,7 +70,7 @@ export function TrackSwitcher({ variant = "masthead", className }: TrackSwitcher
               <motion.span
                 aria-hidden="true"
                 layoutId={`track-switcher-indicator-${variant}`}
-                className="absolute inset-y-0.5 rounded-[3px] bg-raised"
+                className="absolute inset-y-0.5 rounded-[3px] bg-chrome-indicator"
                 style={{
                   left: `calc(${index * 50}% + 2px)`,
                   width: "calc(50% - 4px)",

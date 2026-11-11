@@ -13,11 +13,13 @@ const badgeVariants = cva(
         destructive: "border-phase-4/30 bg-phase-4/10 text-phase-4",
         outline: "border-hairline text-ink-muted",
         ghost: "border-transparent text-ink-muted",
-        "phase-1": "border-phase-1/30 bg-phase-1/10 text-phase-1",
-        "phase-2": "border-phase-2/30 bg-phase-2/10 text-phase-2",
-        "phase-3": "border-phase-3/30 bg-phase-3/10 text-phase-3",
-        "phase-4": "border-phase-4/30 bg-phase-4/10 text-phase-4",
-        "phase-5": "border-phase-5/30 bg-phase-5/10 text-phase-5",
+        // Phase tints are decorative: the label stays on `text-ink` so 11px
+        // uppercase text keeps 4.5:1 on every tinted surface.
+        "phase-1": "border-phase-1/40 bg-phase-1/10 text-ink",
+        "phase-2": "border-phase-2/40 bg-phase-2/10 text-ink",
+        "phase-3": "border-phase-3/40 bg-phase-3/10 text-ink",
+        "phase-4": "border-phase-4/40 bg-phase-4/10 text-ink",
+        "phase-5": "border-phase-5/40 bg-phase-5/10 text-ink",
       },
     },
     defaultVariants: {

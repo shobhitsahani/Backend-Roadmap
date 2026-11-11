@@ -26,7 +26,7 @@ export function EstimatedBadge({ sourceTitle, className }: EstimatedBadgeProps) 
       title={explanation}
       className={cn(
         badgeVariants({ variant: "outline" }),
-        "cursor-help border-phase-2/30 bg-phase-2/10 text-phase-2",
+        "cursor-help border-phase-2/40 bg-phase-2/10 text-ink",
         className,
       )}
     >

@@ -5,19 +5,18 @@ import {
   ArrowRightIcon,
   CalendarIcon,
   DownloadIcon,
-  MoonIcon,
   RotateCcwIcon,
-  SunIcon,
   UploadIcon,
 } from "lucide-react";
-import { useTheme } from "next-themes";
-import { useSyncExternalStore, type ChangeEvent } from "react";
+import type { ChangeEvent } from "react";
 
 import { SHORTCUTS } from "@/components/command/shortcuts-dialog";
+import { useTheme } from "@/components/theme/theme-provider";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { exportSnapshot, importProgressFile, resetAllProgress } from "@/lib/data-actions";
 import { formatDate, formatWeeks } from "@/lib/format";
 import { roadmapProgress } from "@/lib/progress";
+import { themeOptionLabels, themeSettings } from "@/lib/theme/config";
 import { cn } from "@/lib/utils";
 import { useRoadmapStore } from "@/store/roadmap-store";
 import { useThreeStore } from "@/store/three-store";
@@ -30,13 +29,7 @@ export function SettingsScreen() {
   const setStartDateOpen = useUiStore((state) => state.setStartDateOpen);
   const threePreference = useThreeStore((state) => state.preference);
   const setThreePreference = useThreeStore((state) => state.setPreference);
-  const { resolvedTheme, setTheme } = useTheme();
-  const mounted = useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false,
-  );
-  const isDark = mounted ? resolvedTheme !== "light" : true;
+  const { theme, setTheme } = useTheme();
   const progress = roadmapProgress(snapshot.phases);
   const track = snapshot.track;
 
@@ -179,29 +172,23 @@ export function SettingsScreen() {
         </div>
         <div className="flex flex-col gap-4">
           <p className="max-w-xl font-sans text-body text-ink-muted">
-            Dark is the default field mode. Both themes keep the same contrast targets.
+            Black is the default field mode. All three themes share the same contrast and
+            phase-separation targets; System follows your OS.
           </p>
           <div role="group" aria-label="Theme" className="flex flex-wrap gap-2">
-            <Button
-              type="button"
-              size="sm"
-              variant={isDark ? "default" : "outline"}
-              aria-pressed={isDark}
-              onClick={() => setTheme("dark")}
-            >
-              <MoonIcon data-icon="inline-start" aria-hidden="true" />
-              Dark
-            </Button>
-            <Button
-              type="button"
-              size="sm"
-              variant={!isDark ? "default" : "outline"}
-              aria-pressed={!isDark}
-              onClick={() => setTheme("light")}
-            >
-              <SunIcon data-icon="inline-start" aria-hidden="true" />
-              Light
-            </Button>
+            {themeSettings.map((setting) => (
+              <Button
+                key={setting}
+                type="button"
+                size="sm"
+                variant={theme === setting ? "default" : "outline"}
+                aria-pressed={theme === setting}
+                data-testid={`settings-theme-${setting}`}
+                onClick={() => setTheme(setting)}
+              >
+                {themeOptionLabels[setting]}
+              </Button>
+            ))}
           </div>
         </div>
       </section>

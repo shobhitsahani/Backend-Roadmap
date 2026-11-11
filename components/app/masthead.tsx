@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 import { BrandMark, Wordmark } from "@/components/brand";
 import { TrackSwitcher } from "@/components/app/track-switcher";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { ThemePicker } from "@/components/theme/theme-picker";
 import { Button } from "@/components/ui/button";
 import { sectionFromPathname, sectionHref } from "@/lib/routes";
 import { useRoadmapStore } from "@/store/roadmap-store";
@@ -46,7 +46,7 @@ export function Masthead() {
                 aria-current={active ? "page" : undefined}
                 className={`relative flex min-w-20 items-center justify-center border-b-2 px-3 font-mono text-micro tracking-[0.12em] uppercase transition-colors duration-150 lg:min-w-24 lg:px-4 ${
                   active
-                    ? "border-phase-1 text-ink"
+                    ? "border-focus-ring text-ink"
                     : "border-transparent text-ink-muted hover:text-ink"
                 }`}
               >
@@ -77,7 +77,7 @@ export function Masthead() {
               ⌘K
             </span>
           </Button>
-          <ThemeToggle />
+          <ThemePicker />
         </div>
       </div>
     </header>

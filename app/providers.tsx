@@ -1,20 +1,14 @@
 "use client";
 
 import { MotionConfig } from "motion/react";
-import { ThemeProvider } from "next-themes";
 
+import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="dark"
-      enableSystem={false}
-      disableTransitionOnChange
-      storageKey="backend-roadmap-theme"
-    >
+    <ThemeProvider>
       <MotionConfig reducedMotion="user">
         <TooltipProvider delay={350}>
           {children}

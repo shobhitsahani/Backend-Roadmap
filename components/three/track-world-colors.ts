@@ -1,51 +1,57 @@
 import * as THREE from "three";
 
-export function cssVarToRgbString(name: string, fallback: string): string {
-  if (typeof window === "undefined") return fallback;
-  const raw = window
-    .getComputedStyle(document.documentElement)
-    .getPropertyValue(name)
-    .trim();
-  return oklchOrRgbToColor(raw, fallback);
+import { oklchToRgb, parseColor } from "@/lib/theme/color";
+import {
+  themes,
+  type SceneTokens,
+  type ThemeName,
+  type TrackSlug,
+} from "@/lib/theme/tokens";
+
+function toColor(value: string): THREE.Color | null {
+  const parsed = parseColor(value);
+  if (!parsed) return null;
+  const { r, g, b } = oklchToRgb(parsed);
+  return new THREE.Color(r, g, b);
 }
 
-function oklchOrRgbToColor(value: string, fallback: string): string {
-  if (value.startsWith("oklch(")) {
-    const match = value.match(/oklch\(\s*([\d.]+)\s+([\d.]+)\s+([-\d.]+)/i);
-    if (!match) return fallback;
-    const rgb = oklchToSrgb(Number(match[1]), Number(match[2]), Number(match[3]));
-    return rgb ? rgbString(rgb) : fallback;
+/**
+ * Reads a themed CSS custom property (OKLCH, hex or rgb) and converts it to a
+ * THREE.Color. Falls back to the token value when the variable is unavailable
+ * (server render, tests, or a missing stylesheet).
+ */
+export function cssVarColor(name: string, fallback: string): THREE.Color {
+  if (typeof window !== "undefined") {
+    const raw = window
+      .getComputedStyle(document.documentElement)
+      .getPropertyValue(name)
+      .trim();
+    const fromCss = raw ? toColor(raw) : null;
+    if (fromCss) return fromCss;
   }
-  if (value.startsWith("#") || value.startsWith("rgb(")) return value;
-  return fallback;
+  return toColor(fallback) ?? new THREE.Color(0, 0, 0);
 }
 
-function oklchToSrgb(
-  L: number,
-  C: number,
-  hDegrees: number,
-): [number, number, number] | null {
-  if (![L, C, hDegrees].every(Number.isFinite)) return null;
-  const h = (hDegrees * Math.PI) / 180;
-  const a = C * Math.cos(h);
-  const b = C * Math.sin(h);
-  const lPrime = L + 0.3963377774 * a + 0.2158037573 * b;
-  const mPrime = L - 0.1055613458 * a - 0.0638541728 * b;
-  const sPrime = L - 0.0894841775 * a - 1.291485548 * b;
-  const l = lPrime ** 3;
-  const m = mPrime ** 3;
-  const s = sPrime ** 3;
-  const r = 4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s;
-  const g = -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s;
-  const bl = -0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s;
-  const clamp = (v: number) => Math.min(1, Math.max(0, v));
-  return [clamp(r), clamp(g), clamp(bl)];
+function kebab(value: string): string {
+  return value.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`);
 }
 
-function rgbString([r, g, b]: [number, number, number]) {
-  return `rgb(${Math.round(r * 255)}, ${Math.round(g * 255)}, ${Math.round(b * 255)})`;
+/** Scene tokens for the active theme, read live from `--scene-*`. */
+export function sceneColor(name: keyof SceneTokens, theme: ThemeName): THREE.Color {
+  return cssVarColor(`--scene-${kebab(name)}`, themes[theme].scene[name]);
 }
 
-export function threeColorFromCssVar(name: string, fallback: string) {
-  return new THREE.Color(cssVarToRgbString(name, fallback));
+/** Track identity accent, read live from `--track-*`. */
+export function trackColor(track: TrackSlug, theme: ThemeName): THREE.Color {
+  return cssVarColor(`--track-${track}`, themes[theme].tracks[track].accent);
+}
+
+/** Base text token for 3D labels. */
+export function textColor(
+  tone: "text" | "textMuted" | "textFaint",
+  theme: ThemeName,
+): THREE.Color {
+  const variable =
+    tone === "text" ? "--ink" : tone === "textMuted" ? "--ink-muted" : "--ink-subtle";
+  return cssVarColor(variable, themes[theme].base[tone]);
 }

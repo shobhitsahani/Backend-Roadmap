@@ -4,6 +4,8 @@ drizzle
 package-lock.json
 screenshots
 tmp-app
+app/themes.css
+app/icon.svg
 
 .agents
 .github/skills

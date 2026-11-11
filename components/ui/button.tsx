@@ -15,7 +15,7 @@ const buttonVariants = cva(
         ghost:
           "border-transparent text-ink-muted hover:bg-raised hover:text-ink aria-expanded:bg-raised aria-expanded:text-ink",
         destructive:
-          "border-phase-4/35 bg-phase-4/10 text-phase-4 hover:border-phase-4/50 hover:bg-phase-4/15 focus-visible:ring-phase-4/60",
+          "border-danger/40 bg-transparent text-danger hover:border-danger/55 hover:bg-danger/10 focus-visible:ring-danger/60",
         link: "border-transparent p-0 text-ink underline decoration-hairline-strong underline-offset-4 hover:decoration-ink",
       },
       size: {
