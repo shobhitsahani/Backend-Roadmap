@@ -45,12 +45,16 @@ Two properties make the multi-track model credible:
 ## Capabilities and Constraints
 
 - **Tracks:** Backend Engineer (existing data unchanged) and AI Engineer (5 phases; Phase 1 is a zero-week prerequisite linked to Backend).
-- **Views per track:** List, Graph, and Journey 3D. Journey falls back to Graph when 3D is unavailable.
+- **Views per track:** List, Graph, and Journey 3D. Journey 3D is on by default for
+  every visitor whose device can run WebGL; it degrades to the SVG poster only on
+  WebGL failure, user Off, Save-Data, or `NEXT_PUBLIC_ENABLE_3D=false`.
 - **Journey:** both tracks as one connected path, showing prerequisites and what each Backend phase unlocks.
 - **Topic drawer:** subtopic checklist, notes, duration, progress path, optimistic updates with rollback. One shared drawer across views.
 - **Estimated content:** every AI duration is an estimate, marked with an "Estimated" badge and tooltip, editable in the content file.
 - **Data actions:** export, import, reset; the format is versioned and scoped by track.
-- **3D is optional:** `NEXT_PUBLIC_ENABLE_3D=false` removes it; reduced motion, Save-Data, low-end devices, and no-WebGL get a static poster or the graph.
+- **3D is on by default:** `NEXT_PUBLIC_ENABLE_3D=false` removes it; reduced motion renders
+  a single static frame (canvas kept); Save-Data and no-WebGL get the SVG poster. Weak
+  devices keep 3D at lower DPR and point counts. Settings: "3D effects: On / Reduced / Off".
 - **Accessibility:** WCAG AA in both themes, visible focus, full keyboard operation, aria-live progress announcements.
 - **Stack:** Next.js App Router, TypeScript strict, Tailwind v4, shadcn/ui on Base UI, Drizzle/PostgreSQL, Zustand, Motion, React Flow, Recharts, Sonner, next-themes, Lucide, Vitest, Playwright.
 
