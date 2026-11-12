@@ -47,7 +47,7 @@ export function Wordmark({ className }: { className?: string }) {
       <span className="font-display text-body-lg leading-none font-semibold tracking-[-0.03em] text-ink">
         Roadmap
       </span>
-      <span className="hidden font-mono text-micro leading-none tracking-[0.16em] text-ink-subtle uppercase sm:inline">
+      <span className="hidden font-mono text-micro leading-none tracking-[0.16em] text-ink-subtle uppercase lg:inline">
         Field manual
       </span>
     </span>
