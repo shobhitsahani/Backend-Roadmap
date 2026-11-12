@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Instrument_Sans, JetBrains_Mono } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { trackSlugs } from "@/content/tracks";
 import { TrackAttribute } from "@/components/app/track-attribute";
@@ -70,6 +71,7 @@ export default async function RootLayout({
           <TrackAttribute initialSlug={trackSlug} trackSlugs={trackSlugs} />
           {children}
         </Providers>
+        <SpeedInsights />
       </body>
     </html>
   );
