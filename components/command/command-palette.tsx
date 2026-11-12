@@ -17,6 +17,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
 import { ShortcutsDialog } from "@/components/command/shortcuts-dialog";
+import { GitHubIcon } from "@/components/icons/github-icon";
+import { siteConfig } from "@/lib/site";
 import { useTheme } from "@/components/theme/theme-provider";
 import {
   CommandDialog,
@@ -171,6 +173,17 @@ export function CommandPalette() {
             >
               <SettingsIcon aria-hidden="true" />
               Go to Settings
+            </CommandItem>
+            <CommandItem
+              value="Open GitHub repository github source code repo"
+              onSelect={() =>
+                runCommand(() => {
+                  window.open(siteConfig.githubUrl, "_blank", "noopener,noreferrer");
+                })
+              }
+            >
+              <GitHubIcon aria-hidden="true" />
+              Open GitHub repository
             </CommandItem>
           </CommandGroup>
 

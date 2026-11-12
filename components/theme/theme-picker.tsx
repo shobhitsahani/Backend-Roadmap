@@ -70,7 +70,7 @@ export function ThemePicker({ className }: { className?: string }) {
           <Button
             type="button"
             variant="ghost"
-            size="icon-sm"
+            size="icon"
             aria-label={`Theme: ${activeLabel}. Change theme`}
             title="Change theme"
             data-testid="theme-picker-trigger"
