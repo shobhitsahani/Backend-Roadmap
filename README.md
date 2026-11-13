@@ -733,5 +733,5 @@ This project is licensed under the [MIT License](LICENSE) (TODO: verify and add 
 ## Contact & Links
 
 - **Repository**: [github.com/shobhitsahani/Backend-Roadmap](https://github.com/shobhitsahani/Backend-Roadmap)
-- **Live Deployment**: [backend-roadmap-omega.vercel.app](https://backend-roadmap-omega.vercel.app)
+- **Live Deployment**: [backend-roadmap0x.vercel.app](https://backend-roadmap0x.vercel.app)
 - **Author**: Shobhit Sahani ([@shobhitsahani](https://github.com/shobhitsahani))
